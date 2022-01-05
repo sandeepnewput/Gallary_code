@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/Photos"
+        android:icon="@drawable/ic_baseline_photo_library_24"
+        android:title="Photos" />
+
+    <item
+        android:id="@+id/Videos"
+        android:icon="@drawable/ic_baseline_video_library_24"
+        android:title="Videos" />
+</menu>
