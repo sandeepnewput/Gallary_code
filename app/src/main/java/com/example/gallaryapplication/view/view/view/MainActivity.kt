@@ -1,113 +1,90 @@
 package com.example.gallaryapplication.view.view.view
-import androidx.appcompat.app.AppCompatActivity
+
+
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.Observer
+
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.view.view.viewmodel.ImageVideoViewModel
+import java.util.*
 
 
-class MainActivity : AppCompatActivity(),LogoutListener {
+class MainActivity : AppCompatActivity() {
 
-    private val myapp = MyApp()
-     private val viewModel by lazy { ViewModelProvider(this).get(ImageVideoViewModel::class.java) }
-    var localtime1:Long? = null
+
+    private val viewModel by lazy { ViewModelProvider(this).get(ImageVideoViewModel::class.java) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("onCreate","oncreate called")
         setContentView(R.layout.activity_main)
+    }//onCreate method ends
 
+    override fun onResume() {
+        super.onResume()
+        var localtime1:Long? = 0
         viewModel.getLoggedintime()
+        viewModel.localtime.observe(this, androidx.lifecycle.Observer { logintime->
+            Log.d("localtime","$logintime is")
 
-        viewModel.localtime.observe(this, Observer { localtime->
-            Log.d("localtime","$localtime is")
-            localtime1 = localtime
-        })
-
-
-        viewModel.getFlagvalue()
-        viewModel.flagValue.observe(this, Observer { flag ->
-            if(flag == 1){
-                myapp?.registerSessionListener(this)
-                myapp?.startUserSession()
-                val navController = findNavController(R.id.fragment)
-                navController.navigate(R.id.photoFragment)
-
+            if(logintime != 0.toLong()){
+                val date2 = getCurrentDateTime()
+                var diff = (date2.time - logintime)/60000
+                Log.d("diff","diff is $diff")
+                if(diff < 2){
+                    viewModel.saveLoggedinTime(date2)
+                    onSessionIn()
+                }else{
+                    onSessionLogout()
+                    Log.d("else","else part running of flag 1")
+                }
             }else{
-                myapp?.registerSessionListener(this)
-//                myapp?.startUserSession()
-                val navController = findNavController(R.id.fragment)
-                navController.navigate(R.id.loginFragment)
+                onSessionLogout()
+                Log.d("else","else part running of flag 0")
             }
+
+
         })
+        Log.d("onResume", "onResume_restartActivity")
+    }//end of onResume method
 
-
-
-    }//end of onCreate method
-
-    override fun onSessionLogout() {
-        val navController = findNavController(R.id.fragment)
-        navController.navigate(R.id.loginFragment)
+    fun getCurrentDateTime(): Date {
+        return Calendar.getInstance().time
     }
 
-    override fun matchtime(time: Long) {
+    override fun onPause() {
+        Log.d("onPause", "onPauseActivity change")
+        super.onPause()
+    }
 
-        viewModel.getLoggedintime()
-
-        viewModel.localtime.observe(this, Observer { localtime->
-            Log.d("localtime","$localtime is")
-            localtime1 = localtime
-        })
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("onDestroy", "onDestroyActivity change")
+    }
 
 
-        Log.d("localtime","$localtime1 is in matchtime")
-//            localtime1 = localtime
+    fun onSessionLogout() {
+        findNavController(R.id.fragment).navigate(R.id.loginFragment)
+    }
 
-        Log.d("localtime","$localtime1 is")
-        var difftime  = (time - localtime1!!)/60000
-        var minute = difftime/60000
-        if(difftime < 1){
-            Toast.makeText(this,"your session is expired in ${1-difftime}", Toast.LENGTH_LONG).show()
-        }else{
-            onSessionLogout()
-            viewModel.updateflag(0)
-            viewModel.updateLoggedinTime(0)
-            myapp?.cancelTimer()
-        }
-
-    }//end of matchtime
+    fun onSessionIn() {
+        findNavController(R.id.fragment).navigate(R.id.photoFragment)
+    }
 //
-//    override fun onUserInteraction() {
-//        super.onUserInteraction()
-////        myapp.onUserInteracted()
+//    override fun onBackPressed() {
+//        Log.d("onbackpress","onBackPressed method is called")
+//        val fragment =
+//            this.supportFragmentManager.findFragmentById(R.id.loginFragment)
+//        (fragment as? LogoutListener)?.onBackPressed()?.not()?.let {
+////            super.onBackPressed()
+//        }
 //    }
-//
-//     override fun onResume() {
-//         super.onResume()
-//         Log.d("onResume","app run in resume state")
-////         myapp.startUserSession()
-//     }
-//
-//     override fun onPause() {
-//         super.onPause()
-//         Log.d("onPause","app run in onPause state")
-//     }
-//
-//     override fun onStop() {
-//         super.onStop()
-//         myapp.startUserSession()
-//         Log.d("onStop","app run in onStop state")
-//     }
-//
-//     override fun onDestroy() {
-//         super.onDestroy()
-//         myapp.startUserSession()
-//         Log.d("onDestroy","app run in onDestroy state")
-//     }
- }//end of main activity
+
+
+
+}//end of main activity
 
 
 

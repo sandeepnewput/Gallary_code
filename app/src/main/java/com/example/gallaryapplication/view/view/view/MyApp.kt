@@ -13,7 +13,7 @@ class MyApp : Application()  {
 
    fun calllatesttime(){
        val date2 = getCurrentDateTime()
-       listener?.matchtime(date2.time)
+//       listener?.matchtime(date2.time)
     }
 
     fun getCurrentDateTime(): Date {

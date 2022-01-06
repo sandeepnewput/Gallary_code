@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -32,37 +33,13 @@ class LoginFragment : Fragment(){
     private var param1: String? = null
     private var param2: String? = null
 
-    private val myapp = MyApp()
     private val viewModel by lazy { ViewModelProvider(this).get(ImageVideoViewModel::class.java) }
-
-
-    val c = Calendar.getInstance()
-
-    val year = c.get(Calendar.YEAR)
-    val month = c.get(Calendar.MONTH)+1
-    val day = c.get(Calendar.DAY_OF_MONTH)
-
-    val hour = c.get(Calendar.HOUR_OF_DAY)
-    val minute = c.get(Calendar.MINUTE)
-    val seconds = c.get(Calendar.SECOND)
 
     val date1 = getCurrentDateTime1()
 
-    val dateInString = date1.toString()
     fun getCurrentDateTime1(): Date {
         return Calendar.getInstance().time
     }
-    fun getCurrentDateTime2(): Date {
-        return Calendar.getInstance().time
-    }
-
-    var localtime1:Long? = null
-
-//    val diff: Long = date1.getTime() - date2.getTime()
-//    val seconds1 = diff / 1000
-//    val minutes = seconds / 60
-//    val hours = minutes / 60
-//    val days = hours / 24
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +54,12 @@ class LoginFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val callback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.loginFragment)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callback)
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
@@ -85,77 +68,14 @@ class LoginFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel.updateflag(0)
-  //      viewModel.getFlagvalue()
 
-//        viewModel.flagValue.observe(viewLifecycleOwner, Observer {flag ->
-//            Log.d("flagvalue","$flag")
+        loginbutton.setOnClickListener {
+            val action = LoginFragmentDirections.actionlogintophotofragment()
+            Navigation.findNavController(it).navigate(action)
+            viewModel.saveLoggedinTime(date1)
+        }
 
-            loginbutton.setOnClickListener {
-                viewModel.updateflag(1)
-                val action = LoginFragmentDirections.actionlogintophotofragment()
-                Navigation.findNavController(it).navigate(action)
-
-//                myapp?.registerSessionListener(this)
-//                myapp?.startUserSession()
-                viewModel.saveLoggedinTime(date1)
-                viewModel.getLoggedintime()
-                myapp?.startUserSession()
-//                viewModel.getLoggedintime()
-//
-//                  viewModel.localtime.observe(viewLifecycleOwner, Observer { localtime->
-//                      Log.d("localtime","$localtime is")
-//                      localtime1 = localtime
-//                  })
-            }//end of loginbutton
-//        })
-
-
-
-//        viewModel.updateflag(0)
-//        viewModel.getFlagvalue()
-//        viewModel.getLoggedintime()
-//        viewModel.localtime.observe(viewLifecycleOwner, Observer {localtime->
-//            Log.d("time","time is $localtime")
-//        })
     }//end of onViewCreated
-
-
-//    override fun onSessionLogout() {
-//        val navController = findNavController()
-//        navController.navigate(R.id.loginFragment)
-//    }
-//
-//    override fun matchtime(time: Long) {
-//
-//        viewModel.getLoggedintime()
-//
-//        viewModel.localtime.observe(viewLifecycleOwner, Observer { localtime->
-//            Log.d("localtime","$localtime is")
-//            localtime1 = localtime
-//        })
-//
-//
-//            Log.d("localtime","$localtime1 is")
-////            localtime1 = localtime
-//
-//            Log.d("localtime","$localtime1 is")
-//            var difftime  = (time - localtime1!!)/60000
-//            var minute = difftime/60000
-//            if(difftime < 1){
-//                Toast.makeText(context,"your session is expired in ${1-difftime}",Toast.LENGTH_LONG).show()
-//            }else{
-//                onSessionLogout()
-//                viewModel.updateflag(0)
-//                myapp?.cancelTimer()
-//            }
-//
-//
-//
-//
-//
-//
-//    }//end of matchtime
 
 
     companion object {
@@ -179,6 +99,11 @@ class LoginFragment : Fragment(){
 
 
     }
+
+//    override fun onBackPressed(): Boolean {
+//        Log.d("onBackPressed","onBackPressed of loginfragment called")
+//        return true
+//    }
 
 
 }

@@ -19,27 +19,12 @@ class ImageVideoViewModel(application:Application):AndroidViewModel(application)
 
     val userImage by lazy { MutableLiveData<List<String>>() }
     val userVideo by lazy { MutableLiveData<List<String>>() }
-
     val loading by lazy {MutableLiveData<Boolean>()}
-
-    val flagValue by lazy { MutableLiveData<Int>() }
-
     val localtime by lazy { MutableLiveData<Long>() }
-
-    val starttimer by lazy { MutableLiveData<Int>() }
-
+    val isloggedin by lazy {MutableLiveData<Boolean>()}
 
     var resolver = application.contentResolver
     private val prefs =  SharedPreferencesHelper(getApplication())
-
-    fun getFlagvalue(){
-        val flag: Int = prefs.getLoginFlag()
-        Log.d("value","$flag inside getFlagvalue")
-        flagValue.value = flag
-    }
-    fun updateflag(value:Int){
-      prefs.updateLoginFlag(value)
-    }
 
     fun saveLoggedinTime(value: Date){
      prefs.saveLoggedinTime(value)
@@ -51,17 +36,12 @@ class ImageVideoViewModel(application:Application):AndroidViewModel(application)
         localtime.value = time
     }
 
-    fun updateLoggedinTime(value:Long){
-        prefs.updateLoggedinTime(value)
-    }
 
 
     fun getImage(){
         loading.value = true
         getUserImage()
     }
-
-
 
     private fun getUserImage() {
 
