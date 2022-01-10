@@ -8,23 +8,35 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.gallaryapplication.view.view.util.SharedPreferencesHelper
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.NullPointerException
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 
-class ImageVideoViewModel(application:Application):AndroidViewModel(application) {
+//class ImageVideoViewModel(application:Application):AndroidViewModel(application) {
+@HiltViewModel
+class ImageVideoViewModel @Inject constructor(
+    application:Application,
+    private val prefs:SharedPreferencesHelper
+):AndroidViewModel(application) {
+
+
 
     val userImage by lazy { MutableLiveData<List<String>>() }
     val userVideo by lazy { MutableLiveData<List<String>>() }
     val loading by lazy {MutableLiveData<Boolean>()}
     val localtime by lazy { MutableLiveData<Long>() }
     val isloggedin by lazy {MutableLiveData<Boolean>()}
+    val exception by lazy {MutableLiveData<Boolean>()}
+
 
     var resolver = application.contentResolver
-    private val prefs =  SharedPreferencesHelper(getApplication())
+//    private val prefs =  SharedPreferencesHelper(getApplication())
 
     fun saveLoggedinTime(value: Date){
      prefs.saveLoggedinTime(value)
@@ -36,7 +48,26 @@ class ImageVideoViewModel(application:Application):AndroidViewModel(application)
         localtime.value = time
     }
 
+    fun getCurrentDateTime(): Date {
+        return Calendar.getInstance().time
+    }
 
+  fun isLoginSession(latesttime:Long,logintime:Long) {
+      try {
+          var diff = (latesttime - logintime)/60000
+          Log.d("diff","diff is $diff")
+          Log.d("withContext","in isLoginSession function")
+          isloggedin.value = diff < 2
+      }catch (e:NullPointerException){
+          Log.d("exception","Exception is comming")
+          e.printStackTrace()
+          exception.value = true
+      }catch (ed:Exception){
+          Log.d("exception","Exception is comming")
+          ed.printStackTrace()
+          exception.value = true
+      }
+  }//end of isLoginSession
 
     fun getImage(){
         loading.value = true
@@ -173,5 +204,7 @@ class ImageVideoViewModel(application:Application):AndroidViewModel(application)
 
 
 }//end of ImageVideoViewModel
+
+
 
 

@@ -33,9 +33,14 @@ class ImageListAdapter(private val imageList:ArrayList<String>)
         holder.view.gallaryImage.loadImage(imageList[position],
             getProgressDrawable(holder.view.context)
         )
+        //convert arraylist ot array
+        val imagelistarray: Array<String> = imageList.toTypedArray()
+
+        //convert array to arrlist
+//        val video_list: List<String> = vowels_array.toList()
 
         holder.view.imageLayout.setOnClickListener {
-            val action = PhotoFragmentDirections.actionPhotoFragmenttoFullImageFragment(imageList[position])
+            val action = PhotoFragmentDirections.actionPhotoFragmenttoFullImageFragment(imagelistarray,position)
             Navigation.findNavController(holder.view).navigate(action)
         }
 

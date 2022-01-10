@@ -2,7 +2,6 @@ package com.example.gallaryapplication.view.view.util
 
 import android.content.Context
 import android.preference.PreferenceManager
-import android.util.Log
 import java.util.*
 
 class SharedPreferencesHelper(context:Context) {

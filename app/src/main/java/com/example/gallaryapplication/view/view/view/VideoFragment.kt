@@ -5,12 +5,14 @@ import android.util.Log
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.view.view.viewmodel.ImageVideoViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_video.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,6 +25,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [VideoFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class VideoFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -30,7 +33,9 @@ class VideoFragment : Fragment() {
 
 
 
-    private val viewModel by lazy { ViewModelProvider(this).get(ImageVideoViewModel::class.java) }
+//    private val viewModel by lazy { ViewModelProvider(this).get(ImageVideoViewModel::class.java) }
+
+    private val viewModel: ImageVideoViewModel by viewModels()
 
    private val listAdapter  = VideoListAdapter(arrayListOf())
 

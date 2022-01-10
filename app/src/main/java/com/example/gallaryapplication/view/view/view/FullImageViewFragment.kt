@@ -9,6 +9,7 @@ import com.example.gallaryapplication.R
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
 import kotlinx.android.synthetic.main.fragment_full_image_view.*
+import kotlinx.android.synthetic.main.fragment_play_video.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +26,7 @@ class FullImageViewFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    var image: String? = null
+//    var image: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,18 +46,60 @@ class FullImageViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var isVisible: Boolean = false
+        arguments?.let { it ->
+//            image = FullImageViewFragmentArgs.fromBundle(it).imageUrl
+            var arrayList = FullImageViewFragmentArgs.fromBundle(it).imageArray
+            var indexpostion = FullImageViewFragmentArgs.fromBundle(it).indexposition
 
-        arguments?.let {
-            image = FullImageViewFragmentArgs.fromBundle(it).imageUrl
+//            context?.let {
+//                userImage.loadImage(arrayList[indexpostion] , getProgressDrawable(it))
+//            }
+            showImage(arrayList[indexpostion])
+            showimagelayout.setOnClickListener {
+                if (isVisible) {
+                    imageprev.visibility = View.VISIBLE
+                    imagenext.visibility = View.VISIBLE
+                } else {
+                    imageprev.visibility = View.INVISIBLE
+                    imagenext.visibility = View.INVISIBLE
+                }
+                isVisible = !isVisible
+            }
 
-        }
+            imageprev.setOnClickListener {
+                if (indexpostion > 0) {
+                    indexpostion--
+                    showImage(arrayList[indexpostion])
 
+                } else {
+                    indexpostion = arrayList.size - 1
+                    showImage(arrayList[indexpostion])
+                }
+            }//end of imageprev
+
+            imagenext.setOnClickListener {
+                if (indexpostion < (arrayList.size - 1)) {
+                    indexpostion++
+                    showImage(arrayList[indexpostion])
+                } else {
+                    indexpostion = 0
+                    showImage(arrayList[indexpostion])
+                }
+            }
+
+
+
+        }//end of argumnets
+
+    }//end of onViewCreatedView
+
+    fun showImage(url:String?){
         context?.let {
-            userImage.loadImage(image , getProgressDrawable(it))
+            userImage.loadImage(url , getProgressDrawable(it))
         }
-
-
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of

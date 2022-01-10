@@ -6,10 +6,12 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -17,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.view.view.viewmodel.ImageVideoViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_photo.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,6 +35,7 @@ private const val ARG_PARAM2 = "param2"
 
 private const val TAG = "PhotoFragment"
 private const val REQUEST_CODE_FETCH_IMAGE = 1
+@AndroidEntryPoint
 class PhotoFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -39,7 +43,8 @@ class PhotoFragment : Fragment() {
     private var permissionGranted = false
 
 
-    private val viewModel by lazy { ViewModelProvider(this).get(ImageVideoViewModel::class.java) }
+//    private val viewModel by lazy { ViewModelProvider(this).get(ImageVideoViewModel::class.java) }
+         private val viewModel: ImageVideoViewModel by viewModels()
     private   val listAdapter  = ImageListAdapter(arrayListOf())
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("step1","onCreate running")
@@ -107,6 +112,8 @@ class PhotoFragment : Fragment() {
 
         if(permissionGranted){
             viewModel.getImage()
+        }else{
+            Toast.makeText(context,"This app require permission",Toast.LENGTH_LONG).show()
         }
 
         viewModel.userImage.observe(viewLifecycleOwner, Observer<List<String>> {contacts ->
@@ -137,8 +144,32 @@ class PhotoFragment : Fragment() {
 
     }//end of onViewCreatedView Method
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray)
+    {
+        when (requestCode) {
+            REQUEST_CODE_FETCH_IMAGE -> {
+                // If request is cancelled, the result arrays are empty.
+                permissionGranted =
+                    if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        //permssion was granted
+                        true
+                    } else {
+                        //pemission denied
+                        Log.d(TAG, "onRequestPermissionsResult : permsssin denied")
+                        false
+                    }
+            }
 
-
+            // Add other 'when' lines to check for other
+            // permissions this app might request.
+            else -> {
+                // Ignore all other requests.
+            }
+        }
+    }
 
 
 

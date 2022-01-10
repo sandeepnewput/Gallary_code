@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.view.view.viewmodel.ImageVideoViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
 import java.util.*
 
@@ -28,18 +30,20 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 //class LoginFragment : Fragment(),LogoutListener{
+@AndroidEntryPoint
 class LoginFragment : Fragment(){
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private val viewModel by lazy { ViewModelProvider(this).get(ImageVideoViewModel::class.java) }
+//    private val viewModel by lazy { ViewModelProvider(this).get(ImageVideoViewModel::class.java) }
+    private val viewModel: ImageVideoViewModel by viewModels()
 
-    val date1 = getCurrentDateTime1()
-
-    fun getCurrentDateTime1(): Date {
-        return Calendar.getInstance().time
-    }
+//    val date1 = getCurrentDateTime1()
+//
+//    fun getCurrentDateTime1(): Date {
+//        return Calendar.getInstance().time
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +74,8 @@ class LoginFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         loginbutton.setOnClickListener {
+            val date1 = viewModel.getCurrentDateTime()
+            Log.d("date1","date is in loginbutton is $date1")
             val action = LoginFragmentDirections.actionlogintophotofragment()
             Navigation.findNavController(it).navigate(action)
             viewModel.saveLoggedinTime(date1)
