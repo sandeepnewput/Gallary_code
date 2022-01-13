@@ -8,55 +8,66 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gallaryapplication.R
+import com.example.gallaryapplication.databinding.VideoItemBinding
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
 import kotlinx.android.synthetic.main.video_item.view.*
 
-class VideoViewHolder(var view: View): RecyclerView.ViewHolder(view){
+class VideoViewHolder(private val binding: VideoItemBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
-}
+    fun bind(videoList: String, videoListArray: Array<String>, position: Int) {
 
-class VideoListAdapter(private val videoList:ArrayList<String>
-
-) : RecyclerView.Adapter<VideoViewHolder>(){
-
-
-
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-
-        val view = inflater.inflate(R.layout.video_item,parent,false)
-
-        return VideoViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
-        Log.d("adapterlist","list of images $videoList")
-        holder.view.gallaryVideo.loadImage(videoList[position],
-            getProgressDrawable(holder.view.context)
+        binding.gallaryVideo.loadImage(
+            videoList,
+            getProgressDrawable(binding.gallaryVideo.context)
         )
-        //convert arraylist ot array
-        val videolistarray: Array<String> = videoList.toTypedArray()
 
-        //convert array to arrlist
-//        val video_list: List<String> = vowels_array.toList()
-
-        holder.view.videoLayout.setOnClickListener {
-            val action = VideoFragmentDirections.actionvideoFragmenttoPlayvideoFragment(videolistarray,position)
+        binding.videoLayout.setOnClickListener {
+            val action = VideoFragmentDirections.actionvideoFragmenttoPlayvideoFragment(
+                videoListArray,
+                position
+            )
             Navigation.findNavController(it).navigate(action)
 
         }
+
+
+    }//end of bind function
+
+
+}
+
+class VideoListAdapter(
+    private val videoList: ArrayList<String>
+
+) : RecyclerView.Adapter<VideoViewHolder>() {
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
+
+        val itemBinding =
+            VideoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return VideoViewHolder(itemBinding)
     }
+
+    override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
+        Log.d("adapterlist", "list of images $videoList")
+        //convert arraylist ot array
+        val videoListArray: Array<String> = videoList.toTypedArray()
+
+        holder.bind(videoList[position], videoListArray, position)
+
+    }//end of onBindViewHolder mehtod
 
     override fun getItemCount(): Int {
         return videoList.size
     }
-    fun updateVideoList(newVideoList:List<String>){
+
+    fun updateVideoList(newVideoList: List<String>) {
         videoList.clear()
         videoList.addAll(newVideoList)
-        notifyDataSetChanged()
+
 
     }
 

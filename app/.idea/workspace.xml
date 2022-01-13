@@ -6,7 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="localtime|date2|diff" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="for|back" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="AutoImportSettings">
@@ -137,33 +137,37 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="200" y="110" width="1131" height="508" key="#PSD/0.0.1366.728@0.0.1366.728" timestamp="1641374640719" />
-    <state x="474" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1641468902302">
+    <state x="474" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1641969047397">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="474" y="80" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1641468902302" />
+    <state x="474" y="80" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1641969047397" />
     <state x="463" y="105" key="FileChooserDialogImpl" timestamp="1641374305124">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="105" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1641374305124" />
-    <state width="1323" height="-39" key="GridCell.Tab.0.bottom" timestamp="1641783245303">
+    <state width="1323" height="-37" key="GridCell.Tab.0.bottom" timestamp="1641969261290">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="-39" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1641783245303" />
-    <state width="1323" height="-39" key="GridCell.Tab.0.center" timestamp="1641783245303">
+    <state width="1323" height="-37" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1641969261290" />
+    <state width="1323" height="-37" key="GridCell.Tab.0.center" timestamp="1641969261290">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="-39" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1641783245303" />
-    <state width="1323" height="-39" key="GridCell.Tab.0.left" timestamp="1641783245303">
+    <state width="1323" height="-37" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1641969261290" />
+    <state width="1323" height="-37" key="GridCell.Tab.0.left" timestamp="1641969261290">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="-39" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1641783245303" />
-    <state width="1323" height="-39" key="GridCell.Tab.0.right" timestamp="1641783245303">
+    <state width="1323" height="-37" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1641969261290" />
+    <state width="1323" height="-37" key="GridCell.Tab.0.right" timestamp="1641969261290">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="-39" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1641783245303" />
-    <state x="184" y="9" key="SettingsEditor" timestamp="1641374308324">
+    <state width="1323" height="-37" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1641969261290" />
+    <state x="184" y="9" key="SettingsEditor" timestamp="1641877822628">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="184" y="9" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1641374308324" />
+    <state x="184" y="9" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1641877822628" />
+    <state x="526" y="135" key="refactoring.ChangeSignatureDialog" timestamp="1641968468225">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="526" y="135" key="refactoring.ChangeSignatureDialog/0.0.1366.728@0.0.1366.728" timestamp="1641968468225" />
   </component>
 </project>

@@ -3,66 +3,44 @@ package com.example.gallaryapplication.view.view.view
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gallaryapplication.R
-import com.example.gallaryapplication.view.view.viewmodel.ImageVideoViewModel
+import com.example.gallaryapplication.databinding.FragmentVideoBinding
+import com.example.gallaryapplication.view.view.viewmodel.VideoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_video.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [VideoFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 @AndroidEntryPoint
 class VideoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
+    private var _binding: FragmentVideoBinding? = null
+    private val binding get() = _binding!!
 
+    private val videoViewModel: VideoViewModel by viewModels()
 
-//    private val viewModel by lazy { ViewModelProvider(this).get(ImageVideoViewModel::class.java) }
+    private val listAdapter = VideoListAdapter(arrayListOf())
 
-    private val viewModel: ImageVideoViewModel by viewModels()
-
-   private val listAdapter  = VideoListAdapter(arrayListOf())
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        _binding = FragmentVideoBinding.inflate(inflater, container, false)
+        return binding.root
 
-        return inflater.inflate(R.layout.fragment_video, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bottomnavigationvideo.setOnItemSelectedListener {
-            when(it.itemId){
-                R.id.Photos ->{
-                    val action = VideoFragmentDirections.actionvideotophotofragment()
-                    findNavController().navigate(action)
+        binding.bottomnavigationvideo.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.Photos -> {
+                    findNavController().navigate(VideoFragmentDirections.actionvideotophotofragment())
                 }
 
 
@@ -70,51 +48,21 @@ class VideoFragment : Fragment() {
             true
         }
 
-        viewModel.getVideo()
+        videoViewModel.getVideo()
 
-        viewModel.userVideo.observe(viewLifecycleOwner, Observer<List<String>> {contacts ->
-            Log.d("videolist","$contacts")
-//            val listAdapter  = VideoListAdapter(contacts as ArrayList<String>)
-//            videolist.apply {
-//                layoutManager = GridLayoutManager(context,2)
-//                adapter = listAdapter
-//            }
+        videoViewModel.userVideo.observe(viewLifecycleOwner, Observer<List<String>> { contacts ->
+            Log.d("videolist", "$contacts")
             contacts?.let {
                 listAdapter.updateVideoList(it)
             }
             Log.d("list", "list of contact is $contacts")
 
         })
-        videolist.apply {
-            layoutManager = GridLayoutManager(context,2)
+        binding.videolist.apply {
+            layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
         }
 
     }//end of onViewCreated method
 
-
-
-
-
-
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment VideoFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            VideoFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

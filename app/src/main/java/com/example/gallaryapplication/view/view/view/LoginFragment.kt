@@ -2,114 +2,54 @@ package com.example.gallaryapplication.view.view.view
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.gallaryapplication.R
-import com.example.gallaryapplication.view.view.viewmodel.ImageVideoViewModel
+import com.example.gallaryapplication.databinding.FragmentLoginBinding
+import com.example.gallaryapplication.view.view.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_login.*
-import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LoginFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-//class LoginFragment : Fragment(),LogoutListener{
 @AndroidEntryPoint
-class LoginFragment : Fragment(){
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class LoginFragment : BaseFragment() {
 
-//    private val viewModel by lazy { ViewModelProvider(this).get(ImageVideoViewModel::class.java) }
-    private val viewModel: ImageVideoViewModel by viewModels()
 
-//    val date1 = getCurrentDateTime1()
-//
-//    fun getCurrentDateTime1(): Date {
-//        return Calendar.getInstance().time
-//    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val loginViewModel: LoginViewModel by viewModels()
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val callback = object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.loginFragment)
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callback)
-        return inflater.inflate(R.layout.fragment_login, container, false)
-    }
-
-
+        onBackpressedinLoginFragment()
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+//        return inflater.inflate(R.layout.fragment_login, container, false)
+        return binding.root
+    }//end of onCreateView
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loginbutton.setOnClickListener {
-            val date1 = viewModel.getCurrentDateTime()
-            Log.d("date1","date is in loginbutton is $date1")
-            val action = LoginFragmentDirections.actionlogintophotofragment()
-            Navigation.findNavController(it).navigate(action)
-            viewModel.saveLoggedinTime(date1)
+        binding.loginbutton.setOnClickListener {
+            val date1 = loginViewModel.getCurrentDateTime()
+            Log.d("date1", "date is in loginbutton is $date1")
+            findNavController().navigate(LoginFragmentDirections.actionlogintophotofragment())
+            loginViewModel.saveLoggedinTime(date1)
         }
+
 
     }//end of onViewCreated
 
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LoginFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LoginFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-
-
+    //to avoid memory leak
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
-
-//    override fun onBackPressed(): Boolean {
-//        Log.d("onBackPressed","onBackPressed of loginfragment called")
-//        return true
-//    }
-
-
 }

@@ -2,47 +2,58 @@ package com.example.gallaryapplication.view.view.view
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gallaryapplication.R
+import com.example.gallaryapplication.databinding.ImageItemBinding
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
 import kotlinx.android.synthetic.main.image_item.view.*
 
 
-class ImageViewHolder(var view: View): RecyclerView.ViewHolder(view){
+class ImageViewHolder(private val binding:ImageItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-}
+    fun bind(imageList: String, imageListArray: Array<String>, position: Int) {
+        binding.gallaryImage.loadImage(
+            imageList,
+            getProgressDrawable(binding.gallaryImage.context)
+        )
 
-class ImageListAdapter(private val imageList:ArrayList<String>)
-    : RecyclerView.Adapter<ImageViewHolder>() {
+        binding.imageLayout.setOnClickListener {
+            val action = PhotoFragmentDirections.actionPhotoFragmenttoFullImageFragment(
+                imageListArray,
+                position
+            )
+            Navigation.findNavController(it).navigate(action)
+        }
+
+
+
+    }//end of bind method
+
+
+}//end of ImageViewHolder
+
+class ImageListAdapter(private val imageList: ArrayList<String>) :
+    RecyclerView.Adapter<ImageViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
 
-        val view = inflater.inflate(R.layout.image_item,parent,false)
-
-        return ImageViewHolder(view)
+        val itemBinding = ImageItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return ImageViewHolder(itemBinding)
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        Log.d("adapterlist","list of images $imageList")
-        holder.view.gallaryImage.loadImage(imageList[position],
-            getProgressDrawable(holder.view.context)
-        )
+
         //convert arraylist ot array
-        val imagelistarray: Array<String> = imageList.toTypedArray()
+        val imageListArray: Array<String> = imageList.toTypedArray()
 
         //convert array to arrlist
 //        val video_list: List<String> = vowels_array.toList()
 
-        holder.view.imageLayout.setOnClickListener {
-            val action = PhotoFragmentDirections.actionPhotoFragmenttoFullImageFragment(imagelistarray,position)
-            Navigation.findNavController(holder.view).navigate(action)
-        }
+        holder.bind(imageList[position],imageListArray,position)
+        Log.d("adapterlist", "list of images $imageList")
 
     }//end of onBindViewHolder
 
@@ -50,10 +61,9 @@ class ImageListAdapter(private val imageList:ArrayList<String>)
         return imageList.size
     }
 
-    fun updateImageList(newImageList:List<String>){
+    fun updateImageList(newImageList: List<String>) {
         imageList.clear()
         imageList.addAll(newImageList)
-        notifyDataSetChanged()
 
     }
 
