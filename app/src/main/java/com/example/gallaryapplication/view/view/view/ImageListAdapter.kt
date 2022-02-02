@@ -11,7 +11,8 @@ import com.example.gallaryapplication.view.view.util.loadImage
 import kotlinx.android.synthetic.main.image_item.view.*
 
 
-class ImageViewHolder(private val binding:ImageItemBinding) : RecyclerView.ViewHolder(binding.root) {
+class ImageViewHolder(private val binding: ImageItemBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
     fun bind(imageList: String, imageListArray: Array<String>, position: Int) {
         binding.gallaryImage.loadImage(
@@ -20,13 +21,14 @@ class ImageViewHolder(private val binding:ImageItemBinding) : RecyclerView.ViewH
         )
 
         binding.imageLayout.setOnClickListener {
-            val action = PhotoFragmentDirections.actionPhotoFragmenttoFullImageFragment(
-                imageListArray,
-                position
-            )
-            Navigation.findNavController(it).navigate(action)
-        }
 
+            Navigation.findNavController(it).navigate(
+                PhotoFragmentDirections.actionPhotoFragmenttoFullImageFragment(
+                    imageListArray,
+                    position
+                )
+            )//end of navigate
+        }
 
 
     }//end of bind method
@@ -40,7 +42,8 @@ class ImageListAdapter(private val imageList: ArrayList<String>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
 
-        val itemBinding = ImageItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val itemBinding =
+            ImageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ImageViewHolder(itemBinding)
     }
 
@@ -52,7 +55,7 @@ class ImageListAdapter(private val imageList: ArrayList<String>) :
         //convert array to arrlist
 //        val video_list: List<String> = vowels_array.toList()
 
-        holder.bind(imageList[position],imageListArray,position)
+        holder.bind(imageList[position], imageListArray, position)
         Log.d("adapterlist", "list of images $imageList")
 
     }//end of onBindViewHolder
@@ -64,6 +67,7 @@ class ImageListAdapter(private val imageList: ArrayList<String>) :
     fun updateImageList(newImageList: List<String>) {
         imageList.clear()
         imageList.addAll(newImageList)
+        notifyDataSetChanged()
 
     }
 

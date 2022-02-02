@@ -2,6 +2,7 @@ package com.example.gallaryapplication.view.view.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.example.gallaryapplication.view.view.util.SharedPreferencesHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
@@ -9,15 +10,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    application: Application,
+
     private val prefs: SharedPreferencesHelper
-):AndroidViewModel(application) {
+):ViewModel() {
 
-    fun getCurrentDateTime() = Calendar.getInstance().time
+    val currentDateTime get()  = Calendar.getInstance().time
 
 
-    fun saveLoggedinTime(value: Date) {
-        prefs.saveLoggedinTime(value)
-    }
+    fun saveLoggedinTime(value: Date) = prefs.saveLoggedinTime(value)
 
 }//end of LoginViewModel

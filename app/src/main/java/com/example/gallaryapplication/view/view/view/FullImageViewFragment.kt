@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentFullImageViewBinding
+import com.example.gallaryapplication.view.view.util.getProgressDrawable
+import com.example.gallaryapplication.view.view.util.loadImage
 import kotlinx.android.synthetic.main.fragment_full_image_view.*
 
 class FullImageViewFragment : BaseFragment() {
@@ -13,7 +15,6 @@ class FullImageViewFragment : BaseFragment() {
     private var _binding: FragmentFullImageViewBinding? = null
     private val binding get() = _binding!!
 
-    //    var image: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,5 +73,12 @@ class FullImageViewFragment : BaseFragment() {
         }//end of argumnets
 
     }//end of onViewCreatedView
+
+    fun showImage(url: String?) {
+        context?.let {
+            binding.userImage.loadImage(url, getProgressDrawable(it))
+        }
+    }
+
 
 }

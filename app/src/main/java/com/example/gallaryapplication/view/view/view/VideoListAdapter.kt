@@ -24,11 +24,13 @@ class VideoViewHolder(private val binding: VideoItemBinding) :
         )
 
         binding.videoLayout.setOnClickListener {
-            val action = VideoFragmentDirections.actionvideoFragmenttoPlayvideoFragment(
-                videoListArray,
-                position
-            )
-            Navigation.findNavController(it).navigate(action)
+
+            Navigation.findNavController(it).navigate(
+                VideoFragmentDirections.actionvideoFragmenttoPlayvideoFragment(
+                    videoListArray,
+                    position
+                )
+            )//end of navigate
 
         }
 
@@ -67,7 +69,7 @@ class VideoListAdapter(
     fun updateVideoList(newVideoList: List<String>) {
         videoList.clear()
         videoList.addAll(newVideoList)
-
+        notifyDataSetChanged()
 
     }
 

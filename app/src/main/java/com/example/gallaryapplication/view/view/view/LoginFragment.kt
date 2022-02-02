@@ -27,9 +27,10 @@ class LoginFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        onBackpressedinLoginFragment()
+//        onBackpressedinLoginFragment()
+        onBackpressed(R.id.loginFragment)
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-//        return inflater.inflate(R.layout.fragment_login, container, false)
+
         return binding.root
     }//end of onCreateView
 
@@ -38,7 +39,7 @@ class LoginFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.loginbutton.setOnClickListener {
-            val date1 = loginViewModel.getCurrentDateTime()
+            val date1 = loginViewModel.currentDateTime
             Log.d("date1", "date is in loginbutton is $date1")
             findNavController().navigate(LoginFragmentDirections.actionlogintophotofragment())
             loginViewModel.saveLoggedinTime(date1)

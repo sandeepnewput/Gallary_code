@@ -8,7 +8,7 @@ import android.util.Log
 class GallaryApiServiceRepository(application: Application) {
 
     var resolver = application.contentResolver
-  fun getallImages(): List<String> {
+  fun getAllImages(): List<String> {
 
         val imageProjection = arrayOf(
             MediaStore.Images.Media._ID
@@ -43,7 +43,7 @@ class GallaryApiServiceRepository(application: Application) {
         return contacts
     }//end of getAllImage
 
-    fun getallVideo(): List<String> {
+    fun getAllVideo(): List<String> {
 
         val imageProjection = arrayOf(
             MediaStore.Video.Media._ID

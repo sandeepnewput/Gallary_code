@@ -4,10 +4,7 @@ import android.app.Application
 import android.content.ContentUris
 import android.provider.MediaStore
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.gallaryapplication.view.view.model.GallaryApiServiceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,9 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ImageViewModel @Inject constructor(
-    application: Application,
     private val gallaryApiSerivce: GallaryApiServiceRepository
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
 
     private val _userImage by lazy { MutableLiveData<List<String>>() }
@@ -40,10 +36,10 @@ class ImageViewModel @Inject constructor(
         viewModelScope.launch {
 
                 Log.d("withContext", "befor hit api")
-                val getresponse1 = withContext(Dispatchers.IO) { gallaryApiSerivce.getallImages() }
-                Log.d("imagelist", "$getresponse1")
-                if (getresponse1.isNotEmpty()) {
-                    _userImage.postValue(getresponse1)
+                val getResponse1 = withContext(Dispatchers.IO) { gallaryApiSerivce.getAllImages() }
+                Log.d("imagelist", "$getResponse1")
+                if (getResponse1.isNotEmpty()) {
+                    _userImage.postValue(getResponse1)
                     _loading.value = false
                 }
 

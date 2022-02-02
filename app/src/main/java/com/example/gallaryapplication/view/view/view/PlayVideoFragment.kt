@@ -23,7 +23,7 @@ class PlayVideoFragment : Fragment() {
 
     private var _binding:FragmentPlayVideoBinding? = null
     private val binding get() = _binding!!
-    var videoUrl: String? = null
+
 
 
     override fun onCreateView(

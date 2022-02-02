@@ -1,10 +1,10 @@
 package com.example.gallaryapplication.view.view.view
 
 
+
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.gallaryapplication.R
@@ -13,25 +13,15 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), SessionListener {
+class MainActivity :  AppCompatActivity() {
 
 
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
-    private var listener: SessionListener? = null
+    private val appController = AppController()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        registerSessionListener(this)
-
-    }//onCreate method ends
-
-    override fun onStart() {
-        super.onStart()
-        listener?.onAppForeground()
-        val date2 = mainActivityViewModel.getCurrentDateTime()
-        Log.d("date2", "date2 is ${date2.time} in logintime observer ")
-        mainActivityViewModel.hasLoginSession(date2.time, mainActivityViewModel.getLoggedintime())
 
         mainActivityViewModel.isloggedin.observe(this) { isLogin ->
             Log.d("response", "response is $isLogin")
@@ -46,7 +36,13 @@ class MainActivity : AppCompatActivity(), SessionListener {
             }
         }
 
-        Log.d("onStart", "onStart method called")
+    }//onCreate method ends
+
+    override fun onStart() {
+        super.onStart()
+       mainActivityViewModel.checkLogin()
+        appController?.AppLifeCycleCallback()?.onActivityStarted(this)
+        Log.d("onStart", "onStart method called $appController")
     }
 
 
@@ -55,9 +51,7 @@ class MainActivity : AppCompatActivity(), SessionListener {
         Log.d("onResume", "onResume method callled")
     }//end of onResume method
 
-//    fun getCurrentDateTime(): Date {
-//        return Calendar.getInstance().time
-//    }
+
 
 
     override fun onPause() {
@@ -67,7 +61,8 @@ class MainActivity : AppCompatActivity(), SessionListener {
 
     override fun onStop() {
         super.onStop()
-        listener?.onAppBackground()
+
+        appController?.AppLifeCycleCallback()?.onActivityStopped(this)
         Log.d("onStop", "onStop method called")
     }
 
@@ -84,30 +79,6 @@ class MainActivity : AppCompatActivity(), SessionListener {
     fun onSessionIn() {
         findNavController(R.id.fragment).navigate(R.id.photoFragment)
     }
-
-    override fun onAppForeground() {
-        Log.d("for", "App is in Foreground")
-    }
-
-    override fun onAppBackground() {
-        Log.d("back", "App is in Background")
-    }
-
-    fun registerSessionListener(listener: SessionListener) {
-        this.listener = listener
-    }
-
-
-//
-//    override fun onBackPressed() {
-//        Log.d("onbackpress","onBackPressed method is called")
-//        val fragment =
-//            this.supportFragmentManager.findFragmentById(R.id.loginFragment)
-//        (fragment as? LogoutListener)?.onBackPressed()?.not()?.let {
-////            super.onBackPressed()
-//        }
-//    }
-
 
 }//end of main activity
 

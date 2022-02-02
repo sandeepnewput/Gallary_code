@@ -17,7 +17,6 @@ import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPhotoBinding
 import com.example.gallaryapplication.view.view.viewmodel.ImageViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_photo.*
 
 
 private const val TAG = "PhotoFragment"
@@ -39,6 +38,7 @@ class PhotoFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("step1", "onCreate running")
         super.onCreate(savedInstanceState)
+
 
         //take permission from user
         val hasReadImagePermission = context?.let {
@@ -70,7 +70,7 @@ class PhotoFragment : BaseFragment() {
     ): View? {
         Log.d("step2", "onCreateView running")
         // Inflate the layout for this fragment
-        onBackpressed()
+        onBackpressed(R.id.videoFragment)
         _binding = FragmentPhotoBinding.inflate(inflater, container, false)
         return binding.root
     }//end of onCreateView Method
