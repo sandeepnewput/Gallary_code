@@ -7,15 +7,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPhotoBinding
-import com.example.gallaryapplication.view.view.viewmodel.ImageViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -62,6 +64,10 @@ class PhotoFragment : BaseFragment() {
 
 
     }//end of onCreate Method
+
+
+
+
 
     override fun onCreateView(
 

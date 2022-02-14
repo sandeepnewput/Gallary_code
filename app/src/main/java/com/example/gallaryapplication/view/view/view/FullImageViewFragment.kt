@@ -1,19 +1,51 @@
 package com.example.gallaryapplication.view.view.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.gallaryapplication.R
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.gallaryapplication.databinding.FragmentFullImageViewBinding
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
-import kotlinx.android.synthetic.main.fragment_full_image_view.*
 
 class FullImageViewFragment : BaseFragment() {
 
     private var _binding: FragmentFullImageViewBinding? = null
     private val binding get() = _binding!!
+
+
+
+    private lateinit var imageArray:Array<String>
+    private var indexPosition:Int = 0
+
+
+
+    private val fullImageViewModel by lazy {
+        ViewModelProvider(this,FullImageViewModelFactory(imageArray,indexPosition))
+            .get(FullImageViewModel::class.java) }
+ //   private val fullImageViewModel: FullImageViewModel by viewModels()
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+
+            imageArray = FullImageViewFragmentArgs.fromBundle(it).imageArray
+            indexPosition = FullImageViewFragmentArgs.fromBundle(it).indexposition
+
+
+            Log.d("imagearrayoncreate","$imageArray")
+            Log.d("indexinoncreate","$indexPosition")
+
+        }
+
+    }//end of onCreate method
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,52 +59,41 @@ class FullImageViewFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var isVisible: Boolean = false
-        arguments?.let { it ->
-//            image = FullImageViewFragmentArgs.fromBundle(it).imageUrl
-            var arrayList = FullImageViewFragmentArgs.fromBundle(it).imageArray
-            var indexpostion = FullImageViewFragmentArgs.fromBundle(it).indexposition
 
-//            context?.let {
-//                userImage.loadImage(arrayList[indexpostion] , getProgressDrawable(it))
-//            }
-            showImage(arrayList[indexpostion])
-            binding.showimagelayout.setOnClickListener {
-                if (isVisible) {
+
+        showImage(imageArray[indexPosition])
+
+        fullImageViewModel.currentIndexPosition.observe(viewLifecycleOwner){imageUri->
+            Log.d("next","next index $imageUri ")
+            showImage(imageUri)
+        }
+
+        fullImageViewModel.isVisibleInvisible.observe(viewLifecycleOwner){isVisible->
+            if (isVisible) {
                     binding.imageprev.visibility = View.VISIBLE
                     binding.imagenext.visibility = View.VISIBLE
                 } else {
                     binding.imageprev.visibility = View.INVISIBLE
                     binding.imagenext.visibility = View.INVISIBLE
                 }
-                isVisible = !isVisible
+        }
+
+
+            binding.showimagelayout.setOnClickListener {
+                fullImageViewModel.visibleInvisible()
             }
 
             binding.imageprev.setOnClickListener {
-                if (indexpostion > 0) {
-                    indexpostion--
-                    showImage(arrayList[indexpostion])
-
-                } else {
-                    indexpostion = arrayList.size - 1
-                    showImage(arrayList[indexpostion])
-                }
+                fullImageViewModel.previousImage()
             }//end of imageprev
 
+
             binding.imagenext.setOnClickListener {
-                if (indexpostion < (arrayList.size - 1)) {
-                    indexpostion++
-                    showImage(arrayList[indexpostion])
-                } else {
-                    indexpostion = 0
-                    showImage(arrayList[indexpostion])
-                }
+                fullImageViewModel.nextImage()
             }
 
-
-        }//end of argumnets
-
     }//end of onViewCreatedView
+
 
     fun showImage(url: String?) {
         context?.let {

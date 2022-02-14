@@ -9,9 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentLoginBinding
-import com.example.gallaryapplication.view.view.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_login.*
+
 
 
 @AndroidEntryPoint

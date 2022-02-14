@@ -10,6 +10,9 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.example.gallaryapplication.R
@@ -21,9 +24,32 @@ import java.lang.Runnable
 class PlayVideoFragment : Fragment() {
 
 
-    private var _binding:FragmentPlayVideoBinding? = null
+    private var _binding: FragmentPlayVideoBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var videoArray: Array<String>
+    private var indexPosition: Int = 0
+
+    private val playVideoViewModel by lazy {
+        ViewModelProvider(this, PlayVideoViewModelFactory(videoArray, indexPosition))
+            .get(PlayVideoViewModel::class.java)
+    }
+
+//    private val playVideoViewModel:PlayVideoViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+
+            videoArray = PlayVideoFragmentArgs.fromBundle(it).videoarray
+            indexPosition = PlayVideoFragmentArgs.fromBundle(it).indexpostion
+
+            Log.d("imagearrayoncreate", "$videoArray")
+            Log.d("indexinoncreate", "$indexPosition")
+
+        }
+
+    }//end of onCreate method
 
 
     override fun onCreateView(
@@ -31,115 +57,95 @@ class PlayVideoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentPlayVideoBinding.inflate(inflater,container,false)
+        _binding = FragmentPlayVideoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var isPlaying: Boolean = false
-        var isVisible: Boolean = false
-        arguments?.let {
-            var arrayList = PlayVideoFragmentArgs.fromBundle(it).videoarray
-            var indexpostion = PlayVideoFragmentArgs.fromBundle(it).indexpostion
-            Log.d("video list", "${arrayList}")
-            Log.d("position", "${indexpostion}")
 
-            binding.userVideo.setVideoPath(arrayList[indexpostion])
+        binding.userVideo.setVideoPath(videoArray[indexPosition])
+        binding.userVideo.start()
+
+        playVideoViewModel.currentIndexPosition.observe(viewLifecycleOwner) { videoUri ->
+            Log.d("next", "next index $videoUri ")
+            binding.userVideo.setVideoPath(videoUri)
             binding.userVideo.start()
+        }
 
-
-            binding.playvideolayout.setOnClickListener {
-                if (isVisible) {
-                    binding.prev.visibility = View.VISIBLE
-                    binding.pause.visibility = View.VISIBLE
-                    binding.next.visibility = View.VISIBLE
-                } else {
-                    binding.prev.visibility = View.INVISIBLE
-                    binding.pause.visibility = View.INVISIBLE
-                    binding.next.visibility = View.INVISIBLE
-                }
-                isVisible = !isVisible
+        playVideoViewModel.isVisibleInvisible.observe(viewLifecycleOwner) { isVisible ->
+            if (isVisible) {
+                binding.prev.visibility = View.VISIBLE
+                binding.pause.visibility = View.VISIBLE
+                binding.next.visibility = View.VISIBLE
+            } else {
+                binding.prev.visibility = View.INVISIBLE
+                binding.pause.visibility = View.INVISIBLE
+                binding.next.visibility = View.INVISIBLE
             }
+        }
 
-
-            binding.prev.setOnClickListener {
-                if (indexpostion > 0) {
-                    indexpostion--
-                    binding.userVideo.setVideoPath(arrayList[indexpostion])
-                    binding.userVideo.start()
-                } else {
-                    indexpostion = arrayList.size - 1
-                    binding.userVideo.setVideoPath(arrayList[indexpostion])
-                    binding.userVideo.start()
-                }
+        playVideoViewModel.isPlayPause.observe(viewLifecycleOwner) { isPlayPause ->
+            if (isPlayPause) {
+                Log.d("patidar", "in if part $isPlayPause")
+                binding.pause.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
+                binding.userVideo.setVideoPath(videoArray[indexPosition])
+                binding.userVideo.start()
+            } else {
+                Log.d("patidar", "in else part $isPlayPause")
+                binding.pause.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)
+                binding.userVideo.stopPlayback()
             }
+        }
 
 
-            binding.pause.setOnClickListener {
-                if (isPlaying) {
-                    Log.d("patidar", "in if part $isPlaying")
-                    binding.pause.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
-                    binding.userVideo.setVideoPath(arrayList[indexpostion])
-                    binding.userVideo.start()
-                } else {
-                    Log.d("patidar", "in else part $isPlaying")
-                    binding.pause.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)
-                    binding.userVideo.stopPlayback()
-                }
-                isPlaying = !isPlaying
-                Log.d("patidar", "in without if else part $isPlaying")
-
-            }
-
-            binding.next.setOnClickListener {
-                if (indexpostion < (arrayList.size - 1)) {
-                    indexpostion++
-                    binding.userVideo.setVideoPath(arrayList[indexpostion])
-                    binding.userVideo.start()
-                } else {
-                    indexpostion = 0
-                    binding.userVideo.setVideoPath(arrayList[indexpostion])
-                    binding.userVideo.start()
-                }
-            }
 
 
-            binding.userVideo.setOnCompletionListener {
-                indexpostion++
-                if (indexpostion < (arrayList.size)) {
-                    binding.userVideo.setVideoPath(arrayList[indexpostion])
-                    binding.userVideo.start()
-                } else {
-                    indexpostion = 0
-                    binding.userVideo.setVideoPath(arrayList[indexpostion])
-                    binding.userVideo.start()
-                }
-            }
+        binding.playvideolayout.setOnClickListener {
+            playVideoViewModel.visibleInvisible()
+        }//end of setOnClickListener
 
 
-        }//end of argumnets block
+        binding.prev.setOnClickListener {
+            playVideoViewModel.previousVideo()
+        }//end of setOnClickListener
+
+
+        binding.pause.setOnClickListener {
+            playVideoViewModel.isPlayPause()
+        }//end of setOnClickListener
+
+
+        binding.next.setOnClickListener {
+            playVideoViewModel.nextVideo()
+        }//end of setOnClickListener
+
+
+        binding.userVideo.setOnCompletionListener {
+            playVideoViewModel.onCompleteVideo()
+        }//end of setOnCompletionListener
+
 
         binding.userVideo.setOnPreparedListener {
             setVideoProgress()
-        }
+        }//end of setOnPreparedListener
 
 
     }//end of onViewCreated mehtod
 
-    fun timeConversion(value: Int): String? {
-        val songTime: String
-        val dur = value
-        val hrs = dur / 3600000
-        val mns = dur / 60000 % 60000
-        val scs = dur % 60000 / 1000
-        songTime = if (hrs > 0) {
-            String.format("%02d:%02d:%02d", hrs, mns, scs)
-        } else {
-            String.format("%02d:%02d", mns, scs)
-        }
-        return songTime
-    }
+//    fun timeConversion(value: Int): String? {
+//        val songTime: String
+//        val dur = value
+//        val hrs = dur / 3600000
+//        val mns = dur / 60000 % 60000
+//        val scs = dur % 60000 / 1000
+//        songTime = if (hrs > 0) {
+//            String.format("%02d:%02d:%02d", hrs, mns, scs)
+//        } else {
+//            String.format("%02d:%02d", mns, scs)
+//        }
+//        return songTime
+//    }
 
     private fun setVideoProgress() {
         //get the video duration
@@ -147,8 +153,8 @@ class PlayVideoFragment : Fragment() {
         var total_duration = binding.userVideo.duration
 
         //display video duration
-        binding.total.text = timeConversion(total_duration)
-        binding.current.text = timeConversion(current_pos)
+        binding.total.text = playVideoViewModel.timeConversion(total_duration)
+        binding.current.text = playVideoViewModel.timeConversion(current_pos)
         binding.seekbar.setMax(total_duration)
 
 
@@ -157,7 +163,7 @@ class PlayVideoFragment : Fragment() {
             override fun run() {
                 try {
                     current_pos = binding.userVideo.currentPosition
-                    binding.current.text = timeConversion(current_pos)
+                    binding.current.text = playVideoViewModel.timeConversion(current_pos)
                     binding.seekbar.progress = current_pos
                     handler?.postDelayed(this, 1000)
 

@@ -10,9 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentVideoBinding
-import com.example.gallaryapplication.view.view.viewmodel.VideoViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_video.*
 
 @AndroidEntryPoint
 class VideoFragment : Fragment() {

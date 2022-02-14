@@ -1,8 +1,5 @@
-package com.example.gallaryapplication.view.view.viewmodel
+package com.example.gallaryapplication.view.view.view
 
-import android.app.Application
-import android.content.ContentUris
-import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.gallaryapplication.view.view.model.GallaryApiServiceRepository
@@ -27,7 +24,7 @@ class ImageViewModel @Inject constructor(
 
 
     fun getImage() {
-        _loading.value = true
+        _loading.postValue(true)
         getUserImage()
     }
 
@@ -40,7 +37,7 @@ class ImageViewModel @Inject constructor(
                 Log.d("imagelist", "$getResponse1")
                 if (getResponse1.isNotEmpty()) {
                     _userImage.postValue(getResponse1)
-                    _loading.value = false
+                    _loading.postValue(false)
                 }
 
 

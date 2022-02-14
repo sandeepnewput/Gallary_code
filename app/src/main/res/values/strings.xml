@@ -2,4 +2,7 @@
     <string name="app_name">GallaryApplication</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="permission_granted">Media access is required to display images and videos</string>
+    <string name="permission_required">Media access is required to display images and videos</string>
+    <string name="ok">OK</string>
 </resources>

@@ -16,18 +16,18 @@ import kotlinx.android.synthetic.main.video_item.view.*
 class VideoViewHolder(private val binding: VideoItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(videoList: String, videoListArray: Array<String>, position: Int) {
+    fun bind(uri: String, videoArray: Array<String>, position: Int) {
 
         binding.gallaryVideo.loadImage(
-            videoList,
+            uri,
             getProgressDrawable(binding.gallaryVideo.context)
         )
 
-        binding.videoLayout.setOnClickListener {
+        binding.root.setOnClickListener {
 
             Navigation.findNavController(it).navigate(
                 VideoFragmentDirections.actionvideoFragmenttoPlayvideoFragment(
-                    videoListArray,
+                    videoArray,
                     position
                 )
             )//end of navigate
@@ -56,14 +56,14 @@ class VideoListAdapter(
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         Log.d("adapterlist", "list of images $videoList")
         //convert arraylist ot array
-        val videoListArray: Array<String> = videoList.toTypedArray()
+        val videoArray: Array<String> = videoList.toTypedArray()
 
-        holder.bind(videoList[position], videoListArray, position)
+        holder.bind(videoList[position], videoArray, position)
 
     }//end of onBindViewHolder mehtod
 
     override fun getItemCount(): Int {
-        return videoList.size
+        return videoList.count()
     }
 
     fun updateVideoList(newVideoList: List<String>) {

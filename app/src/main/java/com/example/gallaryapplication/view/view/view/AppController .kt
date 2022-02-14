@@ -4,11 +4,10 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import android.util.Log
+import dagger.hilt.android.HiltAndroidApp
+
 
 class AppController  : Application() {
-
-
-
 
     private val processLifeCycleListener by lazy { ProcessLifeCycleListener() }
     private var numberOfActivities = 0

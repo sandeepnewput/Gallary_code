@@ -8,23 +8,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gallaryapplication.databinding.ImageItemBinding
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
-import kotlinx.android.synthetic.main.image_item.view.*
 
 
 class ImageViewHolder(private val binding: ImageItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(imageList: String, imageListArray: Array<String>, position: Int) {
+    fun bind(uri: String, imageArray: Array<String>, position: Int) {
         binding.gallaryImage.loadImage(
-            imageList,
+            uri,
             getProgressDrawable(binding.gallaryImage.context)
         )
 
-        binding.imageLayout.setOnClickListener {
+        binding.root.setOnClickListener {
 
             Navigation.findNavController(it).navigate(
                 PhotoFragmentDirections.actionPhotoFragmenttoFullImageFragment(
-                    imageListArray,
+                    imageArray,
                     position
                 )
             )//end of navigate
@@ -50,18 +49,18 @@ class ImageListAdapter(private val imageList: ArrayList<String>) :
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
 
         //convert arraylist ot array
-        val imageListArray: Array<String> = imageList.toTypedArray()
+        val imageArray: Array<String> = imageList.toTypedArray()
 
         //convert array to arrlist
 //        val video_list: List<String> = vowels_array.toList()
 
-        holder.bind(imageList[position], imageListArray, position)
+        holder.bind(imageList[position], imageArray, position)
         Log.d("adapterlist", "list of images $imageList")
 
     }//end of onBindViewHolder
 
     override fun getItemCount(): Int {
-        return imageList.size
+        return imageList.count()
     }
 
     fun updateImageList(newImageList: List<String>) {

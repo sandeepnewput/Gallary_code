@@ -1,8 +1,5 @@
-package com.example.gallaryapplication.view.view.viewmodel
+package com.example.gallaryapplication.view.view.view
 
-import android.app.Application
-import android.content.ContentUris
-import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.gallaryapplication.view.view.model.GallaryApiServiceRepository
