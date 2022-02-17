@@ -1,6 +1,5 @@
 package com.example.gallaryapplication.view.view.view
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.gallaryapplication.view.view.model.GallaryApiServiceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,21 +14,14 @@ class VideoViewModel @Inject constructor(
     private val gallaryApiSerivce: GallaryApiServiceRepository
 ):ViewModel() {
 
-    private val _userVideo by lazy { MutableLiveData<List<String>>() }
+    private val _userVideo by lazy { MutableLiveData<List<String>>(emptyList()) }
     val userVideo: LiveData<List<String>> = _userVideo
 
-
-
-    fun getVideo() {
-        getAllUserVideo()
-    }
-
-    private fun getAllUserVideo() {
+     fun getAllUserVideo() {
+         if(_userVideo.value?.isEmpty() != true)return
         viewModelScope.launch {
 
-                Log.d("withContext", "befor hit api")
                 val getResponse1 = withContext(Dispatchers.IO) { gallaryApiSerivce.getAllVideo() }
-                Log.d("imagelist", "$getResponse1")
                 if (getResponse1.isNotEmpty()) {
                     _userVideo.postValue(getResponse1)
                 }

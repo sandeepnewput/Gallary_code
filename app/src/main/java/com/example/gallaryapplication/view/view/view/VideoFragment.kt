@@ -3,7 +3,6 @@ package com.example.gallaryapplication.view.view.view
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -13,54 +12,45 @@ import com.example.gallaryapplication.databinding.FragmentVideoBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class VideoFragment : Fragment() {
+class VideoFragment : BaseFragment<FragmentVideoBinding>() {
 
-    private var _binding: FragmentVideoBinding? = null
-    private val binding get() = _binding!!
-
-    private val videoViewModel: VideoViewModel by viewModels()
+    private val viewModel: VideoViewModel by viewModels()
 
     private val listAdapter = VideoListAdapter(arrayListOf())
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        _binding = FragmentVideoBinding.inflate(inflater, container, false)
-        return binding.root
 
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentVideoBinding? {
+        return FragmentVideoBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.bottomnavigationvideo.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.Photos -> {
+        binding.bottomNavigationVideo.setOnItemSelectedListener {
+            if(it.itemId == R.id.Photos ) {
                     findNavController().navigate(VideoFragmentDirections.actionvideotophotofragment())
-                }
-
-
             }
             true
         }
-
-        videoViewModel.getVideo()
-
-        videoViewModel.userVideo.observe(viewLifecycleOwner, Observer<List<String>> { contacts ->
-            Log.d("videolist", "$contacts")
-            contacts?.let {
-                listAdapter.updateVideoList(it)
-            }
-            Log.d("list", "list of contact is $contacts")
-
-        })
         binding.videolist.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
         }
 
+        viewModel.getAllUserVideo()
+
+        viewModel.userVideo.observe(viewLifecycleOwner, Observer<List<String>> { contacts ->
+            contacts?.let {
+                listAdapter.updateVideoList(it)
+            }
+        })
+
+
     }//end of onViewCreated method
+
+
 
 }

@@ -8,21 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
+import androidx.viewbinding.ViewBinding
 import com.example.gallaryapplication.R
 
 
-open class BaseFragment : Fragment() {
+ abstract class BaseFragment<viewBinding : ViewBinding> : Fragment() {
+
+    private var _binding: viewBinding? = null
+    val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_base, container, false)
+        _binding = inflateViewBinding(inflater, container)
+        return binding.root
     }
+     abstract fun inflateViewBinding(inflater: LayoutInflater, container: ViewGroup?): viewBinding?
 
-    fun onBackpressed(fragment: Int) {
-        Log.d("id","id of fragment is $fragment")
+    fun onBackPressed(fragment: Int) {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigate(fragment)
@@ -31,6 +36,10 @@ open class BaseFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 
 

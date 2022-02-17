@@ -10,38 +10,37 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class ImageViewModel @Inject constructor(
+class PhotoViewModel @Inject constructor(
     private val gallaryApiSerivce: GallaryApiServiceRepository
 ) : ViewModel() {
 
 
-    private val _userImage by lazy { MutableLiveData<List<String>>() }
+    private val _userImage by lazy { MutableLiveData<List<String>>(emptyList()) }
     val userImage: LiveData<List<String>> = _userImage
 
     private val _loading by lazy { MutableLiveData<Boolean>() }
     val loading: LiveData<Boolean> = _loading
 
 
+    fun getUserImage() {
+        if(_userImage.value?.isEmpty() != true)return
 
-    fun getImage() {
         _loading.postValue(true)
-        getUserImage()
-    }
 
-    private fun getUserImage() {
+            viewModelScope.launch {
 
-        viewModelScope.launch {
-
-                Log.d("withContext", "befor hit api")
                 val getResponse1 = withContext(Dispatchers.IO) { gallaryApiSerivce.getAllImages() }
-                Log.d("imagelist", "$getResponse1")
+
                 if (getResponse1.isNotEmpty()) {
                     _userImage.postValue(getResponse1)
-                    _loading.postValue(false)
                 }
+                _loading.postValue(false)
+
+            }//end of viewModelScope
 
 
-        }//end of viewModelScope
+
+
 
     }//end of getUserDetails Coroutine function
 

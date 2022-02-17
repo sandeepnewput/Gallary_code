@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.view.view.PlayVideoFragment"
-    android:id="@+id/playvideolayout">
+    android:id="@+id/playVideoLayout">
 
     <!-- TODO: Update blank fragment layout -->
 
 
     <VideoView
-        android:id="@+id/userVideo"
+        android:id="@+id/galleryVideo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
-        android:id="@+id/prev"
+        android:id="@+id/previousVideo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
@@ -34,18 +34,18 @@
         tools:ignore="VectorDrawableCompat" />
 
     <ImageView
-        android:id="@+id/pause"
+        android:id="@+id/pauseVideo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:layout_constraintBottom_toTopOf="@+id/seekbar"
-        app:layout_constraintEnd_toStartOf="@+id/next"
-        app:layout_constraintStart_toEndOf="@+id/prev"
-        app:layout_constraintTop_toTopOf="@+id/userVideo"
+        app:layout_constraintEnd_toStartOf="@+id/nextVideo"
+        app:layout_constraintStart_toEndOf="@+id/previousVideo"
+        app:layout_constraintTop_toTopOf="@+id/galleryVideo"
         app:srcCompat="@drawable/ic_baseline_pause_circle_filled_24"
         tools:ignore="VectorDrawableCompat" />
 
     <ImageView
-        android:id="@+id/next"
+        android:id="@+id/nextVideo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"

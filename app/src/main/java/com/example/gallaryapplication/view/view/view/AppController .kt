@@ -13,7 +13,6 @@ class AppController  : Application() {
     private var numberOfActivities = 0
     override fun onCreate() {
         super.onCreate()
-        Log.d("insideapp","inside app controller")
         registerActivityLifecycleCallbacks(AppLifeCycleCallback())
     }
 
@@ -23,9 +22,6 @@ class AppController  : Application() {
         }
 
         override fun onActivityStarted(activity: Activity) {
-
-            Log.d("numactivitystart","number of activity $numberOfActivities")
-
             if (numberOfActivities == 0) {
                 processLifeCycleListener?.onAppForeground()
             }
@@ -39,8 +35,6 @@ class AppController  : Application() {
         }
 
         override fun onActivityStopped(activity: Activity) {
-
-            Log.d("numactivity","number of activity $numberOfActivities")
             if (numberOfActivities == 1) {
                 processLifeCycleListener?.onAppBackground()
             }

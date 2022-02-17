@@ -27,7 +27,6 @@ class MainActivityViewModel @Inject constructor(
 
     fun checkLogin(){
         val date2 = currentDate
-        Log.d("date2", "date2 is ${date2.time} in logintime observer ")
        hasLoginSession(date2.time,getLoggedintime())
     }
 
@@ -44,11 +43,9 @@ class MainActivityViewModel @Inject constructor(
 
     fun hasLoginSession(latestTime: Long, loginTime: Long) = if(loginTime != 0.toLong()) {
         val diff = (latestTime - loginTime) / 60000
-        Log.d("diff", "diff is $diff")
-        Log.d("withContext", "in isLoginSession function")
-        _isloggedin.value = diff < 2
+        _isloggedin.postValue(diff < 2)
     }else{
-        _isloggedin.value = false
+        _isloggedin.postValue(false)
     }//end of isLoginSession
 
 

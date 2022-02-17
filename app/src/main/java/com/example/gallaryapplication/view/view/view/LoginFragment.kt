@@ -8,48 +8,35 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.gallaryapplication.R
+import com.example.gallaryapplication.databinding.FragmentFullImageViewBinding
 import com.example.gallaryapplication.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment() {
+class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
+    private val viewModel: LoginViewModel by viewModels()
 
-    private val loginViewModel: LoginViewModel by viewModels()
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-//        onBackpressedinLoginFragment()
-        onBackpressed(R.id.loginFragment)
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }//end of onCreateView
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentLoginBinding? {
+        return FragmentLoginBinding.inflate(inflater, container, false)
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.loginbutton.setOnClickListener {
-            val date1 = loginViewModel.currentDateTime
-            Log.d("date1", "date is in loginbutton is $date1")
+        binding.loginButton.setOnClickListener {
+            val date1 = viewModel.currentDateTime
             findNavController().navigate(LoginFragmentDirections.actionlogintophotofragment())
-            loginViewModel.saveLoggedinTime(date1)
+            viewModel.saveLoggedinTime(date1)
         }
 
 
     }//end of onViewCreated
 
-    //to avoid memory leak
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 }

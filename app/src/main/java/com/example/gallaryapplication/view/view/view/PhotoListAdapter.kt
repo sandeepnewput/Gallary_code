@@ -1,6 +1,5 @@
 package com.example.gallaryapplication.view.view.view
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
@@ -10,7 +9,7 @@ import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
 
 
-class ImageViewHolder(private val binding: ImageItemBinding) :
+class PhotoViewHolder(private val binding: ImageItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(uri: String, imageArray: Array<String>, position: Int) {
@@ -28,34 +27,28 @@ class ImageViewHolder(private val binding: ImageItemBinding) :
                 )
             )//end of navigate
         }
-
-
     }//end of bind method
 
 
 }//end of ImageViewHolder
 
-class ImageListAdapter(private val imageList: ArrayList<String>) :
-    RecyclerView.Adapter<ImageViewHolder>() {
+class PhotoListAdapter(private val imageList: ArrayList<String>) :
+    RecyclerView.Adapter<PhotoViewHolder>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
 
         val itemBinding =
             ImageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ImageViewHolder(itemBinding)
+        return PhotoViewHolder(itemBinding)
     }
 
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
 
         //convert arraylist ot array
         val imageArray: Array<String> = imageList.toTypedArray()
-
-        //convert array to arrlist
-//        val video_list: List<String> = vowels_array.toList()
-
         holder.bind(imageList[position], imageArray, position)
-        Log.d("adapterlist", "list of images $imageList")
+
 
     }//end of onBindViewHolder
 

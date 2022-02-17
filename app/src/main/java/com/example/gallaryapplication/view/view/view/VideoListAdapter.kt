@@ -1,17 +1,15 @@
 package com.example.gallaryapplication.view.view.view
 
 
-import android.util.Log
+
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.VideoItemBinding
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
-import kotlinx.android.synthetic.main.video_item.view.*
+
 
 class VideoViewHolder(private val binding: VideoItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
@@ -54,7 +52,6 @@ class VideoListAdapter(
     }
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
-        Log.d("adapterlist", "list of images $videoList")
         //convert arraylist ot array
         val videoArray: Array<String> = videoList.toTypedArray()
 
