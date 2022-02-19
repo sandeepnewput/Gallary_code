@@ -43,11 +43,11 @@
         android:label="fragment_full_image_view"
         tools:layout="@layout/fragment_full_image_view" >
         <argument
-            android:name="imageArray"
-            app:argType="string[]" />
-        <argument
             android:name="indexposition"
             app:argType="integer" />
+        <argument
+            android:name="imageUri"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/playVideoFragment"

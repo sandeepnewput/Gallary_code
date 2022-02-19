@@ -14,7 +14,8 @@ import com.example.gallaryapplication.R
 
  abstract class BaseFragment<viewBinding : ViewBinding> : Fragment() {
 
-    private var _binding: viewBinding? = null
+
+     private var _binding: viewBinding? = null
     val binding get() = _binding!!
 
     override fun onCreateView(
@@ -27,23 +28,10 @@ import com.example.gallaryapplication.R
     }
      abstract fun inflateViewBinding(inflater: LayoutInflater, container: ViewGroup?): viewBinding?
 
-    fun onBackPressed(fragment: Int) {
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                findNavController().navigate(fragment)
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-
-
-
-
 
 }//end of base fragment

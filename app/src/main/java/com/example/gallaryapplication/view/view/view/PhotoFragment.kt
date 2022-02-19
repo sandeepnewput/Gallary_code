@@ -7,6 +7,7 @@ import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -23,8 +24,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     private val listAdapter = PhotoListAdapter(arrayListOf())
 
-    private val viewModel: PhotoViewModel by viewModels()
-
+    private val viewModel:SharedViewModel by activityViewModels()
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
@@ -36,7 +36,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
+        Log.d("photofragment","photfragment is created")
         onClickRequestPermission(binding.photoFragment)
         super.onViewCreated(view, savedInstanceState)
 

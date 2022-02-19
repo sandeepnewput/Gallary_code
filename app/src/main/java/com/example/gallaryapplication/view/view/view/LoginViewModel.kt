@@ -1,7 +1,5 @@
 package com.example.gallaryapplication.view.view.view
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import com.example.gallaryapplication.view.view.util.SharedPreferencesHelper
 import dagger.hilt.android.lifecycle.HiltViewModel

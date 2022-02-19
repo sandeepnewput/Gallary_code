@@ -1,10 +1,12 @@
 package com.example.gallaryapplication.view.view.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.gallaryapplication.databinding.FragmentFullImageViewBinding
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
@@ -13,20 +15,16 @@ import com.example.gallaryapplication.view.view.util.loadImage
 
 class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
 
-    private lateinit var imageList:List<String>
-    private  var indexPosition:Int = 0
 
-    private val viewModel by lazy {
-        ViewModelProvider(this,FullImageViewModelFactory(imageList,indexPosition))
-            .get(FullImageViewModel::class.java) }
+    private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
 
-            imageList = FullImageViewFragmentArgs.fromBundle(it).imageArray.toList()
-            indexPosition = FullImageViewFragmentArgs.fromBundle(it).indexposition
-
+            val imageUri = FullImageViewFragmentArgs.fromBundle(it).imageUri
+            val indexPosition = FullImageViewFragmentArgs.fromBundle(it).indexposition
+            viewModel.setImageUri(imageUri, indexPosition)
         }
 
     }//end of onCreate method
@@ -56,11 +54,11 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
         }
 
 
-        viewModel.currentUri.observe(viewLifecycleOwner){ imageUri->
+        viewModel.currentUri.observe(viewLifecycleOwner) { imageUri ->
             updateGalleryImage(imageUri)
         }
 
-        viewModel.showControlButton.observe(viewLifecycleOwner){ isVisible->
+        viewModel.showControlButton.observe(viewLifecycleOwner) { isVisible ->
             binding.imagePrev.isVisible = isVisible
             binding.imageNext.isVisible = isVisible
         }
@@ -74,8 +72,6 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
             binding.gallaryImage.loadImage(url, getProgressDrawable(it))
         }
     }
-
-
 
 
 }

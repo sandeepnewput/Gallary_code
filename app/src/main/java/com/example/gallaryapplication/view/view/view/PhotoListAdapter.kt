@@ -22,8 +22,8 @@ class PhotoViewHolder(private val binding: ImageItemBinding) :
 
             Navigation.findNavController(it).navigate(
                 PhotoFragmentDirections.actionPhotoFragmenttoFullImageFragment(
-                    imageArray,
-                    position
+                    position,
+                    imageArray[position]
                 )
             )//end of navigate
         }

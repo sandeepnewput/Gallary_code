@@ -10,6 +10,7 @@ class GallaryApiServiceRepository(application: Application) {
     var resolver = application.contentResolver
   fun getAllImages(): List<String> {
 
+
         val imageProjection = arrayOf(
             MediaStore.Images.Media._ID
         )
@@ -23,13 +24,13 @@ class GallaryApiServiceRepository(application: Application) {
             null,
             imageSortOrder
         )
-        val contacts = ArrayList<String>()
+        val imageList = ArrayList<String>()
         cursor?.use {
 
             if (cursor != null) {
                 val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
                 while (cursor.moveToNext()) {
-                    contacts.add(
+                    imageList.add(
                         ContentUris.withAppendedId(
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                             cursor.getLong(idColumn)
@@ -40,7 +41,7 @@ class GallaryApiServiceRepository(application: Application) {
                 Log.d("AddViewModel", "Cursor is null!")
             }
         }
-        return contacts
+        return imageList
     }//end of getAllImage
 
     fun getAllVideo(): List<String> {
@@ -58,13 +59,13 @@ class GallaryApiServiceRepository(application: Application) {
             null,
             imageSortOrder
         )
-        val contacts = ArrayList<String>()
+        val videoList = ArrayList<String>()
         cursor?.use {
 
             if (cursor != null) {
                 val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
                 while (cursor.moveToNext()) {
-                    contacts.add(
+                    videoList.add(
                         ContentUris.withAppendedId(
                             MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                             cursor.getLong(idColumn)
@@ -75,7 +76,7 @@ class GallaryApiServiceRepository(application: Application) {
                 Log.d("AddViewModel", "Cursor is null!")
             }
         }
-        return contacts
+        return videoList
     }//end of getAllvideo function
 
 
