@@ -12,20 +12,14 @@ import com.example.gallaryapplication.view.view.util.loadImage
 class PhotoViewHolder(private val binding: ImageItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(uri: String, imageArray: Array<String>, position: Int) {
+    fun bind(uri: String, imageArray: Array<String>, position: Int, listener: OnClickListener) {
         binding.gallaryImage.loadImage(
             uri,
             getProgressDrawable(binding.gallaryImage.context)
         )
 
         binding.root.setOnClickListener {
-
-            Navigation.findNavController(it).navigate(
-                PhotoFragmentDirections.actionPhotoFragmenttoFullImageFragment(
-                    position,
-                    imageArray[position]
-                )
-            )//end of navigate
+            listener.onClick(imageArray[position],position)
         }
     }//end of bind method
 
@@ -35,6 +29,7 @@ class PhotoViewHolder(private val binding: ImageItemBinding) :
 class PhotoListAdapter(private val imageList: ArrayList<String>) :
     RecyclerView.Adapter<PhotoViewHolder>() {
 
+    private lateinit var  listener: OnClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
 
@@ -47,7 +42,7 @@ class PhotoListAdapter(private val imageList: ArrayList<String>) :
 
         //convert arraylist ot array
         val imageArray: Array<String> = imageList.toTypedArray()
-        holder.bind(imageList[position], imageArray, position)
+        holder.bind(imageList[position], imageArray, position,listener)
 
 
     }//end of onBindViewHolder
@@ -61,6 +56,9 @@ class PhotoListAdapter(private val imageList: ArrayList<String>) :
         imageList.addAll(newImageList)
         notifyDataSetChanged()
 
+    }
+    fun setListener(listener: OnClickListener) {
+        this.listener = listener
     }
 
 

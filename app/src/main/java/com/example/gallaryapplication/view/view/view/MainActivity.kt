@@ -53,9 +53,7 @@ class MainActivity : AppCompatActivity() {
         findNavController(R.id.fragment).navigate(R.id.photoFragment)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
+
 }//end of main activity
 
 

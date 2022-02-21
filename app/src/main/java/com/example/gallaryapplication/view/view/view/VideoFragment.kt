@@ -3,6 +3,7 @@ package com.example.gallaryapplication.view.view.view
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -12,13 +13,16 @@ import com.example.gallaryapplication.databinding.FragmentVideoBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class VideoFragment : BaseFragment<FragmentVideoBinding>() {
+class VideoFragment : BaseFragment<FragmentVideoBinding>(),OnClickListener {
 
-    private val viewModel: VideoViewModel by viewModels()
+    private val viewModel: SharedViewModel by activityViewModels()
 
     private val listAdapter = VideoListAdapter(arrayListOf())
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        listAdapter.setListener(this)
+    }//end of onCreate method
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
@@ -29,6 +33,7 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.bottomNavigationVideo.setOnItemSelectedListener {
             if(it.itemId == R.id.Photos ) {
                     findNavController().navigate(VideoFragmentDirections.actionvideotophotofragment())
@@ -51,6 +56,10 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
 
     }//end of onViewCreated method
 
+    override fun onClick(uri: String, position: Int) {
+       viewModel.setCurrentUriIndexPosition(uri,position)
+        findNavController().navigate(VideoFragmentDirections.actionvideoFragmenttoPlayvideoFragment())
+    }
 
 
 }

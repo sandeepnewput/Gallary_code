@@ -14,7 +14,7 @@ import com.example.gallaryapplication.view.view.util.loadImage
 class VideoViewHolder(private val binding: VideoItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(uri: String, videoArray: Array<String>, position: Int) {
+    fun bind(uri: String, videoArray: Array<String>, position: Int, listener: OnClickListener) {
 
         binding.gallaryVideo.loadImage(
             uri,
@@ -22,14 +22,7 @@ class VideoViewHolder(private val binding: VideoItemBinding) :
         )
 
         binding.root.setOnClickListener {
-
-            Navigation.findNavController(it).navigate(
-                VideoFragmentDirections.actionvideoFragmenttoPlayvideoFragment(
-                    videoArray,
-                    position
-                )
-            )//end of navigate
-
+            listener.onClick(videoArray[position],position)
         }
 
 
@@ -43,6 +36,7 @@ class VideoListAdapter(
 
 ) : RecyclerView.Adapter<VideoViewHolder>() {
 
+    private lateinit var  listener: OnClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
 
@@ -55,7 +49,7 @@ class VideoListAdapter(
         //convert arraylist ot array
         val videoArray: Array<String> = videoList.toTypedArray()
 
-        holder.bind(videoList[position], videoArray, position)
+        holder.bind(videoList[position], videoArray, position,listener)
 
     }//end of onBindViewHolder mehtod
 
@@ -68,6 +62,10 @@ class VideoListAdapter(
         videoList.addAll(newVideoList)
         notifyDataSetChanged()
 
+    }
+
+    fun setListener(listener: OnClickListener) {
+        this.listener = listener
     }
 
 }//end of VideoListAdapter

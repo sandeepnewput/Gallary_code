@@ -41,24 +41,10 @@
         android:id="@+id/fullImageViewFragment"
         android:name="com.example.gallaryapplication.view.view.view.FullImageViewFragment"
         android:label="fragment_full_image_view"
-        tools:layout="@layout/fragment_full_image_view" >
-        <argument
-            android:name="indexposition"
-            app:argType="integer" />
-        <argument
-            android:name="imageUri"
-            app:argType="string" />
-    </fragment>
+        tools:layout="@layout/fragment_full_image_view" />
     <fragment
         android:id="@+id/playVideoFragment"
         android:name="com.example.gallaryapplication.view.view.view.PlayVideoFragment"
         android:label="fragment_play_video"
-        tools:layout="@layout/fragment_play_video" >
-        <argument
-            android:name="videoarray"
-            app:argType="string[]" />
-        <argument
-            android:name="indexpostion"
-            app:argType="integer" />
-    </fragment>
+        tools:layout="@layout/fragment_play_video" />
 </navigation>

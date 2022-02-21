@@ -23,6 +23,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentLoginBinding? {
+        onBackPressed(R.id.loginFragment)
         return FragmentLoginBinding.inflate(inflater, container, false)
     }
 

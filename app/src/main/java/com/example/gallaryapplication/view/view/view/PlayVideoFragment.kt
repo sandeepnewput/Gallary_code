@@ -11,6 +11,7 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentFullImageViewBinding
@@ -20,22 +21,8 @@ import java.lang.Runnable
 
 class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
 
-    private lateinit var videoList: List<String>
-    private var indexPosition: Int = 0
 
-    private val viewModel by lazy {
-        ViewModelProvider(this, PlayVideoViewModelFactory(videoList, indexPosition))
-            .get(PlayVideoViewModel::class.java)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            videoList = PlayVideoFragmentArgs.fromBundle(it).videoarray.toList()
-            indexPosition = PlayVideoFragmentArgs.fromBundle(it).indexpostion
-        }
-
-    }//end of onCreate method
+    private val viewModel: SharedViewModel by activityViewModels()
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
@@ -91,7 +78,7 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         viewModel.isPlayPauseVideo.observe(viewLifecycleOwner) { isPlayPause ->
             if (isPlayPause) {
                 binding.pauseVideo.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
-                binding.galleryVideo.setVideoPath(videoList[indexPosition])
+//                binding.galleryVideo.setVideoPath(videoList[indexPosition])
                 binding.galleryVideo.start()
             } else {
                 binding.pauseVideo.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)

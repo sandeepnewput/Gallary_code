@@ -18,17 +18,6 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
 
     private val viewModel: SharedViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-            val imageUri = FullImageViewFragmentArgs.fromBundle(it).imageUri
-            val indexPosition = FullImageViewFragmentArgs.fromBundle(it).indexposition
-            viewModel.setImageUri(imageUri, indexPosition)
-        }
-
-    }//end of onCreate method
-
     override fun inflateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?

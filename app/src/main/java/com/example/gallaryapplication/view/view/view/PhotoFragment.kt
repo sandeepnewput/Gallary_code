@@ -19,26 +19,33 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
+class PhotoFragment : BaseFragment<FragmentPhotoBinding>(),OnClickListener {
 
 
     private val listAdapter = PhotoListAdapter(arrayListOf())
 
     private val viewModel:SharedViewModel by activityViewModels()
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        listAdapter.setListener(this)
+    }//end of onCreate method
+
     override fun inflateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentPhotoBinding? {
+        onBackPressed(R.id.videoFragment)
         return FragmentPhotoBinding.inflate(inflater, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        Log.d("photofragment","photfragment is created")
-        onClickRequestPermission(binding.photoFragment)
         super.onViewCreated(view, savedInstanceState)
+
+        onClickRequestPermission(binding.photoFragment)
 
         binding.bottomNavigation.setOnItemSelectedListener {
             if(it.itemId == R.id.Videos ) {
@@ -51,7 +58,10 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
             layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
         }
-        getImages()
+
+
+
+//        getImages()
         viewModel.userImage.observe(viewLifecycleOwner, Observer<List<String>> { contacts ->
             contacts?.let {
                 listAdapter.updateImageList(it)
@@ -79,6 +89,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
                 )
             } == PackageManager.PERMISSION_GRANTED -> {
                 //put code for Snackbar
+                getImages()
             }
 
             activity?.let {
@@ -119,5 +130,12 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
                 getImages()
             }
         }
+
+    override fun onClick(uri: String, position: Int) {
+        viewModel.setCurrentUriIndexPosition(uri, position)
+        findNavController().navigate(PhotoFragmentDirections.actionPhotoFragmenttoFullImageFragment())
+    }
+
+
 
 }//end of PhotoFragment
