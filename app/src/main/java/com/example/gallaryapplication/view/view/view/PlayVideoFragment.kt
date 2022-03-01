@@ -9,13 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.gallaryapplication.R
-import com.example.gallaryapplication.databinding.FragmentFullImageViewBinding
-import com.example.gallaryapplication.databinding.FragmentPhotoBinding
 import com.example.gallaryapplication.databinding.FragmentPlayVideoBinding
 import java.lang.Runnable
 
@@ -28,6 +26,7 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentPlayVideoBinding? {
+
         return FragmentPlayVideoBinding.inflate(inflater, container, false)
     }
 
@@ -92,23 +91,23 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
 
     private fun setVideoProgress() {
         //get the video duration
-        var current_pos = binding.galleryVideo.currentPosition
-        var total_duration = binding.galleryVideo.duration
+        var currentPosition = binding.galleryVideo.currentPosition
+        var totalDuration = binding.galleryVideo.duration
 
         //display video duration
-        binding.total.text = viewModel.timeConversion(total_duration)
-        binding.current.text = viewModel.timeConversion(current_pos)
-        binding.seekbar.setMax(total_duration)
+        binding.total.text = viewModel.timeConversion(totalDuration)
+        binding.current.text = viewModel.timeConversion(currentPosition)
+        binding.seekbar.setMax(totalDuration)
 
 
         val handler = Looper.myLooper()?.let { Handler(it) }
         val runnable: Runnable = object : Runnable {
             override fun run() {
                 try {
-                    current_pos = binding.galleryVideo.currentPosition
-                    binding.current.text = viewModel.timeConversion(current_pos)
-                    binding.seekbar.progress = current_pos
-                    handler?.postDelayed(this, 1000)
+                    currentPosition = binding.galleryVideo.currentPosition
+                    binding.current.text = viewModel.timeConversion(currentPosition)
+                    binding.seekbar.progress = currentPosition
+                    handler?.postDelayed(this,1000)
 
                 } catch (ed: IllegalStateException) {
                     ed.printStackTrace()
@@ -122,14 +121,18 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         //seekbar change listner
         binding.seekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {}
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar){}
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                current_pos = seekBar.progress
-                binding.galleryVideo.seekTo(current_pos)
+                currentPosition = seekBar.progress
+                binding.galleryVideo.seekTo(currentPosition)
             }
         })
     }//end of setVideoProgress function
 
+    override fun backPressed() {
+//        findNavController().navigate(R.id.videoFragment)
+        findNavController().navigate(R.id.action_global_bottomNavigationView)
+    }
 
 
 }

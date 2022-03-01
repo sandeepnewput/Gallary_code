@@ -1,8 +1,5 @@
 package com.example.gallaryapplication.view.view.view
 
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,10 +19,15 @@ class MainActivityViewModel @Inject constructor(
     private val _localtime by lazy { MutableLiveData<Long>() }
     val localtime: LiveData<Long> = _localtime
 
-    private val _isloggedin by lazy { MutableLiveData<Boolean>() }
-    val isloggedin: LiveData<Boolean> = _isloggedin
+    private val _isLogIn by lazy { MutableLiveData<Boolean>() }
+    val isLogIn: LiveData<Boolean> = _isLogIn
+
+
+    private val _loading by lazy { MutableLiveData<Boolean>() }
+    val loading: LiveData<Boolean> = _loading
 
     fun checkLogin(){
+        _loading.postValue(true)
         val date2 = currentDate
        hasLoginSession(date2.time,getLoggedintime())
     }
@@ -41,11 +43,13 @@ class MainActivityViewModel @Inject constructor(
     fun getCurrentDateTime() = Calendar.getInstance().time
 
 
-    fun hasLoginSession(latestTime: Long, loginTime: Long) = if(loginTime != 0.toLong()) {
+    private fun hasLoginSession(latestTime: Long, loginTime: Long) = if(loginTime != 0.toLong()) {
         val diff = (latestTime - loginTime) / 60000
-        _isloggedin.postValue(diff < 2)
+        _isLogIn.postValue(diff < 2)
+
     }else{
-        _isloggedin.postValue(false)
+        _isLogIn.postValue(false)
+
     }//end of isLoginSession
 
 

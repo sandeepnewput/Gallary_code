@@ -4,68 +4,56 @@ package com.example.gallaryapplication.view.view.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gallaryapplication.databinding.VideoItemBinding
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
 
 
-class VideoViewHolder(private val binding: VideoItemBinding) :
+class VideoViewHolder(private val binding: VideoItemBinding,private val onMediaClicked: (String) -> Unit) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(uri: String, videoArray: Array<String>, position: Int, listener: OnClickListener) {
+    fun bind(uri: String) {
 
         binding.gallaryVideo.loadImage(
             uri,
             getProgressDrawable(binding.gallaryVideo.context)
         )
-
-        binding.root.setOnClickListener {
-            listener.onClick(videoArray[position],position)
-        }
-
-
+        binding.root.setOnClickListener { onMediaClicked(uri) }
     }//end of bind function
 
 
 }
 
 class VideoListAdapter(
-    private val videoList: ArrayList<String>
-
+    private var videosArray: Array<String>,
+    private val onItemClicked: (String) -> Unit
 ) : RecyclerView.Adapter<VideoViewHolder>() {
 
-    private lateinit var  listener: OnClickListener
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
 
         val itemBinding =
             VideoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return VideoViewHolder(itemBinding)
+        return VideoViewHolder(itemBinding,onItemClicked)
     }
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
-        //convert arraylist ot array
-        val videoArray: Array<String> = videoList.toTypedArray()
-
-        holder.bind(videoList[position], videoArray, position,listener)
-
+        holder.bind(videosArray[position])
     }//end of onBindViewHolder mehtod
 
     override fun getItemCount(): Int {
-        return videoList.count()
+        return videosArray.count()
     }
 
-    fun updateVideoList(newVideoList: List<String>) {
-        videoList.clear()
-        videoList.addAll(newVideoList)
+    fun updateVideoArray(newVideoArray: Array<String>) {
+        videosArray = newVideoArray
         notifyDataSetChanged()
-
     }
 
-    fun setListener(listener: OnClickListener) {
-        this.listener = listener
-    }
+
 
 }//end of VideoListAdapter
+
+

@@ -8,13 +8,40 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="action_global_bottomNavigationView">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="action_global_fullImageFragmentView">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="action_global_playVideoFragmentView">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="bottomNavigationViewFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-4005" />
+                            <option name="y" value="-1534" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="fullImageViewFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="744" />
-                            <option name="y" value="368" />
+                            <option name="x" value="-3631" />
+                            <option name="y" value="-1896" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -25,13 +52,68 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="254" />
+                            <option name="x" value="-4430" />
+                            <option name="y" value="-1237" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="actionlogintophotofragment">
+                            <entry key="action_loginFragment_to_bottomnavigation">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="playVideoFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-3591" />
+                            <option name="y" value="-1336" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </LayoutPositions>
+          </value>
+        </entry>
+        <entry key="navigation2.xml">
+          <value>
+            <LayoutPositions>
+              <option name="myPositions">
+                <map>
+                  <entry key="fullImageViewFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="53" />
+                            <option name="y" value="101" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="loginFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-725" />
+                            <option name="y" value="-120" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_loginFragment_to_navigation2">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -46,8 +128,7 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="500" />
-                            <option name="y" value="368" />
+                            <option name="x" value="-310" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -72,8 +153,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="500" />
-                            <option name="y" value="12" />
+                            <option name="x" value="103" />
+                            <option name="y" value="-322" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -84,8 +165,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="256" />
-                            <option name="y" value="76" />
+                            <option name="x" value="-239" />
+                            <option name="y" value="-421" />
                           </Point>
                         </option>
                         <option name="myPositions">

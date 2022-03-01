@@ -2,64 +2,52 @@ package com.example.gallaryapplication.view.view.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gallaryapplication.databinding.ImageItemBinding
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
 
 
-class PhotoViewHolder(private val binding: ImageItemBinding) :
+class PhotoViewHolder(private val binding: ImageItemBinding,private val onItemClicked: (String) -> Unit) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(uri: String, imageArray: Array<String>, position: Int, listener: OnClickListener) {
+    fun bind(uri: String) {
         binding.gallaryImage.loadImage(
             uri,
             getProgressDrawable(binding.gallaryImage.context)
         )
-
-        binding.root.setOnClickListener {
-            listener.onClick(imageArray[position],position)
-        }
+        binding.root.setOnClickListener { onItemClicked(uri) }
     }//end of bind method
 
 
 }//end of ImageViewHolder
 
-class PhotoListAdapter(private val imageList: ArrayList<String>) :
+class PhotoListAdapter(private var imagesArray: Array<String>, private val onMediaClicked: (String) -> Unit) :
     RecyclerView.Adapter<PhotoViewHolder>() {
 
-    private lateinit var  listener: OnClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
 
         val itemBinding =
             ImageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PhotoViewHolder(itemBinding)
+        return PhotoViewHolder(itemBinding,onMediaClicked)
+
     }
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
 
-        //convert arraylist ot array
-        val imageArray: Array<String> = imageList.toTypedArray()
-        holder.bind(imageList[position], imageArray, position,listener)
-
+        holder.bind(imagesArray[position])
 
     }//end of onBindViewHolder
 
     override fun getItemCount(): Int {
-        return imageList.count()
+        return imagesArray.count()
     }
 
-    fun updateImageList(newImageList: List<String>) {
-        imageList.clear()
-        imageList.addAll(newImageList)
+    fun updateImageArray(newImageArray: Array<String>) {
+        imagesArray = newImageArray
         notifyDataSetChanged()
 
     }
-    fun setListener(listener: OnClickListener) {
-        this.listener = listener
-    }
-
 
 }//end of imagelistadapter

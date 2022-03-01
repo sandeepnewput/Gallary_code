@@ -7,15 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.gallaryapplication.R
-import com.example.gallaryapplication.databinding.FragmentFullImageViewBinding
 import com.example.gallaryapplication.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+class LoginFragment: BaseFragment<FragmentLoginBinding>() {
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -23,7 +21,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentLoginBinding? {
-        onBackPressed(R.id.loginFragment)
         return FragmentLoginBinding.inflate(inflater, container, false)
     }
 
@@ -33,11 +30,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
         binding.loginButton.setOnClickListener {
             val date1 = viewModel.currentDateTime
-            findNavController().navigate(LoginFragmentDirections.actionlogintophotofragment())
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToBottomNav())
             viewModel.saveLoggedinTime(date1)
         }
 
 
     }//end of onViewCreated
+
+    override fun backPressed() {
+        Log.d("backpress","backpressed of loginfragment")
+    }
+
 
 }

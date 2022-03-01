@@ -4,39 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
     app:startDestination="@id/loginFragment">
+
+
+    <action
+        android:id="@+id/action_global_fullImageFragmentView"
+        app:destination="@id/fullImageViewFragment" />
+
+<!--  this global action i have to remove  -->
+    <action
+        android:id="@+id/action_global_bottomNavigationView"
+        app:destination="@id/bottomNavigationViewFragment" />
+
+    <action
+        android:id="@+id/action_global_playVideoFragmentView"
+        app:destination="@id/playVideoFragment" />
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.gallaryapplication.view.view.view.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/actionlogintophotofragment"
-            app:destination="@id/photoFragment" />
+            android:id="@+id/action_loginFragment_to_bottomNav"
+            app:destination="@id/bottomNavigationViewFragment" />
     </fragment>
+
+
     <fragment
-        android:id="@+id/photoFragment"
-        android:name="com.example.gallaryapplication.view.view.view.PhotoFragment"
-        android:label="fragment_photo"
-        tools:layout="@layout/fragment_photo" >
-        <action
-            android:id="@+id/actionphototovideofragment"
-            app:destination="@id/videoFragment" />
-        <action
-            android:id="@+id/actionPhotoFragmenttoFullImageFragment"
-            app:destination="@id/fullImageViewFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/videoFragment"
-        android:name="com.example.gallaryapplication.view.view.view.VideoFragment"
-        android:label="fragment_video"
-        tools:layout="@layout/fragment_video" >
-        <action
-            android:id="@+id/actionvideotophotofragment"
-            app:destination="@id/photoFragment" />
-        <action
-            android:id="@+id/actionvideoFragmenttoPlayvideoFragment"
-            app:destination="@id/playVideoFragment" />
-    </fragment>
+        android:id="@+id/bottomNavigationViewFragment"
+        android:name="com.example.gallaryapplication.view.view.view.BottomNavigationViewFragment"
+        android:label="BottomNavigationViewFragment"
+        tools:layout="@layout/fragment_bottom_navigation_view"></fragment>
+
+
     <fragment
         android:id="@+id/fullImageViewFragment"
         android:name="com.example.gallaryapplication.view.view.view.FullImageViewFragment"
@@ -47,4 +47,6 @@
         android:name="com.example.gallaryapplication.view.view.view.PlayVideoFragment"
         android:label="fragment_play_video"
         tools:layout="@layout/fragment_play_video" />
+
+
 </navigation>

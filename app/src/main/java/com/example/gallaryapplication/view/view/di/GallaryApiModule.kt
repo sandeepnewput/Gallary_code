@@ -1,7 +1,7 @@
 package com.example.gallaryapplication.view.view.di
 
 import android.app.Application
-import com.example.gallaryapplication.view.view.model.GallaryApiServiceRepository
+import com.example.gallaryapplication.view.view.model.GalleryApiServiceRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,8 +13,8 @@ import dagger.hilt.android.components.ViewModelComponent
 class GallaryApiModule {
 
     @Provides
-    fun provideGallaryApiService(application: Application):GallaryApiServiceRepository{
-        return GallaryApiServiceRepository(application)
+    fun provideGallaryApiService(application: Application):GalleryApiServiceRepository{
+        return GalleryApiServiceRepository(application)
     }
 
 

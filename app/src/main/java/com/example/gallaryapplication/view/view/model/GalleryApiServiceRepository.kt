@@ -5,7 +5,7 @@ import android.content.ContentUris
 import android.provider.MediaStore
 import android.util.Log
 
-class GallaryApiServiceRepository(application: Application) {
+class GalleryApiServiceRepository(application: Application) {
 
     var resolver = application.contentResolver
   fun getAllImages(): List<String> {

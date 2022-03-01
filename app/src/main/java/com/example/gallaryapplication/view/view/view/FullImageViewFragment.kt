@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentFullImageViewBinding
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
@@ -16,18 +18,21 @@ import com.example.gallaryapplication.view.view.util.loadImage
 class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
 
 
+
+
     private val viewModel: SharedViewModel by activityViewModels()
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentFullImageViewBinding? {
+
         return FragmentFullImageViewBinding.inflate(inflater, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+       super.onViewCreated(view, savedInstanceState)
 
         binding.showImageLayout.setOnClickListener {
             viewModel.toggleControlButton()
@@ -60,6 +65,11 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
         context?.let {
             binding.gallaryImage.loadImage(url, getProgressDrawable(it))
         }
+    }
+
+    override fun backPressed() {
+//        findNavController().navigate(R.id.photoFragment)
+        findNavController().navigate(R.id.action_global_bottomNavigationView)
     }
 
 
