@@ -3,21 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/launchingFragment">
 
 
     <action
         android:id="@+id/action_global_fullImageFragmentView"
         app:destination="@id/fullImageViewFragment" />
 
-<!--  this global action i have to remove  -->
-    <action
-        android:id="@+id/action_global_bottomNavigationView"
-        app:destination="@id/bottomNavigationViewFragment" />
-
     <action
         android:id="@+id/action_global_playVideoFragmentView"
         app:destination="@id/playVideoFragment" />
+
+
+    <fragment
+        android:id="@+id/launchingFragment"
+        android:name="com.example.gallaryapplication.view.view.view.LaunchingFragment"
+        android:label="LoadingFragment"
+        tools:layout="@layout/fragment_launching">
+        <action
+            android:id="@+id/action_launchFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_launchFragment_to_bottomNavFragment"
+            app:destination="@id/bottomNavFragment" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/loginFragment"
@@ -26,12 +36,12 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_bottomNav"
-            app:destination="@id/bottomNavigationViewFragment" />
+            app:destination="@id/bottomNavFragment" />
     </fragment>
 
 
     <fragment
-        android:id="@+id/bottomNavigationViewFragment"
+        android:id="@+id/bottomNavFragment"
         android:name="com.example.gallaryapplication.view.view.view.BottomNavigationViewFragment"
         android:label="BottomNavigationViewFragment"
         tools:layout="@layout/fragment_bottom_navigation_view"></fragment>
@@ -41,12 +51,24 @@
         android:id="@+id/fullImageViewFragment"
         android:name="com.example.gallaryapplication.view.view.view.FullImageViewFragment"
         android:label="fragment_full_image_view"
-        tools:layout="@layout/fragment_full_image_view" />
+        tools:layout="@layout/fragment_full_image_view" >
+
+        <action
+            android:id="@+id/action_fullImageViewFragment_to_bottomNavFragment"
+            app:destination="@id/bottomNavFragment" />
+    </fragment>
     <fragment
         android:id="@+id/playVideoFragment"
         android:name="com.example.gallaryapplication.view.view.view.PlayVideoFragment"
         android:label="fragment_play_video"
-        tools:layout="@layout/fragment_play_video" />
+        tools:layout="@layout/fragment_play_video" >
+
+        <action
+            android:id="@+id/action_playVideoFragment_to_bottomNavFragment"
+            app:destination="@id/bottomNavFragment" />
+    </fragment>
+
+
 
 
 </navigation>

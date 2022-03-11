@@ -8,11 +8,6 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="action_global_bottomNavigationView">
-                    <value>
-                      <LayoutPositions />
-                    </value>
-                  </entry>
                   <entry key="action_global_fullImageFragmentView">
                     <value>
                       <LayoutPositions />
@@ -23,13 +18,13 @@
                       <LayoutPositions />
                     </value>
                   </entry>
-                  <entry key="bottomNavigationViewFragment">
+                  <entry key="bottomNavFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-4005" />
-                            <option name="y" value="-1534" />
+                            <option name="x" value="-4387" />
+                            <option name="y" value="-1644" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -44,6 +39,41 @@
                             <option name="y" value="-1896" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_fullImageViewFragment_to_bottomNavFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="launchingFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-5006" />
+                            <option name="y" value="-1797" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_launchFragment_to_bottomNavFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_launchFragment_to_loginFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -52,13 +82,13 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-4430" />
-                            <option name="y" value="-1237" />
+                            <option name="x" value="-4939" />
+                            <option name="y" value="-1248" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_loginFragment_to_bottomnavigation">
+                            <entry key="action_loginFragment_to_bottomNav">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -76,6 +106,15 @@
                             <option name="x" value="-3591" />
                             <option name="y" value="-1336" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_playVideoFragment_to_bottomNavFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

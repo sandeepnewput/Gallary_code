@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -22,11 +20,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-open class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
+class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
 
-    private val listAdapter = PhotoListAdapter(
-        arrayOf()) { uri -> onClickMedia(uri) }
+    private val listAdapter = PhotoListAdapter(listOf(), this::onClickMedia)
 
     private val viewModel: SharedViewModel by activityViewModels()
 
@@ -42,7 +39,6 @@ open class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        Log.d("viewcreated","viewcreated in photofragment fragment")
         onClickRequestPermission(binding.photoFragment)
 
 
@@ -52,10 +48,10 @@ open class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         }
 
 
-        viewModel.userImage.observe(viewLifecycleOwner, Observer<List<String>> {
+        viewModel.userImages.observe(viewLifecycleOwner, Observer<List<String>> {
             it?.let {
-                val imageArray: Array<String> = it.toTypedArray()
-                listAdapter.updateImageArray(imageArray)
+
+                listAdapter.updateImageList(it)
             }
         })
         viewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
@@ -133,10 +129,8 @@ open class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     }
 
-
-
     override fun backPressed() {
-//        findNavController().navigate(R.id.action_global_bottomNavigationView)
+    Log.d("backPressed","backPressed method is called")
     }
 
 

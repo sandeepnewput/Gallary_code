@@ -16,8 +16,7 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
 
     private val viewModel: SharedViewModel by activityViewModels()
 
-    private val listAdapter = VideoListAdapter(
-        arrayOf()){ uri ->onClickMedia(uri)}
+    private val listAdapter = VideoListAdapter(listOf(), this::onClickMedia )
 
 
     override fun inflateViewBinding(
@@ -36,11 +35,10 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
             adapter = listAdapter
         }
 
-        viewModel.getAllUserVideo()
-        viewModel.userVideo.observe(viewLifecycleOwner, Observer<List<String>> {
+
+        viewModel.userVideos.observe(viewLifecycleOwner, Observer<List<String>> {
             it?.let {
-                val videoArray: Array<String> = it.toTypedArray()
-                listAdapter.updateVideoArray(videoArray)
+                listAdapter.updateVideoList(it)
             }
         })
 
@@ -55,7 +53,7 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
     }
 
     override fun backPressed() {
-//        findNavController().navigate(R.id.action_global_bottomNavigationView)
+        Log.d("backPressed","backPressed method is called")
     }
 
 

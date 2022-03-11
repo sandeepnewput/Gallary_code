@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentFullImageViewBinding
@@ -17,10 +18,8 @@ import com.example.gallaryapplication.view.view.util.loadImage
 
 class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
 
-
-
-
     private val viewModel: SharedViewModel by activityViewModels()
+
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
@@ -68,8 +67,7 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
     }
 
     override fun backPressed() {
-//        findNavController().navigate(R.id.photoFragment)
-        findNavController().navigate(R.id.action_global_bottomNavigationView)
+        findNavController().navigate(FullImageViewFragmentDirections.actionFullImageViewFragmentToBottomNavFragment())
     }
 
 

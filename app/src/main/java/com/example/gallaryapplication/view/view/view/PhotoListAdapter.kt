@@ -8,7 +8,10 @@ import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
 
 
-class PhotoViewHolder(private val binding: ImageItemBinding,private val onItemClicked: (String) -> Unit) :
+class PhotoViewHolder(
+    private val binding: ImageItemBinding,
+    private val onClickMedia: (String) -> Unit
+) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(uri: String) {
@@ -16,13 +19,16 @@ class PhotoViewHolder(private val binding: ImageItemBinding,private val onItemCl
             uri,
             getProgressDrawable(binding.gallaryImage.context)
         )
-        binding.root.setOnClickListener { onItemClicked(uri) }
+        binding.root.setOnClickListener { onClickMedia(uri) }
     }//end of bind method
 
 
 }//end of ImageViewHolder
 
-class PhotoListAdapter(private var imagesArray: Array<String>, private val onMediaClicked: (String) -> Unit) :
+class PhotoListAdapter(
+    private var imageList: List<String>,
+    private val onClickMedia: (String) -> Unit
+) :
     RecyclerView.Adapter<PhotoViewHolder>() {
 
 
@@ -30,22 +36,22 @@ class PhotoListAdapter(private var imagesArray: Array<String>, private val onMed
 
         val itemBinding =
             ImageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PhotoViewHolder(itemBinding,onMediaClicked)
+        return PhotoViewHolder(itemBinding, onClickMedia)
 
     }
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
 
-        holder.bind(imagesArray[position])
+        holder.bind(imageList[position])
 
     }//end of onBindViewHolder
 
     override fun getItemCount(): Int {
-        return imagesArray.count()
+        return imageList.count()
     }
 
-    fun updateImageArray(newImageArray: Array<String>) {
-        imagesArray = newImageArray
+    fun updateImageList(newImageList: List<String>) {
+        imageList = newImageList
         notifyDataSetChanged()
 
     }

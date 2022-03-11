@@ -6,6 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="initb|islogin|active|oncreate|checklogin|diff|onstart|onpause|onstop|onrestart|ondestroy|onresume|activityv" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
@@ -19,7 +20,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[SerialNumber@uww4bmxsxgij9h4t]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[VirtualDevicePath@C:\Users\SANDEEP PATIDAR\.android\avd\Nexus_5X_API_29_2.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -29,10 +30,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Data Class" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Interface" />
         <option value="layoutResourceFile" />
         <option value="navigationResourceFile" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -53,6 +54,7 @@
     <property name="android-custom-viewC:/Users/SANDEEP PATIDAR/AppData/Local/Android/Sdk/sources/android-30/android/widget/AbsSeekBar.java_SELECTED" value="AbsSeekBar" />
     <property name="android-custom-viewC:/Users/SANDEEP PATIDAR/AppData/Local/Android/Sdk/sources/android-30/android/widget/FrameLayout.java_SELECTED" value="FrameLayout" />
     <property name="android-custom-viewC:/Users/SANDEEP PATIDAR/AppData/Local/Android/Sdk/sources/android-30/android/widget/ImageView.java_SELECTED" value="ImageView" />
+    <property name="android-custom-viewC:/Users/SANDEEP PATIDAR/AppData/Local/Android/Sdk/sources/android-30/android/widget/ProgressBar.java_SELECTED" value="ProgressBar" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../BottomNavigationmaster/app" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
@@ -145,10 +147,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="200" y="110" width="1131" height="508" key="#PSD/0.0.1366.728@0.0.1366.728" timestamp="1645712977530" />
-    <state x="474" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1645795920938">
+    <state x="560" y="160" key="#com.intellij.ide.util.MemberChooser" timestamp="1646992320326">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="474" y="80" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1645795920938" />
+    <state x="560" y="160" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1646992320326" />
     <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1644836956356">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -169,22 +171,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="105" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1646028246459" />
-    <state width="1323" height="390" key="GridCell.Tab.0.bottom" timestamp="1646154114439">
+    <state width="1323" height="472" key="GridCell.Tab.0.bottom" timestamp="1647000503773">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="390" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1646154114439" />
-    <state width="1323" height="390" key="GridCell.Tab.0.center" timestamp="1646154114439">
+    <state width="1323" height="472" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1647000503773" />
+    <state width="1323" height="472" key="GridCell.Tab.0.center" timestamp="1647000503772">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="390" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1646154114439" />
-    <state width="1323" height="390" key="GridCell.Tab.0.left" timestamp="1646154114439">
+    <state width="1323" height="472" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1647000503772" />
+    <state width="1323" height="472" key="GridCell.Tab.0.left" timestamp="1647000503772">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="390" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1646154114439" />
-    <state width="1323" height="390" key="GridCell.Tab.0.right" timestamp="1646154114439">
+    <state width="1323" height="472" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1647000503772" />
+    <state width="1323" height="472" key="GridCell.Tab.0.right" timestamp="1647000503772">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="390" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1646154114439" />
+    <state width="1323" height="472" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1647000503772" />
     <state width="1323" height="240" key="GridCell.Tab.1.bottom" timestamp="1645713659611">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -213,10 +215,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="385" y="173" key="com.android.tools.idea.run.deployment.SelectMultipleDevicesDialog/0.0.1366.728@0.0.1366.728" timestamp="1644388775310" />
-    <state x="526" y="135" key="refactoring.ChangeSignatureDialog" timestamp="1644895633607">
+    <state x="526" y="135" key="refactoring.ChangeSignatureDialog" timestamp="1646920451920">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="526" y="135" key="refactoring.ChangeSignatureDialog/0.0.1366.728@0.0.1366.728" timestamp="1644895633607" />
+    <state x="526" y="135" key="refactoring.ChangeSignatureDialog/0.0.1366.728@0.0.1366.728" timestamp="1646920451920" />
     <state x="339" y="162" width="672" height="677" key="run.anything.popup" timestamp="1646019814413">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

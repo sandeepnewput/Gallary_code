@@ -10,7 +10,7 @@ import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
 
 
-class VideoViewHolder(private val binding: VideoItemBinding,private val onMediaClicked: (String) -> Unit) :
+class VideoViewHolder(private val binding: VideoItemBinding,private val onClickMedia: (String) -> Unit) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(uri: String) {
@@ -19,15 +19,15 @@ class VideoViewHolder(private val binding: VideoItemBinding,private val onMediaC
             uri,
             getProgressDrawable(binding.gallaryVideo.context)
         )
-        binding.root.setOnClickListener { onMediaClicked(uri) }
+        binding.root.setOnClickListener { onClickMedia(uri) }
     }//end of bind function
 
 
 }
 
 class VideoListAdapter(
-    private var videosArray: Array<String>,
-    private val onItemClicked: (String) -> Unit
+    private var videoList: List<String>,
+    private val onClickMedia: (String) -> Unit
 ) : RecyclerView.Adapter<VideoViewHolder>() {
 
 
@@ -36,19 +36,19 @@ class VideoListAdapter(
 
         val itemBinding =
             VideoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return VideoViewHolder(itemBinding,onItemClicked)
+        return VideoViewHolder(itemBinding,onClickMedia)
     }
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
-        holder.bind(videosArray[position])
+        holder.bind(videoList[position])
     }//end of onBindViewHolder mehtod
 
     override fun getItemCount(): Int {
-        return videosArray.count()
+        return videoList.count()
     }
 
-    fun updateVideoArray(newVideoArray: Array<String>) {
-        videosArray = newVideoArray
+    fun updateVideoList(newVideoList: List<String>) {
+        videoList = newVideoList
         notifyDataSetChanged()
     }
 

@@ -1,10 +1,8 @@
 package com.example.gallaryapplication.view.view.view
 
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.example.gallaryapplication.view.view.model.GalleryApiServiceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,10 +18,10 @@ class SharedViewModel @Inject constructor(
  ): ViewModel() {
 
   private val _userImages by lazy { MutableLiveData<List<String>>(emptyList()) }
-  val userImage: LiveData<List<String>> = _userImages
+  val userImages: LiveData<List<String>> = _userImages
 
  private val _userVideos by lazy { MutableLiveData<List<String>>(emptyList()) }
- val userVideo: LiveData<List<String>> = _userVideos
+ val userVideos: LiveData<List<String>> = _userVideos
 
   private val _loading by lazy { MutableLiveData<Boolean>() }
   val loading: LiveData<Boolean> = _loading
@@ -77,22 +75,27 @@ class SharedViewModel @Inject constructor(
 
 
  fun onPreviousImageClick() {
-  if(_userImages.value?.isNotEmpty() != true) return
-  if (indexPosition > 0) {
-   indexPosition--
-   _currentUri.postValue(_userImages.value?.get(indexPosition))
+
+  _userImages.value?.let {
+
+   if ( it.isNotEmpty() && indexPosition > 0) {
+    indexPosition--
+    _currentUri.postValue(it[indexPosition])
+   }
   }
+
  }
 
  fun onNextImageClick() {
-  if(_userImages.value?.isNotEmpty() != true) return
+  _userImages.value?.let {
 
-   if (indexPosition < _userImages.value?.size?.minus(1)!!) {
+   if ( it.isNotEmpty() && indexPosition < it.size.minus(1)) {
     indexPosition++
-    _currentUri.postValue(_userImages.value?.get(indexPosition))
+    _currentUri.postValue(it[indexPosition])
    }
-
+  }
  }
+
 
  fun toggleControlButton() {
   _showControlButton.postValue(!(_showControlButton.value ?: false))
@@ -100,26 +103,33 @@ class SharedViewModel @Inject constructor(
 
 
  fun onPreviousVideoClick() {
-  if(_userVideos.value?.isNotEmpty() != true) return
-  if (indexPosition > 0) {
-   indexPosition--
-   _currentUri.postValue(_userVideos.value?.get(indexPosition))
+
+  _userVideos.value?.let {
+   if (it.isNotEmpty() && indexPosition > 0) {
+    indexPosition--
+    _currentUri.postValue(it[indexPosition])
+   }
   }
  }//end of previousVideo function
 
  fun onNextVideoClick() {
-  if(_userVideos.value?.isNotEmpty() != true) return
-  if (indexPosition < (_userVideos.value?.size?.minus(1)!!)) {
-   indexPosition++
-   _currentUri.postValue(_userVideos.value?.get(indexPosition))
+
+  _userVideos.value?.let {
+   if (it.isNotEmpty() && indexPosition < it.size.minus(1)) {
+    indexPosition++
+    _currentUri.postValue(it[indexPosition])
+   }
   }
  }//end of nextVideo function
 
  fun onCompleteVideo() {
-  indexPosition++
-  if (indexPosition < (_userVideos.value?.size?:0)) {
-   _currentUri.postValue(_userVideos.value?.get(indexPosition))
 
+  _userVideos.value?.let {
+   indexPosition++
+   if (it.isNotEmpty() && indexPosition < it.size) {
+    _currentUri.postValue(it[indexPosition])
+
+   }
   }
  }
 
@@ -146,17 +156,26 @@ class SharedViewModel @Inject constructor(
 
 
  fun setCurrentVideoUri(uri: String) {
-  if(_userVideos.value?.indexOf(uri) == -1) return
-  _currentUri.value = uri
-  indexPosition = _userVideos.value?.indexOf(uri)!!
-
+  _userVideos.value?.let {
+   if( it.isNotEmpty() && it.indexOf(uri) != -1) {
+    _currentUri.value = uri
+    indexPosition = it.indexOf(uri)
+   }
+  }
  }
 
  fun setCurrentImageUri(uri: String) {
-  if(_userImages.value?.indexOf(uri) == -1)  return
-  _currentUri.value = uri
-  indexPosition = _userImages.value?.indexOf(uri)!!
-
+  _userImages.value?.let {
+   if(it.isNotEmpty() && it.indexOf(uri) != -1){
+    _currentUri.value = uri
+    indexPosition = it.indexOf(uri)
+   }
+  }
  }
+
+
+
+
+
 
 }//end of sharedviewmodel

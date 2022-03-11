@@ -12,6 +12,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPlayVideoBinding
@@ -130,8 +131,7 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
     }//end of setVideoProgress function
 
     override fun backPressed() {
-//        findNavController().navigate(R.id.videoFragment)
-        findNavController().navigate(R.id.action_global_bottomNavigationView)
+     findNavController().navigate(PlayVideoFragmentDirections.actionPlayVideoFragmentToBottomNavFragment())
     }
 
 
