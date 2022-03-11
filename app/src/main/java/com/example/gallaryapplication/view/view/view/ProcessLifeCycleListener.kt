@@ -13,7 +13,6 @@ object ProcessLifeCycleListener : LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onAppForeground() {
         _isForeground.postValue(true)
-
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)

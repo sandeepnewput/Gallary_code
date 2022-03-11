@@ -78,7 +78,6 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         viewModel.isPlayPauseVideo.observe(viewLifecycleOwner) { isPlayPause ->
             if (isPlayPause) {
                 binding.pauseVideo.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
-//                binding.galleryVideo.setVideoPath(videoList[indexPosition])
                 binding.galleryVideo.start()
             } else {
                 binding.pauseVideo.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)

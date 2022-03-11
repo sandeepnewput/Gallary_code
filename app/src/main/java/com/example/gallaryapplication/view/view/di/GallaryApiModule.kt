@@ -13,7 +13,7 @@ import dagger.hilt.android.components.ViewModelComponent
 class GallaryApiModule {
 
     @Provides
-    fun provideGallaryApiService(application: Application):GalleryApiServiceRepository{
+    fun provideGalleryApiService(application: Application):GalleryApiServiceRepository{
         return GalleryApiServiceRepository(application)
     }
 

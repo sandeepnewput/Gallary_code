@@ -2,7 +2,6 @@ package com.example.gallaryapplication.view.view.view
 
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -31,13 +30,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeLogin() {
-        mainActivityViewModel.isLogIn.observe(this) { isLogin ->
+        mainActivityViewModel.isLogIn.observe(this, { isLogin ->
             if (isLogin) {
                 onSessionIn()
             } else {
                 onSessionLogout()
             }
-        }
+        })
     }
 
     private fun onSessionLogout() {

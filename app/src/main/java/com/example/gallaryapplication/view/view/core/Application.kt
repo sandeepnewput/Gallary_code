@@ -10,14 +10,12 @@ import com.example.gallaryapplication.view.view.view.MainActivityViewModel
 import com.example.gallaryapplication.view.view.view.ProcessLifeCycleListener
 import dagger.hilt.android.HiltAndroidApp
 
-//ProcessLifecycleOwner is a Class that provides lifecycle for the whole application process.
 @HiltAndroidApp
 class Application: Application() {
 
     override fun onCreate() {
         super.onCreate()
        ProcessLifecycleOwner.get().lifecycle.addObserver(ProcessLifeCycleListener)
-        Log.d("hiltapp","application created")
     }
 
 }
