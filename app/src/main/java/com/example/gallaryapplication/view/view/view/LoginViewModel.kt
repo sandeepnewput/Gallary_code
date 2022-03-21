@@ -10,9 +10,9 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
 
     private val prefs: SharedPreferencesHelper
-):ViewModel() {
+) : ViewModel() {
 
-    val currentDateTime get()  = Calendar.getInstance().time
+    val currentDateTime get() = Calendar.getInstance().time
 
 
     fun saveLoggedinTime(value: Date) = prefs.saveLoggedinTime(value)

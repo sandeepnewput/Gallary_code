@@ -7,11 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.example.gallaryapplication.R
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 abstract class BaseFragment<viewBinding : ViewBinding> : Fragment() {
@@ -21,8 +18,12 @@ abstract class BaseFragment<viewBinding : ViewBinding> : Fragment() {
     val binding get() = _binding!!
 
 
-    abstract fun backPressed()
+
     abstract fun inflateViewBinding(inflater: LayoutInflater, container: ViewGroup?): viewBinding?
+
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +40,7 @@ abstract class BaseFragment<viewBinding : ViewBinding> : Fragment() {
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                backPressed()
+                handleBackPressed()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
@@ -50,6 +51,12 @@ abstract class BaseFragment<viewBinding : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+  open fun handleBackPressed() {
+        findNavController().popBackStack()
+
     }
 
 

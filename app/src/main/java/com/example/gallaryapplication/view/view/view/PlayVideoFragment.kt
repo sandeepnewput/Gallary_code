@@ -9,10 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPlayVideoBinding
@@ -22,6 +21,8 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
 
 
     private val viewModel: SharedViewModel by activityViewModels()
+
+
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
@@ -86,7 +87,6 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         }
 
 
-
     }//end of onViewCreated mehtod
 
     private fun setVideoProgress() {
@@ -107,7 +107,7 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
                     currentPosition = binding.galleryVideo.currentPosition
                     binding.current.text = viewModel.timeConversion(currentPosition)
                     binding.seekbar.progress = currentPosition
-                    handler?.postDelayed(this,1000)
+                    handler?.postDelayed(this, 1000)
 
                 } catch (ed: IllegalStateException) {
                     ed.printStackTrace()
@@ -121,7 +121,7 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         //seekbar change listner
         binding.seekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {}
-            override fun onStartTrackingTouch(seekBar: SeekBar){}
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 currentPosition = seekBar.progress
                 binding.galleryVideo.seekTo(currentPosition)
@@ -129,9 +129,6 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         })
     }//end of setVideoProgress function
 
-    override fun backPressed() {
-     findNavController().navigate(PlayVideoFragmentDirections.actionPlayVideoFragmentToBottomNavFragment())
-    }
 
 
 }

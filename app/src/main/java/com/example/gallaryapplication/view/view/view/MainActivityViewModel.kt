@@ -20,6 +20,7 @@ class MainActivityViewModel @Inject constructor(
 
 
     fun checkLogin() {
+        Log.d("checklog","check login is called")
         hasLoginSession(getCurrentDateTime().time, getLogInTime())
     }
 

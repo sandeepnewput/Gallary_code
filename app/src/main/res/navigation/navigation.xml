@@ -22,10 +22,14 @@
         tools:layout="@layout/fragment_launching">
         <action
             android:id="@+id/action_launchFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            />
         <action
             android:id="@+id/action_launchFragment_to_bottomNavFragment"
-            app:destination="@id/bottomNavFragment" />
+            app:destination="@id/bottomNavFragment"
+            app:popUpTo="@id/launchingFragment"
+            app:popUpToInclusive="true"
+          />
     </fragment>
 
 
@@ -36,7 +40,12 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_bottomNav"
-            app:destination="@id/bottomNavFragment" />
+            app:destination="@id/bottomNavFragment"
+            app:popUpTo="@id/launchingFragment"
+            app:popUpToInclusive="true"
+
+
+            />
     </fragment>
 
 
@@ -51,7 +60,7 @@
         android:id="@+id/fullImageViewFragment"
         android:name="com.example.gallaryapplication.view.view.view.FullImageViewFragment"
         android:label="fragment_full_image_view"
-        tools:layout="@layout/fragment_full_image_view" >
+        tools:layout="@layout/fragment_full_image_view">
 
         <action
             android:id="@+id/action_fullImageViewFragment_to_bottomNavFragment"
@@ -61,14 +70,12 @@
         android:id="@+id/playVideoFragment"
         android:name="com.example.gallaryapplication.view.view.view.PlayVideoFragment"
         android:label="fragment_play_video"
-        tools:layout="@layout/fragment_play_video" >
+        tools:layout="@layout/fragment_play_video">
 
         <action
             android:id="@+id/action_playVideoFragment_to_bottomNavFragment"
             app:destination="@id/bottomNavFragment" />
     </fragment>
-
-
 
 
 </navigation>

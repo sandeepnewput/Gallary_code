@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -17,6 +19,7 @@ import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPhotoBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_login.*
 
 
 @AndroidEntryPoint
@@ -61,8 +64,6 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
 
     }//end of onViewCreatedView Method
-
-
 
 
     private fun getImages() {
@@ -129,9 +130,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     }
 
-    override fun backPressed() {
-    Log.d("backPressed","backPressed method is called")
+    override fun handleBackPressed() {
+        activity?.let { it -> finishAffinity(it) }
     }
-
-
 }//end of PhotoFragment

@@ -13,7 +13,7 @@ import dagger.hilt.android.components.ViewModelComponent
 class PrefsModule {
 
     @Provides
-    fun provideSharedPreferences(app: Application):SharedPreferencesHelper{
+    fun provideSharedPreferences(app: Application): SharedPreferencesHelper {
         return SharedPreferencesHelper(app)
     }
 

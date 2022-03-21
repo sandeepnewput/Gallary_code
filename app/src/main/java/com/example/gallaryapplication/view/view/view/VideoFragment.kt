@@ -3,8 +3,10 @@ package com.example.gallaryapplication.view.view.view
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gallaryapplication.R
@@ -16,7 +18,8 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
 
     private val viewModel: SharedViewModel by activityViewModels()
 
-    private val listAdapter = VideoListAdapter(listOf(), this::onClickMedia )
+    private val listAdapter = VideoListAdapter(listOf(), this::onClickMedia)
+
 
 
     override fun inflateViewBinding(
@@ -30,7 +33,7 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerView.apply{
+        binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
         }
@@ -46,15 +49,13 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
     }//end of onViewCreated method
 
 
-    private fun onClickMedia(uri:String) {
+    private fun onClickMedia(uri: String) {
         viewModel.setCurrentVideoUri(uri)
         findNavController().navigate(R.id.action_global_playVideoFragmentView)
 
     }
 
-    override fun backPressed() {
-        Log.d("backPressed","backPressed method is called")
-    }
+
 
 
 }

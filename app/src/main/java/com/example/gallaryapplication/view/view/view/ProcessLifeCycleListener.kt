@@ -12,11 +12,13 @@ object ProcessLifeCycleListener : LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onAppForeground() {
+        Log.d("ground","app is in forebackground")
         _isForeground.postValue(true)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackground() {
+        Log.d("ground","app is in background")
         _isForeground.postValue(false)
     }
 
