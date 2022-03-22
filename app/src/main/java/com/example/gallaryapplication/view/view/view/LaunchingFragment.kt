@@ -2,15 +2,15 @@ package com.example.gallaryapplication.view.view.view
 
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavOptions.*
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
+import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentLaunchingBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +34,6 @@ class LaunchingFragment : BaseFragment<FragmentLaunchingBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("fragment", "lauching fragment is called")
 
         mainActivityViewModel.isLogIn.observe(viewLifecycleOwner) { isLogin ->
             if (isLogin) {
@@ -49,8 +48,14 @@ class LaunchingFragment : BaseFragment<FragmentLaunchingBinding>() {
 
 
     private fun onSessionIn() {
-        findNavController().navigate(LaunchingFragmentDirections.actionLaunchFragmentToBottomNavFragment())
 
+        findNavController().navigate(
+            R.id.action_launch_to_bottomNav,
+            null,
+            navOptions {
+                Builder().setPopUpTo(R.id.launchingFragment,true)
+            }
+        )
     }
 
     private fun onSessionLogout() {

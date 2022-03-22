@@ -1,14 +1,16 @@
 package com.example.gallaryapplication.view.view.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentFullImageViewBinding
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
@@ -19,7 +21,6 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
 
 
     private val viewModel: SharedViewModel by activityViewModels()
-
 
 
     override fun inflateViewBinding(

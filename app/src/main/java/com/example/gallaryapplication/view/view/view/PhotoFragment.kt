@@ -48,12 +48,12 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
+            scrollToPosition(viewModel.currentImageIndexPosition)
         }
 
 
         viewModel.userImages.observe(viewLifecycleOwner, Observer<List<String>> {
             it?.let {
-
                 listAdapter.updateImageList(it)
             }
         })
@@ -129,8 +129,8 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         findNavController().navigate(R.id.action_global_fullImageFragmentView)
 
     }
-
     override fun handleBackPressed() {
         activity?.let { it -> finishAffinity(it) }
     }
+
 }//end of PhotoFragment

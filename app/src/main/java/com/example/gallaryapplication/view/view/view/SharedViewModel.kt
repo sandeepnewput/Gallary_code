@@ -34,7 +34,12 @@ class SharedViewModel @Inject constructor(
     private val _isPlayPauseVideo by lazy { MutableLiveData<Boolean>(true) }
     val isPlayPauseVideo: LiveData<Boolean> = _isPlayPauseVideo
 
-    private var indexPosition: Int = 0
+    private val _fragmentId by lazy { MutableLiveData<Int>(1) }
+    val fragmentId: LiveData<Int> = _fragmentId
+
+    var currentImageIndexPosition = 0
+
+    var currentVideoIndexPosition = 0
 
 
     fun getUserImage() {
@@ -75,9 +80,9 @@ class SharedViewModel @Inject constructor(
 
         _userImages.value?.let {
 
-            if (it.isNotEmpty() && indexPosition > 0) {
-                indexPosition--
-                _currentUri.postValue(it[indexPosition])
+            if (it.isNotEmpty() && currentImageIndexPosition > 0) {
+                currentImageIndexPosition--
+                _currentUri.postValue(it[currentImageIndexPosition])
             }
         }
 
@@ -86,9 +91,9 @@ class SharedViewModel @Inject constructor(
     fun onNextImageClick() {
         _userImages.value?.let {
 
-            if (it.isNotEmpty() && indexPosition < it.size.minus(1)) {
-                indexPosition++
-                _currentUri.postValue(it[indexPosition])
+            if (it.isNotEmpty() && currentImageIndexPosition < it.size.minus(1)) {
+                currentImageIndexPosition++
+                _currentUri.postValue(it[currentImageIndexPosition])
             }
         }
     }
@@ -102,9 +107,9 @@ class SharedViewModel @Inject constructor(
     fun onPreviousVideoClick() {
 
         _userVideos.value?.let {
-            if (it.isNotEmpty() && indexPosition > 0) {
-                indexPosition--
-                _currentUri.postValue(it[indexPosition])
+            if (it.isNotEmpty() && currentVideoIndexPosition > 0) {
+                currentVideoIndexPosition--
+                _currentUri.postValue(it[currentVideoIndexPosition])
             }
         }
     }//end of previousVideo function
@@ -112,9 +117,9 @@ class SharedViewModel @Inject constructor(
     fun onNextVideoClick() {
 
         _userVideos.value?.let {
-            if (it.isNotEmpty() && indexPosition < it.size.minus(1)) {
-                indexPosition++
-                _currentUri.postValue(it[indexPosition])
+            if (it.isNotEmpty() && currentVideoIndexPosition < it.size.minus(1)) {
+                currentVideoIndexPosition++
+                _currentUri.postValue(it[currentVideoIndexPosition])
             }
         }
     }//end of nextVideo function
@@ -122,9 +127,9 @@ class SharedViewModel @Inject constructor(
     fun onCompleteVideo() {
 
         _userVideos.value?.let {
-            indexPosition++
-            if (it.isNotEmpty() && indexPosition < it.size) {
-                _currentUri.postValue(it[indexPosition])
+            currentVideoIndexPosition++
+            if (it.isNotEmpty() && currentVideoIndexPosition < it.size) {
+                _currentUri.postValue(it[currentVideoIndexPosition])
 
             }
         }
@@ -140,7 +145,7 @@ class SharedViewModel @Inject constructor(
         _userVideos.value?.let {
             if (it.isNotEmpty() && it.indexOf(uri) != -1) {
                 _currentUri.value = uri
-                indexPosition = it.indexOf(uri)
+                currentVideoIndexPosition = it.indexOf(uri)
             }
         }
     }
@@ -149,7 +154,7 @@ class SharedViewModel @Inject constructor(
         _userImages.value?.let {
             if (it.isNotEmpty() && it.indexOf(uri) != -1) {
                 _currentUri.value = uri
-                indexPosition = it.indexOf(uri)
+                currentImageIndexPosition = it.indexOf(uri)
             }
         }
     }
@@ -167,6 +172,10 @@ class SharedViewModel @Inject constructor(
             String.format("%02d:%02d", mns, scs)
         }
         return songTime
+    }
+
+    fun updateFragment(fragmentid: Int) {
+        _fragmentId.value = fragmentid
     }
 
 

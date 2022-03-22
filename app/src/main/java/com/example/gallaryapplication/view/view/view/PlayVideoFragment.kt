@@ -130,5 +130,4 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
     }//end of setVideoProgress function
 
 
-
 }

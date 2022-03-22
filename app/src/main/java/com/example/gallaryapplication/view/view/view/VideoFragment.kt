@@ -36,6 +36,8 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
+            scrollToPosition(viewModel.currentVideoIndexPosition)
+
         }
 
 
@@ -55,7 +57,7 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
 
     }
 
-
-
-
+    override fun handleBackPressed() {
+        viewModel.updateFragment(1)
+    }
 }

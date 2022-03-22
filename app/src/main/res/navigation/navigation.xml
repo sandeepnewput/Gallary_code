@@ -25,10 +25,8 @@
             app:destination="@id/loginFragment"
             />
         <action
-            android:id="@+id/action_launchFragment_to_bottomNavFragment"
+            android:id="@+id/action_launch_to_bottomNav"
             app:destination="@id/bottomNavFragment"
-            app:popUpTo="@id/launchingFragment"
-            app:popUpToInclusive="true"
           />
     </fragment>
 
@@ -39,12 +37,8 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_loginFragment_to_bottomNav"
+            android:id="@+id/action_login_to_bottomNav"
             app:destination="@id/bottomNavFragment"
-            app:popUpTo="@id/launchingFragment"
-            app:popUpToInclusive="true"
-
-
             />
     </fragment>
 
