@@ -14,6 +14,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPhotoBinding
@@ -25,11 +27,9 @@ import kotlinx.android.synthetic.main.fragment_login.*
 @AndroidEntryPoint
 class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
-
-    private val listAdapter = PhotoListAdapter(listOf(), this::onClickMedia)
+    private val listAdapter = PhotoListAdapter(this::onClickMedia)
 
     private val viewModel: SharedViewModel by activityViewModels()
-
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
@@ -38,12 +38,9 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         return FragmentPhotoBinding.inflate(inflater, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
         onClickRequestPermission(binding.photoFragment)
-
 
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 2)
@@ -51,28 +48,24 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
             scrollToPosition(viewModel.currentImageIndexPosition)
         }
 
-
-        viewModel.userImages.observe(viewLifecycleOwner, Observer<List<String>> {
+        viewModel.userImages.observe(viewLifecycleOwner) {
             it?.let {
-                listAdapter.updateImageList(it)
+                listAdapter.submitList(it)
             }
-        })
-        viewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             binding.loadingView.visibility = if (isLoading) View.VISIBLE else View.GONE
-
-        })
-
+        }
 
     }//end of onViewCreatedView Method
-
 
     private fun getImages() {
         viewModel.getUserImage()
         viewModel.getAllUserVideo()
+        viewModel.getAllUserMusic()
     }
 
     private fun onClickRequestPermission(view: View) {
-
         when {
             context?.let {
                 ContextCompat.checkSelfPermission(
@@ -83,7 +76,6 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
                 //put code for Snackbar
                 getImages()
             }
-
             activity?.let {
 
                 ActivityCompat.shouldShowRequestPermissionRationale(
@@ -91,7 +83,6 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
                     android.Manifest.permission.READ_EXTERNAL_STORAGE
                 )
             } == true -> {
-
                 Snackbar.make(
                     view,
                     getString(R.string.permission_required),
@@ -103,9 +94,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
                         android.Manifest.permission.READ_EXTERNAL_STORAGE
                     )
                 }.show()
-
             }
-
             else -> {
                 requestPermissionLauncher.launch(
                     android.Manifest.permission.READ_EXTERNAL_STORAGE
@@ -120,17 +109,18 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         ) { isGranted: Boolean ->
             if (isGranted) {
                 getImages()
-
             }
         }
 
     private fun onClickMedia(uri: String) {
         viewModel.setCurrentImageUri(uri)
         findNavController().navigate(R.id.action_global_fullImageFragmentView)
-
     }
+
     override fun handleBackPressed() {
-        activity?.let { it -> finishAffinity(it) }
+        activity?.let {
+            it.moveTaskToBack(true)
+        }
     }
 
 }//end of PhotoFragment

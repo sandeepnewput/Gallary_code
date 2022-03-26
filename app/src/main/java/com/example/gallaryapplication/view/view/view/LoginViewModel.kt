@@ -1,5 +1,7 @@
 package com.example.gallaryapplication.view.view.view
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.gallaryapplication.view.view.util.SharedPreferencesHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,13 +10,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-
     private val prefs: SharedPreferencesHelper
 ) : ViewModel() {
 
     val currentDateTime get() = Calendar.getInstance().time
 
-
     fun saveLoggedinTime(value: Date) = prefs.saveLoggedinTime(value)
 
+    private val _isLogin by lazy { MutableLiveData<Boolean>() }
+    val isLogin: LiveData<Boolean> = _isLogin
+
+    private val userName: String = "sandeep"
+    private val userPassword: String = "1234"
+
+    fun login(username: String, password: String) =
+        if (username == userName && password == userPassword) {
+            _isLogin.value = true
+            saveLoggedinTime(currentDateTime)
+        } else _isLogin.value = false
 }//end of LoginViewModel

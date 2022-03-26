@@ -14,7 +14,9 @@
         android:id="@+id/action_global_playVideoFragmentView"
         app:destination="@id/playVideoFragment" />
 
-
+    <action
+        android:id="@+id/action_global_PlayMusicFragmentView"
+        app:destination="@id/playMusicFragment" />
     <fragment
         android:id="@+id/launchingFragment"
         android:name="com.example.gallaryapplication.view.view.view.LaunchingFragment"
@@ -68,6 +70,15 @@
 
         <action
             android:id="@+id/action_playVideoFragment_to_bottomNavFragment"
+            app:destination="@id/bottomNavFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playMusicFragment"
+        android:name="com.example.gallaryapplication.view.view.view.PlayMusicFragment"
+        android:label="fragment_play_music"
+        tools:layout="@layout/fragment_play_music" >
+        <action
+            android:id="@+id/action_playMusicFragment_to_bottomNavFragment"
             app:destination="@id/bottomNavFragment" />
     </fragment>
 

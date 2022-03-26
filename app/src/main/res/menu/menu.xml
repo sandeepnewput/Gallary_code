@@ -10,4 +10,9 @@
         android:id="@+id/Videos"
         android:icon="@drawable/ic_baseline_video_library_24"
         android:title="Videos" />
+
+    <item
+        android:id="@+id/Music"
+        android:icon="@drawable/ic_baseline_library_music_24"
+        android:title="Music" />
 </menu>

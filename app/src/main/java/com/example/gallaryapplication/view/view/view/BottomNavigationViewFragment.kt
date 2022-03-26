@@ -34,40 +34,32 @@ class BottomNavigationViewFragment : BaseFragment<FragmentBottomNavigationViewBi
             when (it.itemId) {
 
                 R.id.Photos -> {
-
                     viewModel.updateFragment(1)
-
                     true
                 }
-
                 R.id.Videos -> {
-
                     viewModel.updateFragment(2)
                     true
                 }
-
+                R.id.Music -> {
+                    viewModel.updateFragment(3)
+                    true
+                }
                 else -> false
             }
         }
-
     }
 
-
-    private fun setFragment(fragmentId: Int?) {
+    private fun setFragment(fragmentId: Int) {
         activity?.supportFragmentManager?.beginTransaction()?.run {
-            when (fragmentId) {
-                1 -> {
-                    replace(R.id.frameLayout, PhotoFragment())
-                    commit()
-                }
-                else -> {
-                    replace(R.id.frameLayout, VideoFragment())
-                    commit()
-                }
-            }
 
+            val fragment = when (fragmentId) {
+                1 -> PhotoFragment()
+                3 -> MusicFragment()
+                else -> VideoFragment()
+            }
+            replace(R.id.frameLayout, fragment)
+            commit()
         }
     }
-
-
 }//end of bottomnavigation fragment

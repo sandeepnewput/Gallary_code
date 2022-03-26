@@ -19,18 +19,14 @@ import com.example.gallaryapplication.view.view.util.loadImage
 
 class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
 
-
     private val viewModel: SharedViewModel by activityViewModels()
-
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentFullImageViewBinding? {
-
         return FragmentFullImageViewBinding.inflate(inflater, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,11 +39,9 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
             viewModel.onPreviousImageClick()
         }//end of imageprev
 
-
         binding.imageNext.setOnClickListener {
             viewModel.onNextImageClick()
         }
-
 
         viewModel.currentUri.observe(viewLifecycleOwner) { imageUri ->
             updateGalleryImage(imageUri)
@@ -58,15 +52,11 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
             binding.imageNext.isVisible = isVisible
         }
 
-
     }//end of onViewCreatedView
-
 
     private fun updateGalleryImage(url: String?) {
         context?.let {
             binding.gallaryImage.loadImage(url, getProgressDrawable(it))
         }
     }
-
-
 }

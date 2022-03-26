@@ -19,9 +19,6 @@ class LaunchingFragment : BaseFragment<FragmentLaunchingBinding>() {
 
     private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
 
-
-
-
     override fun inflateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -29,11 +26,8 @@ class LaunchingFragment : BaseFragment<FragmentLaunchingBinding>() {
         return FragmentLaunchingBinding.inflate(inflater, container, false)
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         mainActivityViewModel.isLogIn.observe(viewLifecycleOwner) { isLogin ->
             if (isLogin) {
@@ -42,25 +36,19 @@ class LaunchingFragment : BaseFragment<FragmentLaunchingBinding>() {
                 onSessionLogout()
             }
         }
-
-
     }
 
-
     private fun onSessionIn() {
-
         findNavController().navigate(
             R.id.action_launch_to_bottomNav,
             null,
             navOptions {
-                Builder().setPopUpTo(R.id.launchingFragment,true)
+                Builder().setPopUpTo(R.id.launchingFragment, true)
             }
         )
     }
 
     private fun onSessionLogout() {
         findNavController().navigate(LaunchingFragmentDirections.actionLaunchFragmentToLoginFragment())
-
     }
-
 }

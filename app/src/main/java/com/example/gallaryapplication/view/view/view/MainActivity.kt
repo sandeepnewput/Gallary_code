@@ -16,9 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         observeLogin()
         checkLogin()
     }//onCreate method ends
-
 
     private fun checkLogin() {
         isForeGround.observe(this) {
@@ -44,15 +41,11 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-
     private fun onSessionIn() {
         findNavController(R.id.fragment).navigate(R.id.bottomNavFragment)
-
     }
 
     private fun onSessionLogout() {
-
-
         findNavController(R.id.fragment).navigate(
             R.id.loginFragment,
             null,
@@ -60,9 +53,7 @@ class MainActivity : AppCompatActivity() {
                 Builder().setPopUpTo(R.id.bottomNavFragment, true)
             }
         )
-
     }//end of onSeesionLogut
-
 
 }//end of main activity
 

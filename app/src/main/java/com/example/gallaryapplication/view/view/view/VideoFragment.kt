@@ -13,20 +13,18 @@ import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentVideoBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class VideoFragment : BaseFragment<FragmentVideoBinding>() {
 
     private val viewModel: SharedViewModel by activityViewModels()
 
-    private val listAdapter = VideoListAdapter(listOf(), this::onClickMedia)
-
-
+    private val listAdapter = VideoListAdapter(this::onClickMedia)
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentVideoBinding? {
-
         return FragmentVideoBinding.inflate(inflater, container, false)
     }
 
@@ -37,27 +35,23 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
             layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
             scrollToPosition(viewModel.currentVideoIndexPosition)
-
         }
-
 
         viewModel.userVideos.observe(viewLifecycleOwner, Observer<List<String>> {
             it?.let {
-                listAdapter.updateVideoList(it)
+                listAdapter.submitList(it)
             }
         })
-
-
     }//end of onViewCreated method
-
 
     private fun onClickMedia(uri: String) {
         viewModel.setCurrentVideoUri(uri)
         findNavController().navigate(R.id.action_global_playVideoFragmentView)
-
     }
 
     override fun handleBackPressed() {
-        viewModel.updateFragment(1)
+        activity?.let {
+            it.moveTaskToBack(true)
+        }
     }
 }

@@ -46,18 +46,19 @@ class GalleryApiServiceRepository(application: Application) {
 
     fun getAllVideo(): List<String> {
 
-        val imageProjection = arrayOf(
-            MediaStore.Video.Media._ID
+        val videoProjection = arrayOf(
+            MediaStore.Video.Media._ID,
+
         )
 
-        val imageSortOrder = "${MediaStore.Video.Media.DATE_ADDED} DESC"
+        val videoSortOrder = "${MediaStore.Video.Media.DATE_ADDED} DESC"
 
         val cursor = resolver.query(
             MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-            imageProjection,
+            videoProjection,
             null,
             null,
-            imageSortOrder
+            videoSortOrder
         )
         val videoList = ArrayList<String>()
         cursor?.use {
@@ -78,6 +79,45 @@ class GalleryApiServiceRepository(application: Application) {
         }
         return videoList
     }//end of getAllvideo function
+
+
+    fun getAllMusic(): List<String> {
+
+
+        val musicProjection = arrayOf(
+            MediaStore.Audio.Media._ID,
+        )
+
+        val musicSortOrder = "${MediaStore.Audio.Media.DATE_ADDED} DESC"
+
+        val cursor = resolver.query(
+            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            musicProjection,
+            null,
+            null,
+            musicSortOrder
+        )
+        val musicList = ArrayList<String>()
+        cursor?.use {
+
+            if (cursor != null) {
+                val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
+                while (cursor.moveToNext()) {
+                    musicList.add(
+                        ContentUris.withAppendedId(
+                            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                            cursor.getLong(idColumn)
+                        ).toString()
+                    )
+                }
+            } else {
+                Log.d("AddViewModel", "Cursor is null!")
+            }
+        }
+        return musicList
+    }//end of getAllImage
+
+
 
 
 }//end of GallaryApiServiceRepository

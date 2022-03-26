@@ -8,6 +8,11 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="action_global_PlayMusicFragmentView">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="action_global_fullImageFragmentView">
                     <value>
                       <LayoutPositions />
@@ -62,12 +67,12 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_launchFragment_to_bottomNavFragment">
+                            <entry key="action_launchFragment_to_loginFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_launchFragment_to_loginFragment">
+                            <entry key="action_launch_to_bottomNav">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -88,12 +93,24 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_loginFragment_to_bottomNav">
+                            <entry key="action_login_to_bottomNav">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="playMusicFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-4056" />
+                            <option name="y" value="-948" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

@@ -19,16 +19,12 @@ import java.lang.Runnable
 
 class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
 
-
     private val viewModel: SharedViewModel by activityViewModels()
-
-
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentPlayVideoBinding? {
-
         return FragmentPlayVideoBinding.inflate(inflater, container, false)
     }
 
@@ -39,31 +35,25 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
             viewModel.toggleControlButton()
         }//end of setOnClickListener
 
-
         binding.previousVideo.setOnClickListener {
             viewModel.onPreviousVideoClick()
         }//end of setOnClickListener
-
 
         binding.pauseVideo.setOnClickListener {
             viewModel.playPauseVideo()
         }//end of setOnClickListener
 
-
         binding.nextVideo.setOnClickListener {
             viewModel.onNextVideoClick()
         }//end of setOnClickListener
-
 
         binding.galleryVideo.setOnCompletionListener {
             viewModel.onCompleteVideo()
         }//end of setOnCompletionListener
 
-
         binding.galleryVideo.setOnPreparedListener {
             setVideoProgress()
         }//end of setOnPreparedListener
-
 
         viewModel.currentUri.observe(viewLifecycleOwner) { videoUri ->
             binding.galleryVideo.setVideoPath(videoUri)
@@ -86,7 +76,6 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
             }
         }
 
-
     }//end of onViewCreated mehtod
 
     private fun setVideoProgress() {
@@ -99,7 +88,6 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         binding.current.text = viewModel.timeConversion(currentPosition)
         binding.seekbar.setMax(totalDuration)
 
-
         val handler = Looper.myLooper()?.let { Handler(it) }
         val runnable: Runnable = object : Runnable {
             override fun run() {
@@ -108,7 +96,6 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
                     binding.current.text = viewModel.timeConversion(currentPosition)
                     binding.seekbar.progress = currentPosition
                     handler?.postDelayed(this, 1000)
-
                 } catch (ed: IllegalStateException) {
                     ed.printStackTrace()
                 } catch (e: NullPointerException) {
@@ -120,14 +107,15 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
 
         //seekbar change listner
         binding.seekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {}
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) =
+                Unit
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) = Unit
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 currentPosition = seekBar.progress
                 binding.galleryVideo.seekTo(currentPosition)
             }
         })
     }//end of setVideoProgress function
-
 
 }
