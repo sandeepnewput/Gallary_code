@@ -2,12 +2,12 @@ package com.example.gallaryapplication.view.view.view
 
 
 import androidx.lifecycle.*
+import com.example.gallaryapplication.view.view.model.AudioModel
 import com.example.gallaryapplication.view.view.model.GalleryApiServiceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.reflect.Field
 import javax.inject.Inject
 
 
@@ -22,8 +22,8 @@ class SharedViewModel @Inject constructor(
     private val _userVideos by lazy { MutableLiveData<List<String>>(emptyList()) }
     val userVideos: LiveData<List<String>> = _userVideos
 
-    private val _userMusic by lazy { MutableLiveData<List<String>>(emptyList()) }
-    val userMusic: LiveData<List<String>> = _userMusic
+    private val _userMusic by lazy { MutableLiveData<List<AudioModel>>(emptyList()) }
+    val userMusic: LiveData<List<AudioModel>> = _userMusic
 
     private val _loading by lazy { MutableLiveData<Boolean>() }
     val loading: LiveData<Boolean> = _loading
@@ -41,9 +41,6 @@ class SharedViewModel @Inject constructor(
     val fragmentId: LiveData<Int> = _fragmentId
 
     var currentImageIndexPosition = 0
-        private set
-
-    var currentMusicIndexPosition = 0
         private set
 
     var currentVideoIndexPosition = 0
@@ -71,18 +68,6 @@ class SharedViewModel @Inject constructor(
             }
         }//end of viewModelScope
     }//end of getAllUserVideo
-
-    fun getAllUserMusic() {
-        if (_userMusic.value?.isEmpty() != true) return
-        _loading.postValue(true)
-        viewModelScope.launch {
-            val getResponse = withContext(Dispatchers.IO) { galleryApiService.getAllMusic() }
-            if (getResponse.isNotEmpty()) {
-                _userMusic.postValue(getResponse)
-            }
-            _loading.postValue(false)
-        }//end of viewModelScope
-    }
 
     fun onPreviousImageClick() {
         _userImages.value?.let {
@@ -155,21 +140,11 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun setCurrentMusicUri(uri: String) {
-        _userMusic.value?.let {
-            if (it.isNotEmpty() && it.indexOf(uri) != -1) {
-                _currentUri.value = uri
-                currentMusicIndexPosition = it.indexOf(uri)
-            }
-        }
-    }
-
     fun timeConversion(value: Int): String? {
         val songTime: String
-        val dur = value
-        val hrs = dur / 3600000
-        val mns = dur / 60000 % 60000
-        val scs = dur % 60000 / 1000
+        val hrs = value / 3600000
+        val mns = value / 60000 % 60000
+        val scs = value % 60000 / 1000
         songTime = if (hrs > 0) {
             String.format("%02d:%02d:%02d", hrs, mns, scs)
         } else {

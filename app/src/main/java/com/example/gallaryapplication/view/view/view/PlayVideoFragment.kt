@@ -86,7 +86,7 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         //display video duration
         binding.total.text = viewModel.timeConversion(totalDuration)
         binding.current.text = viewModel.timeConversion(currentPosition)
-        binding.seekbar.setMax(totalDuration)
+        binding.seekbar.max = totalDuration
 
         val handler = Looper.myLooper()?.let { Handler(it) }
         val runnable: Runnable = object : Runnable {

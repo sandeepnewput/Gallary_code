@@ -62,7 +62,6 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
     private fun getImages() {
         viewModel.getUserImage()
         viewModel.getAllUserVideo()
-        viewModel.getAllUserMusic()
     }
 
     private fun onClickRequestPermission(view: View) {

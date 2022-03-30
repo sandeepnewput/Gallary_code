@@ -1,34 +1,66 @@
 package com.example.gallaryapplication.view.view.view
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.gallaryapplication.databinding.ImageItemBinding
 import com.example.gallaryapplication.databinding.MusicItemsBinding
-import com.example.gallaryapplication.view.view.util.getProgressDrawable
-import com.example.gallaryapplication.view.view.util.loadImage
+import com.example.gallaryapplication.view.view.model.AudioModel
 
+private const val ARG_UPDATE_INITIALS = "name"
+private const val ARG_UPDATE_LANGUAGE = "language"
 
 class MusicViewHolder(
     private val binding: MusicItemsBinding,
     private val onClickMedia: (String) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(uri: String) {
-        binding.galleryMusic.loadImage(
-            uri,
-            getProgressDrawable(binding.galleryMusic.context)
-        )
-        binding.root.setOnClickListener { onClickMedia(uri) }
+    fun bind(audioModel: AudioModel) {
+        binding.initials.text = audioModel.initials
+        binding.languageName.text = audioModel.languageName
     }//end of bind method
+
+    fun update(bundle: Bundle) {
+        if (bundle.containsKey(ARG_UPDATE_INITIALS) || bundle.containsKey(ARG_UPDATE_LANGUAGE)) {
+            val initials = bundle.getString(ARG_UPDATE_INITIALS)
+            val languageName = bundle.getString(ARG_UPDATE_LANGUAGE)
+            binding.initials.text = initials
+            binding.languageName.text = languageName
+        }
+    }
 
 }//end of ImageViewHolder
 
+class MusicDiffCallback : DiffUtil.ItemCallback<AudioModel>() {
+
+    override fun areItemsTheSame(oldItem: AudioModel, newItem: AudioModel): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: AudioModel, newItem: AudioModel): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun getChangePayload(oldItem: AudioModel, newItem: AudioModel): Any? {
+
+       bundleOf().apply {
+           putString(ARG_UPDATE_INITIALS, newItem.initials)
+           putString(ARG_UPDATE_LANGUAGE, newItem.languageName)
+           return@apply
+       }
+        return super.getChangePayload(oldItem, newItem)
+    }
+
+}//end of ImageDiffCallback
+
+
 class MusicListAdapter(
-    private var musicList: List<String>,
     private val onClickMedia: (String) -> Unit
-) : RecyclerView.Adapter<MusicViewHolder>() {
+) : ListAdapter<AudioModel, MusicViewHolder>(MusicDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicViewHolder {
         val itemBinding =
@@ -37,16 +69,17 @@ class MusicListAdapter(
     }
 
     override fun onBindViewHolder(holder: MusicViewHolder, position: Int) {
-        holder.bind(musicList[position])
+        onBindViewHolder(holder, position, emptyList())
     }//end of onBindViewHolder
 
-    override fun getItemCount(): Int {
-        return musicList.count()
-    }
+    override fun onBindViewHolder(holder: MusicViewHolder, pos: Int, payload: List<Any>) {
 
-    fun updateMusicList(newMusicList: List<String>) {
-        musicList = newMusicList
-        notifyDataSetChanged()
+        if (payload.isEmpty() || payload[0] !is Bundle) {
+            holder.bind(getItem(pos))
+        } else {
+            val bundle = payload[0] as Bundle
+            holder.update(bundle)
+        }
     }
 
 }//end of imagelistadapter

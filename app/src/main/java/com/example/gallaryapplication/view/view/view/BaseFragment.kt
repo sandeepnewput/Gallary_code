@@ -45,4 +45,6 @@ abstract class BaseFragment<viewBinding : ViewBinding> : Fragment() {
     open fun handleBackPressed() {
         findNavController().popBackStack()
     }
+
+
 }//end of base fragment

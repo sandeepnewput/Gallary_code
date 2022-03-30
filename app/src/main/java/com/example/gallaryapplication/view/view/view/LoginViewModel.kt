@@ -13,9 +13,9 @@ class LoginViewModel @Inject constructor(
     private val prefs: SharedPreferencesHelper
 ) : ViewModel() {
 
-    val currentDateTime get() = Calendar.getInstance().time
+    private val currentDateTime get() = Calendar.getInstance().time
 
-    fun saveLoggedinTime(value: Date) = prefs.saveLoggedinTime(value)
+    private fun saveLogInTime(value: Date) = prefs.saveLoggedinTime(value)
 
     private val _isLogin by lazy { MutableLiveData<Boolean>() }
     val isLogin: LiveData<Boolean> = _isLogin
@@ -26,6 +26,6 @@ class LoginViewModel @Inject constructor(
     fun login(username: String, password: String) =
         if (username == userName && password == userPassword) {
             _isLogin.value = true
-            saveLoggedinTime(currentDateTime)
+            saveLogInTime(currentDateTime)
         } else _isLogin.value = false
 }//end of LoginViewModel
