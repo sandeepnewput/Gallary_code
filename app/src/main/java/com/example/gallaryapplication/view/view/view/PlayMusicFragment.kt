@@ -1,6 +1,8 @@
 package com.example.gallaryapplication.view.view.view
 
+
 import android.media.MediaPlayer
+import android.media.MediaPlayer.create
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,19 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
-import androidx.core.view.isVisible
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPlayMusicBinding
-import com.example.gallaryapplication.databinding.FragmentPlayVideoBinding
-import java.lang.Runnable
 
 class PlayMusicFragment : BaseFragment<FragmentPlayMusicBinding>() {
 
     private val viewModel: SharedViewModel by activityViewModels()
+
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
@@ -33,35 +32,96 @@ class PlayMusicFragment : BaseFragment<FragmentPlayMusicBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.playMusicLayout.setOnClickListener {
-            viewModel.toggleControlButton()
-        }//end of setOnClickListener
-
-        binding.previousMusic.setOnClickListener {
-            viewModel.onPreviousVideoClick()
-        }//end of setOnClickListener
-
         binding.pauseMusic.setOnClickListener {
-            viewModel.playPauseVideo()
-        }//end of setOnClickListener
+            viewModel.playPauseMusic()
+        }
 
         binding.nextMusic.setOnClickListener {
-            viewModel.onNextVideoClick()
-        }//end of setOnClickListener
+            releaseMediaPlayer()
+            viewModel.onNextMusicClick()
+        }
 
-        binding.galleryMusic.setOnCompletionListener {
-            viewModel.onCompleteVideo()
-        }//end of setOnCompletionListener
+        binding.previousMusic.setOnClickListener {
+            releaseMediaPlayer()
+            viewModel.onPreviousMusicClick()
+        }
 
-        binding.galleryMusic.setOnPreparedListener {
-//            setVideoProgress()
+        viewModel.currentUri.observe(viewLifecycleOwner) {
+            mediaPlayer = create(context, it.toUri()).apply {
+                start()
+                showMusicProgress(currentPosition, duration)
+                setOnCompletionListener {
+                    releaseMediaPlayer()
+                    viewModel.onCompleteMusic()
+                }
+            }
+        }
 
-        }//end of setOnPreparedListene
+        viewModel.isPlayPauseMusic.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.pauseMusic.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
+                mediaPlayer?.start()
 
-        viewModel.currentUri.observe(viewLifecycleOwner) { videoUri ->
-            MediaPlayer().setDataSource(videoUri)
-            MediaPlayer().start()
+            } else {
+                binding.pauseMusic.setImageResource(R.drawable.ic_baseline_play_circle_filled_24)
+                mediaPlayer?.pause()
+            }
         }
 
     }//end of onViewCreated mehtod
-}
+
+    private fun showMusicProgress(currentDuration: Int, totalDuration: Int) {
+
+        var currentDuration = currentDuration
+        var totalDuration = totalDuration
+
+        binding.current.text = viewModel.timeConversion(currentDuration)
+        binding.total.text = viewModel.timeConversion(totalDuration)
+        binding.musicSeekBar.max = totalDuration
+
+        val handler = Looper.getMainLooper()?.let {
+            Handler(it)
+        }
+
+        handler?.postDelayed(object : Runnable {
+            override fun run() {
+                try {
+                    currentDuration = mediaPlayer?.currentPosition ?: 0
+                    binding.current.text = viewModel.timeConversion(currentDuration)
+                    binding.musicSeekBar.progress = currentDuration
+                    handler?.postDelayed(this,1000)
+                } catch (ed: IllegalStateException) {
+                    ed.printStackTrace()
+                }
+            }
+        }, 1000)
+
+        binding.musicSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) =
+                Unit
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) = Unit
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                currentDuration = seekBar.progress
+                mediaPlayer?.seekTo(currentDuration)
+            }
+        })
+
+    }//end of getMusicProgress
+
+    private fun releaseMediaPlayer() {
+        mediaPlayer?.apply {
+            stop()
+            release()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        releaseMediaPlayer()
+    }
+}// end of playmusicfragment
+
+
+

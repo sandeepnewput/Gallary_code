@@ -7,34 +7,45 @@
     android:layout_height="wrap_content">
 
 
-    <TextView
-        android:id="@+id/initials"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:text="J"
-        android:gravity="center"
-        android:textSize="24dp"
-        android:textColor="@color/white"
-        android:background="@drawable/item_red"
-        app:layout_constraintEnd_toStartOf="@+id/languageName"
+    <ImageView
+        android:id="@+id/musicThumbnail"
+        android:layout_width="61dp"
+        android:layout_height="77dp"
+
+        android:layout_margin="8dp"
+
+        android:layout_marginTop="4dp"
+
+        android:scaleType="fitStart"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/play_music" />
 
     <TextView
-        android:id="@+id/languageName"
+        android:id="@+id/musicName"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="15dp"
+        android:paddingTop="16dp"
         android:text="TextView"
-        android:textColor="#333232"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/initials"
+        app:layout_constraintStart_toEndOf="@+id/musicThumbnail"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/musicSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#afff"
+        android:gravity="start"
+        android:padding="4dp"
+        android:text="sandeep"
+        app:layout_constraintBottom_toBottomOf="@+id/musicName"
+        app:layout_constraintEnd_toEndOf="@+id/musicName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/musicName" />
 
 
 

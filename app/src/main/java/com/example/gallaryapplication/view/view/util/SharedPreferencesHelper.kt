@@ -10,11 +10,11 @@ class SharedPreferencesHelper(context: Context) {
     private val time = 0
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
-    fun saveLoggedinTime(key: Date) {
+    fun saveLoginTime(key: Date) {
         prefs.edit().putLong(LOGIN_TIME, key.time).apply()
     }
 
-    fun getLoggedinTime() = prefs.getLong(LOGIN_TIME, time.toLong())
+    fun getLoginTime() = prefs.getLong(LOGIN_TIME, time.toLong())
 
 
 }//end of sharedpreferences

@@ -15,7 +15,7 @@ class LoginViewModel @Inject constructor(
 
     private val currentDateTime get() = Calendar.getInstance().time
 
-    private fun saveLogInTime(value: Date) = prefs.saveLoggedinTime(value)
+    private fun saveLogInTime(value: Date) = prefs.saveLoginTime(value)
 
     private val _isLogin by lazy { MutableLiveData<Boolean>() }
     val isLogin: LiveData<Boolean> = _isLogin

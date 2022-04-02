@@ -59,9 +59,10 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
     }//end of onViewCreatedView Method
 
-    private fun getImages() {
-        viewModel.getUserImage()
+    private fun getMediaFiles() {
+        viewModel.getAllUserImage()
         viewModel.getAllUserVideo()
+        viewModel.getAllUserMusic()
     }
 
     private fun onClickRequestPermission(view: View) {
@@ -73,7 +74,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
                 )
             } == PackageManager.PERMISSION_GRANTED -> {
                 //put code for Snackbar
-                getImages()
+                getMediaFiles()
             }
             activity?.let {
 
@@ -107,7 +108,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                getImages()
+                getMediaFiles()
             }
         }
 

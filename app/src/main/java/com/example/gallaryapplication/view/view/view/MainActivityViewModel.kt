@@ -20,9 +20,9 @@ class MainActivityViewModel @Inject constructor(
     fun checkLogin() {
         hasLoginSession(getCurrentDateTime().time, getLogInTime())
     }
-    private fun saveLogInTime(value: Date) = prefs.saveLoggedinTime(value)
+    private fun saveLogInTime(value: Date) = prefs.saveLoginTime(value)
 
-    private fun getLogInTime() = prefs.getLoggedinTime()
+    private fun getLogInTime() = prefs.getLoginTime()
 
     private fun getCurrentDateTime() = Calendar.getInstance().time
 

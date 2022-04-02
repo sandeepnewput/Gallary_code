@@ -1,6 +1,5 @@
 package com.example.gallaryapplication.view.view.view
 
-import android.util.Log
 import androidx.lifecycle.*
 
 

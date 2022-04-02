@@ -53,6 +53,8 @@ class MainActivity : AppCompatActivity() {
                 Builder().setPopUpTo(R.id.bottomNavFragment, true)
             }
         )
+
+
     }//end of onSeesionLogut
 
 }//end of main activity
