@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import com.example.gallaryapplication.databinding.FlickrPhotoItemsBinding
-import com.example.gallaryapplication.view.view.model.PhotoContainer
+import com.example.gallaryapplication.view.view.model.Photos
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
 
@@ -12,9 +12,9 @@ class FlickrImageViewHolder(
     private val binding: FlickrPhotoItemsBinding,
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(photoContainer:  PhotoContainer) {
+    fun bind(photos:  Photos) {
         binding.flickrImage.loadImage(
-            photoContainer.url,
+            "https://live.staticflickr.com/${photos.server}/${photos.id}_${photos.secret}.jpg",
             getProgressDrawable(binding.flickrImage.context)
         )
 
@@ -23,17 +23,17 @@ class FlickrImageViewHolder(
 }//end of ImageViewHolder
 
 
-class FlickrDiffCallback : DiffUtil.ItemCallback<PhotoContainer>() {
+class FlickrDiffCallback : DiffUtil.ItemCallback<Photos>() {
 
-    override fun areItemsTheSame(oldItem: PhotoContainer, newItem: PhotoContainer) =
+    override fun areItemsTheSame(oldItem: Photos, newItem: Photos) =
         oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: PhotoContainer, newItem: PhotoContainer) =
+    override fun areContentsTheSame(oldItem: Photos, newItem: Photos) =
         oldItem == newItem
 
 }//end of ImageDiffCallback
 
-class FlickrImageListAdapter() : ListAdapter<PhotoContainer, FlickrImageViewHolder>(FlickrDiffCallback()) {
+class FlickrImageListAdapter() : ListAdapter<Photos, FlickrImageViewHolder>(FlickrDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlickrImageViewHolder {
         val itemBinding =

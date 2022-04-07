@@ -1,9 +1,9 @@
 package com.example.gallaryapplication.view.view.di
 
 import android.app.Application
-import com.example.gallaryapplication.view.view.model.GalleryApiServiceRepository
+import com.example.gallaryapplication.view.view.model.FlickrApiServiceRepository
+import com.example.gallaryapplication.view.view.model.LocalApiServiceRepository
 import com.example.gallaryapplication.view.view.model.MediaApi
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +15,7 @@ import retrofit2.create
 
 @Module
 @InstallIn(ViewModelComponent::class)
-class GallaryApiModule {
+class GalleryApiModule {
 
     private val BASE_URL = "https://api.flickr.com/services/rest/"
 
@@ -27,8 +27,13 @@ class GallaryApiModule {
         .create()
 
     @Provides
-    fun provideGalleryApiService(application: Application,mediaApi: MediaApi): GalleryApiServiceRepository {
-        return GalleryApiServiceRepository(application,mediaApi)
+    fun provideLocalApiService(application: Application): LocalApiServiceRepository {
+        return LocalApiServiceRepository(application.contentResolver)
+    }
+
+    @Provides
+    fun provideFlickrApiService(mediaApi: MediaApi):FlickrApiServiceRepository{
+        return FlickrApiServiceRepository(mediaApi)
     }
 
 }//end of GallaryApiModule

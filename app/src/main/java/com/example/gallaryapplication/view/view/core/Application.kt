@@ -16,7 +16,7 @@ class Application: Application() {
     override fun onCreate() {
         super.onCreate()
        ProcessLifecycleOwner.get().lifecycle.addObserver(ProcessLifeCycleListener)
-        Log.d("appcreated","app is created")
+
     }
 
 }

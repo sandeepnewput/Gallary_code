@@ -1,22 +1,12 @@
 package com.example.gallaryapplication.view.view.model
 
-import android.app.Application
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.provider.MediaStore
 import android.util.Log
-import retrofit2.Response
 import javax.inject.Inject
 
-class GalleryApiServiceRepository @Inject constructor
-    (application: Application,private val api:MediaApi) {
-
-
-    suspend fun fetchAllImages():Response<PhotoModel>{
-        return api.fetchImages()
-    }
-
-
-    private val resolver = application.contentResolver
+class LocalApiServiceRepository @Inject constructor (private val resolver: ContentResolver) {
 
     fun getAllImages(): List<MediaModel> {
 

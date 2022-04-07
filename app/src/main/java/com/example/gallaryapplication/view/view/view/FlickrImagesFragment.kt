@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FlickrImagesFragment : BaseFragment<FragmentFlickrImagesBinding>() {
 
-    private val viewModel : SharedViewModel by activityViewModels()
+    private val viewModel : FlickrSharedViewModel by activityViewModels()
 
     private val listAdapter = FlickrImageListAdapter()
 
@@ -35,7 +35,6 @@ class FlickrImagesFragment : BaseFragment<FragmentFlickrImagesBinding>() {
         }
 
         viewModel.flickrImage.observe(viewLifecycleOwner){
-            Log.d("photoc","list of flickr is $it")
             listAdapter.submitList(it)
         }
 

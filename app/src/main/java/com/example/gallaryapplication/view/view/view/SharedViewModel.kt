@@ -1,6 +1,5 @@
 package com.example.gallaryapplication.view.view.view
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.gallaryapplication.view.view.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(
-    private val galleryApiService: GalleryApiServiceRepository
+    private val galleryApiService: LocalApiServiceRepository,
 ) : ViewModel() {
 
     private val _userImages by lazy { MutableLiveData<List<MediaModel>>(emptyList()) }
@@ -23,9 +22,6 @@ class SharedViewModel @Inject constructor(
 
     private val _userMusic by lazy { MutableLiveData<List<MediaModel>>(emptyList()) }
     val userMusic: LiveData<List<MediaModel>> = _userMusic
-
-    private val _flickrImage by lazy { MutableLiveData<List<PhotoContainer>>(emptyList()) }
-    val flickrImage: LiveData<List<PhotoContainer>> = _flickrImage
 
     private val _loading by lazy { MutableLiveData<Boolean>() }
     val loading: LiveData<Boolean> = _loading
@@ -83,27 +79,7 @@ class SharedViewModel @Inject constructor(
         }
     }//end of getAllUserMusic
 
-    fun getPhotosFromFlicker() {
-        if(_flickrImage.value?.isEmpty() != true) return
-        viewModelScope.launch {
 
-                val response = withContext(Dispatchers.IO) { galleryApiService.fetchAllImages() }
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        val photoList = it.photos.photo.map { photoSubModel ->
-                            PhotoContainer(
-                                id = photoSubModel.id,
-                                title = photoSubModel.title,
-                                url = "https://live.staticflickr.com/${photoSubModel.server}/${photoSubModel.id}_${photoSubModel.secret}.jpg",
-                            )
-                        }
-                        _flickrImage.postValue(photoList)
-                    }
-                }else{
-                    _flickrImage.postValue(emptyList())
-                }
-        }
-    }
 
     fun onPreviousImageClick() {
         _userImages.value?.let {
