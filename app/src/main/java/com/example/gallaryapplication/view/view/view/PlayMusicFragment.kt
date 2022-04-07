@@ -32,8 +32,15 @@ class PlayMusicFragment : BaseFragment<FragmentPlayMusicBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.pauseMusic.setOnClickListener {
-            viewModel.playPauseMusic()
+        binding.playPauseMusic.setOnClickListener {
+
+            if (mediaPlayer?.isPlaying == true) {
+                binding.playPauseMusic.setImageResource(R.drawable.ic_baseline_play_circle_filled_24)
+                mediaPlayer?.pause()
+            } else {
+                binding.playPauseMusic.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
+                mediaPlayer?.start()
+            }
         }
 
         binding.nextMusic.setOnClickListener {
@@ -54,17 +61,6 @@ class PlayMusicFragment : BaseFragment<FragmentPlayMusicBinding>() {
                     releaseMediaPlayer()
                     viewModel.onCompleteMusic()
                 }
-            }
-        }
-
-        viewModel.isPlayPauseMusic.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.pauseMusic.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
-                mediaPlayer?.start()
-
-            } else {
-                binding.pauseMusic.setImageResource(R.drawable.ic_baseline_play_circle_filled_24)
-                mediaPlayer?.pause()
             }
         }
 
@@ -89,7 +85,7 @@ class PlayMusicFragment : BaseFragment<FragmentPlayMusicBinding>() {
                     currentDuration = mediaPlayer?.currentPosition ?: 0
                     binding.current.text = viewModel.timeConversion(currentDuration)
                     binding.musicSeekBar.progress = currentDuration
-                    handler?.postDelayed(this,1000)
+                    handler?.postDelayed(this, 1000)
                 } catch (ed: IllegalStateException) {
                     ed.printStackTrace()
                 }
@@ -118,8 +114,8 @@ class PlayMusicFragment : BaseFragment<FragmentPlayMusicBinding>() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         releaseMediaPlayer()
+        super.onDestroyView()
     }
 }// end of playmusicfragment
 

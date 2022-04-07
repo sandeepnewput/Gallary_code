@@ -2,26 +2,21 @@ package com.example.gallaryapplication.view.view.view
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPhotoBinding
+import com.example.gallaryapplication.view.view.model.MediaModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_login.*
+
 
 
 @AndroidEntryPoint
@@ -50,9 +45,10 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
 
         viewModel.userImages.observe(viewLifecycleOwner) {
             it?.let {
-                listAdapter.submitList(it)
+               listAdapter.submitList(it)
             }
         }
+
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             binding.loadingView.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
@@ -63,6 +59,7 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
         viewModel.getAllUserImage()
         viewModel.getAllUserVideo()
         viewModel.getAllUserMusic()
+
     }
 
     private fun onClickRequestPermission(view: View) {
@@ -112,8 +109,8 @@ class PhotoFragment : BaseFragment<FragmentPhotoBinding>() {
             }
         }
 
-    private fun onClickMedia(uri: String) {
-        viewModel.setCurrentImageUri(uri)
+    private fun onClickMedia(mediaModel: MediaModel) {
+        viewModel.setCurrentImageUri(mediaModel)
         findNavController().navigate(R.id.action_global_fullImageFragmentView)
     }
 

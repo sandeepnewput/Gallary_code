@@ -34,7 +34,7 @@
         tools:ignore="VectorDrawableCompat" />
 
     <ImageView
-        android:id="@+id/pauseVideo"
+        android:id="@+id/playPauseVideo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:layout_constraintBottom_toTopOf="@+id/seekbar"

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentMusicBinding
-import com.example.gallaryapplication.view.view.model.MusicModel
+import com.example.gallaryapplication.view.view.model.MediaModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -42,6 +42,7 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
 
         viewModel.userMusic.observe(viewLifecycleOwner) {
             listAdapter.submitList(it)
+            Log.d("medialist","musiclist is $it")
         }
 
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
@@ -50,8 +51,8 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
 
     }//end of onViewCreatedView Method
 
-    private fun onClickMedia(musicModel: MusicModel) {
-        viewModel.setCurrentMusicUri(musicModel)
+    private fun onClickMedia(mediaModel: MediaModel) {
+        viewModel.setCurrentMusicUri(mediaModel)
         findNavController().navigate(R.id.action_global_PlayMusicFragmentView)
     }
 

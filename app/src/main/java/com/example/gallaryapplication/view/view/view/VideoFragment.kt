@@ -3,14 +3,12 @@ package com.example.gallaryapplication.view.view.view
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentVideoBinding
+import com.example.gallaryapplication.view.view.model.MediaModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -37,15 +35,15 @@ class VideoFragment : BaseFragment<FragmentVideoBinding>() {
             scrollToPosition(viewModel.currentVideoIndexPosition)
         }
 
-        viewModel.userVideos.observe(viewLifecycleOwner, Observer<List<String>> {
+        viewModel.userVideos.observe(viewLifecycleOwner) {
             it?.let {
                 listAdapter.submitList(it)
             }
-        })
+        }
     }//end of onViewCreated method
 
-    private fun onClickMedia(uri: String) {
-        viewModel.setCurrentVideoUri(uri)
+    private fun onClickMedia(mediaModel: MediaModel) {
+        viewModel.setCurrentVideoUri(mediaModel)
         findNavController().navigate(R.id.action_global_playVideoFragmentView)
     }
 

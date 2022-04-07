@@ -35,4 +35,20 @@
         tools:ignore="VectorDrawableCompat" />
 
 
+    <TextView
+        android:id="@+id/galleryVideoName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#afff"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="sandeep"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/gallaryVideo"
+        app:layout_constraintEnd_toEndOf="@+id/gallaryVideo"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/gallaryVideo" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

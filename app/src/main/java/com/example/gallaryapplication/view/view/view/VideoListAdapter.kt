@@ -2,45 +2,46 @@ package com.example.gallaryapplication.view.view.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gallaryapplication.databinding.VideoItemBinding
+import com.example.gallaryapplication.view.view.model.MediaModel
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
 
 class VideoViewHolder(
     private val binding: VideoItemBinding,
-    private val onClickMedia: (String) -> Unit
+    private val onClickMedia: (MediaModel) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(uri: String) {
+    fun bind(mediaModel: MediaModel) {
         binding.gallaryVideo.loadImage(
-            uri,
+            mediaModel.uri,
             getProgressDrawable(binding.gallaryVideo.context)
         )
-        binding.root.setOnClickListener { onClickMedia(uri) }
-    }//end of bind function
+        binding.galleryVideoName.text = mediaModel.name
+        binding.root.setOnClickListener { onClickMedia(mediaModel) }
+    }
 
 
 }// end of VideoViewHolder
 
 class VideoDiffCallback :
-    DiffUtil.ItemCallback<String>() {
+    DiffUtil.ItemCallback<MediaModel>() {
 
-    override fun areItemsTheSame(oldItem: String, newItem: String) =
-        oldItem == newItem
+    override fun areItemsTheSame(oldItem: MediaModel, newItem: MediaModel) =
+        oldItem.uri == newItem.uri
 
-    override fun areContentsTheSame(oldItem: String, newItem: String) =
+    override fun areContentsTheSame(oldItem: MediaModel, newItem: MediaModel) =
         oldItem == newItem
 
 }//end of ImageDiffCallback
 
 
 class VideoListAdapter(
-    private val onClickMedia: (String) -> Unit
-) : ListAdapter<String, VideoViewHolder>(VideoDiffCallback()) {
+    private val onClickMedia: (MediaModel) -> Unit
+) : ListAdapter<MediaModel, VideoViewHolder>(VideoDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         val itemBinding =

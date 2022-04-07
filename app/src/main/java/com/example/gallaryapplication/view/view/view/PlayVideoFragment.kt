@@ -45,8 +45,16 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
             viewModel.onPreviousVideoClick()
         }//end of setOnClickListener
 
-        binding.pauseVideo.setOnClickListener {
-            viewModel.playPauseVideo()
+        binding.playPauseVideo.setOnClickListener {
+
+            if(binding.galleryVideo.isPlaying){
+                binding.playPauseVideo.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)
+                binding.galleryVideo.stopPlayback()
+            }else{
+                binding.playPauseVideo.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
+                binding.galleryVideo.setVideoPath(uri)
+                binding.galleryVideo.start()
+            }
         }//end of setOnClickListener
 
         binding.nextVideo.setOnClickListener {
@@ -69,19 +77,8 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
 
         viewModel.showControlButton.observe(viewLifecycleOwner) { isVisible ->
             binding.previousVideo.isVisible = isVisible
-            binding.pauseVideo.isVisible = isVisible
+            binding.playPauseVideo.isVisible = isVisible
             binding.nextVideo.isVisible = isVisible
-        }
-
-        viewModel.isPlayPauseVideo.observe(viewLifecycleOwner) { isPlayPause ->
-            if (isPlayPause) {
-                binding.pauseVideo.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24)
-                binding.galleryVideo.setVideoPath(uri)
-                binding.galleryVideo.start()
-            } else {
-                binding.pauseVideo.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)
-                binding.galleryVideo.stopPlayback()
-            }
         }
 
     }//end of onViewCreated mehtod

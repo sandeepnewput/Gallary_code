@@ -45,6 +45,11 @@ class BottomNavigationViewFragment : BaseFragment<FragmentBottomNavigationViewBi
                     viewModel.updateFragment(3)
                     true
                 }
+                R.id.Flickr ->{
+                    viewModel.updateFragment(4)
+                    true
+                }
+
                 else -> false
             }
         }
@@ -56,6 +61,7 @@ class BottomNavigationViewFragment : BaseFragment<FragmentBottomNavigationViewBi
             val fragment = when (fragmentId) {
                 1 -> PhotoFragment()
                 3 -> MusicFragment()
+                4 -> FlickrImagesFragment()
                 else -> VideoFragment()
             }
             replace(R.id.frameLayout, fragment)

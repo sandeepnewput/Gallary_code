@@ -4,38 +4,42 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import com.example.gallaryapplication.databinding.ImageItemBinding
+import com.example.gallaryapplication.view.view.model.MediaModel
 import com.example.gallaryapplication.view.view.util.getProgressDrawable
 import com.example.gallaryapplication.view.view.util.loadImage
 
 class PhotoViewHolder(
     private val binding: ImageItemBinding,
-    private val onClickMedia: (String) -> Unit
+    private val onClickMedia: (MediaModel) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(uri: String) {
+
+    fun bind(mediaModel: MediaModel) {
         binding.gallaryImage.loadImage(
-            uri,
+            mediaModel.uri,
             getProgressDrawable(binding.gallaryImage.context)
         )
-        binding.root.setOnClickListener { onClickMedia(uri) }
-    }//end of bind method
+        binding.galleryImageName.text = mediaModel.name
+        binding.root.setOnClickListener { onClickMedia(mediaModel) }
+    }
+
 
 }//end of ImageViewHolder
 
 
-class ImageDiffCallback : DiffUtil.ItemCallback<String>() {
+class ImageDiffCallback : DiffUtil.ItemCallback<MediaModel>() {
 
-    override fun areItemsTheSame(oldItem: String, newItem: String)=
-        oldItem == newItem
+    override fun areItemsTheSame(oldItem: MediaModel, newItem: MediaModel) =
+        oldItem.uri == newItem.uri
 
-    override fun areContentsTheSame(oldItem: String, newItem: String) =
+    override fun areContentsTheSame(oldItem: MediaModel, newItem: MediaModel) =
         oldItem == newItem
 
 }//end of ImageDiffCallback
 
 class PhotoListAdapter(
-    private val onClickMedia: (String) -> Unit
-) : ListAdapter<String,PhotoViewHolder>(ImageDiffCallback()) {
+    private val onClickMedia: (MediaModel) -> Unit
+) : ListAdapter<MediaModel, PhotoViewHolder>(ImageDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         val itemBinding =

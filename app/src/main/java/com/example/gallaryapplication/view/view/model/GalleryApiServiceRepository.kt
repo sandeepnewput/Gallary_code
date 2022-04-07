@@ -4,15 +4,26 @@ import android.app.Application
 import android.content.ContentUris
 import android.provider.MediaStore
 import android.util.Log
+import retrofit2.Response
+import javax.inject.Inject
 
-class GalleryApiServiceRepository(application: Application) {
+class GalleryApiServiceRepository @Inject constructor
+    (application: Application,private val api:MediaApi) {
 
-   private val resolver = application.contentResolver
 
-    fun getAllImages(): List<String> {
+    suspend fun fetchAllImages():Response<PhotoModel>{
+        return api.fetchImages()
+    }
+
+
+    private val resolver = application.contentResolver
+
+    fun getAllImages(): List<MediaModel> {
 
         val imageProjection = arrayOf(
-            MediaStore.Images.Media._ID
+            MediaStore.Images.Media._ID,
+            MediaStore.Images.Media.DISPLAY_NAME,
+            MediaStore.Images.Media.SIZE
         )
 
         val imageSortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
@@ -24,20 +35,26 @@ class GalleryApiServiceRepository(application: Application) {
             null,
             imageSortOrder
         )
-        val imageList = ArrayList<String>()
+        val imageList = ArrayList<MediaModel>()
         cursor?.use {
 
             if (cursor != null) {
 
                 while (cursor.moveToNext()) {
                     try {
-                        imageList.add(
-                            ContentUris.withAppendedId(
-                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID))
-                            ).toString()
+                        val name =
+                            cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
+                        val uri = ContentUris.withAppendedId(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                            cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID))
                         )
-                    }catch (e: IllegalArgumentException){
+
+                        val size =
+                            cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE))
+
+                        imageList.add(MediaModel(uri.toString(), name, size))
+
+                    } catch (e: IllegalArgumentException) {
                         e.printStackTrace()
                     }
 
@@ -49,12 +66,13 @@ class GalleryApiServiceRepository(application: Application) {
         return imageList
     }//end of getAllImage
 
-    fun getAllVideo(): List<String> {
+    fun getAllVideo(): List<MediaModel> {
 
         val videoProjection = arrayOf(
             MediaStore.Video.Media._ID,
-
-            )
+            MediaStore.Audio.Media.DISPLAY_NAME,
+            MediaStore.Audio.Media.SIZE
+        )
 
         val videoSortOrder = "${MediaStore.Video.Media.DATE_ADDED} DESC"
 
@@ -65,20 +83,26 @@ class GalleryApiServiceRepository(application: Application) {
             null,
             videoSortOrder
         )
-        val videoList = ArrayList<String>()
+        val videoList = ArrayList<MediaModel>()
         cursor?.use {
 
             if (cursor != null) {
 
                 while (cursor.moveToNext()) {
                     try {
-                        videoList.add(
-                            ContentUris.withAppendedId(
-                                MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                                cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID))
-                            ).toString()
+                        val name =
+                            cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME))
+                        val uri = ContentUris.withAppendedId(
+                            MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                            cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID))
                         )
-                    }catch (e: IllegalArgumentException){
+
+                        val size =
+                            cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE))
+
+                        videoList.add(MediaModel(uri.toString(), name, size))
+
+                    } catch (e: IllegalArgumentException) {
                         e.printStackTrace()
                     }
 
@@ -91,14 +115,12 @@ class GalleryApiServiceRepository(application: Application) {
     }//end of getAllvideo function
 
 
-    fun getAllMusic(): List<MusicModel> {
-
+    fun getAllMusic(): List<MediaModel> {
 
         val musicProjection = arrayOf(
             MediaStore.Audio.Media._ID,
             MediaStore.Audio.Media.DISPLAY_NAME,
             MediaStore.Audio.Media.SIZE
-
         )
 
         val musicSortOrder = "${MediaStore.Audio.Media.DATE_ADDED} DESC"
@@ -110,14 +132,14 @@ class GalleryApiServiceRepository(application: Application) {
             null,
             musicSortOrder
         )
-        val musicList = ArrayList<MusicModel>()
+        val musicList = ArrayList<MediaModel>()
         cursor?.use {
 
             if (cursor != null) {
 
 
                 while (cursor.moveToNext()) {
-                    try{
+                    try {
                         val name =
                             cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME))
 
@@ -126,11 +148,12 @@ class GalleryApiServiceRepository(application: Application) {
                             cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID))
                         )
 
-                        val size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE))
+                        val size =
+                            cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE))
 
-                        musicList.add(MusicModel(uri.toString(), name,size))
+                        musicList.add(MediaModel(uri.toString(), name, size))
 
-                    }catch (e: IllegalArgumentException){
+                    } catch (e: IllegalArgumentException) {
                         e.printStackTrace()
                     }
 

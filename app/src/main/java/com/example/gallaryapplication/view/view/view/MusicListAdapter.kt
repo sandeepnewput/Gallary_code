@@ -7,36 +7,36 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gallaryapplication.databinding.MusicItemsBinding
-import com.example.gallaryapplication.view.view.model.MusicModel
+import com.example.gallaryapplication.view.view.model.MediaModel
 
 
 class MusicViewHolder(
     private val binding: MusicItemsBinding,
-    private val onClickMedia: (MusicModel) -> Unit
+    private val onClickMedia: (MediaModel) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(musicModel: MusicModel) {
+    fun bind(musicModel: MediaModel) {
        binding.musicName.text = musicModel.name
         binding.root.setOnClickListener { onClickMedia(musicModel) }
     }//end of bind method
 
 }//end of ImageViewHolder
 
-class MusicDiffCallback : DiffUtil.ItemCallback<MusicModel>() {
+class MusicDiffCallback : DiffUtil.ItemCallback<MediaModel>() {
 
-    override fun areItemsTheSame(oldItem: MusicModel, newItem: MusicModel): Boolean {
+    override fun areItemsTheSame(oldItem: MediaModel, newItem: MediaModel): Boolean {
         return oldItem.uri == newItem.uri
     }
 
-    override fun areContentsTheSame(oldItem: MusicModel, newItem: MusicModel): Boolean {
+    override fun areContentsTheSame(oldItem: MediaModel, newItem: MediaModel): Boolean {
         return oldItem == newItem
     }
 }//end of ImageDiffCallback
 
 
 class MusicListAdapter(
-    private val onClickMedia: (MusicModel) -> Unit
-) : ListAdapter<MusicModel, MusicViewHolder>(MusicDiffCallback()) {
+    private val onClickMedia: (MediaModel) -> Unit
+) : ListAdapter<MediaModel, MusicViewHolder>(MusicDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MusicViewHolder {
         val itemBinding =

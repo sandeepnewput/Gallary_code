@@ -1,8 +1,8 @@
 package com.example.gallaryapplication.view.view.view
 
+import android.util.Log
 import androidx.lifecycle.*
-import com.example.gallaryapplication.view.view.model.MusicModel
-import com.example.gallaryapplication.view.view.model.GalleryApiServiceRepository
+import com.example.gallaryapplication.view.view.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,17 +12,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(
-    private val galleryApiService: GalleryApiServiceRepository,
+    private val galleryApiService: GalleryApiServiceRepository
 ) : ViewModel() {
 
-    private val _userImages by lazy { MutableLiveData<List<String>>(emptyList()) }
-    val userImages: LiveData<List<String>> = _userImages
+    private val _userImages by lazy { MutableLiveData<List<MediaModel>>(emptyList()) }
+    val userImages: LiveData<List<MediaModel>> = _userImages
 
-    private val _userVideos by lazy { MutableLiveData<List<String>>(emptyList()) }
-    val userVideos: LiveData<List<String>> = _userVideos
+    private val _userVideos by lazy { MutableLiveData<List<MediaModel>>(emptyList()) }
+    val userVideos: LiveData<List<MediaModel>> = _userVideos
 
-    private val _userMusic by lazy { MutableLiveData<List<MusicModel>>(emptyList()) }
-    val userMusic: LiveData<List<MusicModel>> = _userMusic
+    private val _userMusic by lazy { MutableLiveData<List<MediaModel>>(emptyList()) }
+    val userMusic: LiveData<List<MediaModel>> = _userMusic
+
+    private val _flickrImage by lazy { MutableLiveData<List<PhotoContainer>>(emptyList()) }
+    val flickrImage: LiveData<List<PhotoContainer>> = _flickrImage
 
     private val _loading by lazy { MutableLiveData<Boolean>() }
     val loading: LiveData<Boolean> = _loading
@@ -32,12 +35,6 @@ class SharedViewModel @Inject constructor(
 
     private val _showControlButton by lazy { MutableLiveData<Boolean>(true) }
     val showControlButton: LiveData<Boolean> = _showControlButton
-
-    private val _isPlayPauseVideo by lazy { MutableLiveData<Boolean>(true) }
-    val isPlayPauseVideo: LiveData<Boolean> = _isPlayPauseVideo
-
-    private val _isPlayPauseMusic by lazy { MutableLiveData<Boolean>(true) }
-    val isPlayPauseMusic: LiveData<Boolean> = _isPlayPauseMusic
 
     private val _fragmentId by lazy { MutableLiveData<Int>(1) }
     val fragmentId: LiveData<Int> = _fragmentId
@@ -86,12 +83,33 @@ class SharedViewModel @Inject constructor(
         }
     }//end of getAllUserMusic
 
+    fun getPhotosFromFlicker() {
+        if(_flickrImage.value?.isEmpty() != true) return
+        viewModelScope.launch {
+
+                val response = withContext(Dispatchers.IO) { galleryApiService.fetchAllImages() }
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        val photoList = it.photos.photo.map { photoSubModel ->
+                            PhotoContainer(
+                                id = photoSubModel.id,
+                                title = photoSubModel.title,
+                                url = "https://live.staticflickr.com/${photoSubModel.server}/${photoSubModel.id}_${photoSubModel.secret}.jpg",
+                            )
+                        }
+                        _flickrImage.postValue(photoList)
+                    }
+                }else{
+                    _flickrImage.postValue(emptyList())
+                }
+        }
+    }
 
     fun onPreviousImageClick() {
         _userImages.value?.let {
             if (it.isNotEmpty() && currentImageIndexPosition > 0) {
                 currentImageIndexPosition--
-                _currentUri.postValue(it[currentImageIndexPosition])
+                _currentUri.postValue(it[currentImageIndexPosition].uri)
             }
         }
     }
@@ -100,7 +118,7 @@ class SharedViewModel @Inject constructor(
         _userImages.value?.let {
             if (it.isNotEmpty() && currentImageIndexPosition < it.size.minus(1)) {
                 currentImageIndexPosition++
-                _currentUri.postValue(it[currentImageIndexPosition])
+                _currentUri.postValue(it[currentImageIndexPosition].uri)
             }
         }
     }
@@ -113,7 +131,7 @@ class SharedViewModel @Inject constructor(
         _userVideos.value?.let {
             if (it.isNotEmpty() && currentVideoIndexPosition > 0) {
                 currentVideoIndexPosition--
-                _currentUri.postValue(it[currentVideoIndexPosition])
+                _currentUri.postValue(it[currentVideoIndexPosition].uri)
             }
         }
     }//end of previousVideo function
@@ -122,20 +140,16 @@ class SharedViewModel @Inject constructor(
         _userVideos.value?.let {
             if (it.isNotEmpty() && currentVideoIndexPosition < it.size.minus(1)) {
                 currentVideoIndexPosition++
-                _currentUri.postValue(it[currentVideoIndexPosition])
+                _currentUri.postValue(it[currentVideoIndexPosition].uri)
             }
         }
     }//end of nextVideo function
-
-    fun playPauseVideo() {
-        _isPlayPauseVideo.postValue(!(_isPlayPauseVideo.value ?: false))
-    }//end of visibleInvisible
 
     fun onCompleteVideo() {
         _userVideos.value?.let {
             currentVideoIndexPosition++
             if (it.isNotEmpty() && currentVideoIndexPosition < it.size) {
-                _currentUri.postValue(it[currentVideoIndexPosition])
+                _currentUri.postValue(it[currentVideoIndexPosition].uri)
             }
         }
     }
@@ -169,34 +183,29 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun playPauseMusic() {
-        _isPlayPauseMusic.postValue(!(_isPlayPauseMusic.value ?: false))
-    }//end of visibleInvisible
-
-
-    fun setCurrentVideoUri(uri: String) {
+    fun setCurrentVideoUri(mediaModel: MediaModel) {
         _userVideos.value?.let {
-            if (it.isNotEmpty() && it.indexOf(uri) != -1) {
-                _currentUri.value = uri
-                currentVideoIndexPosition = it.indexOf(uri)
+            if (it.isNotEmpty() && it.indexOf(mediaModel) != -1) {
+                _currentUri.value = mediaModel.uri
+                currentVideoIndexPosition = it.indexOf(mediaModel)
             }
         }
     }
 
-    fun setCurrentImageUri(uri: String) {
+    fun setCurrentImageUri(mediaModel: MediaModel) {
         _userImages.value?.let {
-            if (it.isNotEmpty() && it.indexOf(uri) != -1) {
-                _currentUri.value = uri
-                currentImageIndexPosition = it.indexOf(uri)
+            if (it.isNotEmpty() && it.indexOf(mediaModel) != -1) {
+                _currentUri.value = mediaModel.uri
+                currentImageIndexPosition = it.indexOf(mediaModel)
             }
         }
     }
 
-    fun setCurrentMusicUri(musicModel: MusicModel) {
+    fun setCurrentMusicUri(mediaModel: MediaModel) {
         _userMusic.value?.let {
-            if (it.isNotEmpty() && it.indexOf(musicModel) != -1) {
-                _currentUri.value = musicModel.uri
-                currentMusicIndexPosition = it.indexOf(musicModel)
+            if (it.isNotEmpty() && it.indexOf(mediaModel) != -1) {
+                _currentUri.value = mediaModel.uri
+                currentMusicIndexPosition = it.indexOf(mediaModel)
             }
         }
     }
@@ -217,4 +226,6 @@ class SharedViewModel @Inject constructor(
     fun updateFragment(fragmentId: Int) {
         _fragmentId.value = fragmentId
     }
+
+
 }//end of sharedviewmodel
