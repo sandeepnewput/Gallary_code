@@ -7,8 +7,13 @@
 
 
     <action
+        android:id="@+id/action_global_mediaFragment"
+        app:destination="@id/mediaFragment"/>
+
+    <action
         android:id="@+id/action_global_fullImageFragmentView"
-        app:destination="@id/fullImageViewFragment" />
+        app:destination="@id/fullImageViewFragment"/>
+
 
     <action
         android:id="@+id/action_global_playVideoFragmentView"
@@ -17,9 +22,10 @@
     <action
         android:id="@+id/action_global_PlayMusicFragmentView"
         app:destination="@id/playMusicFragment" />
+
     <fragment
         android:id="@+id/launchingFragment"
-        android:name="com.example.gallaryapplication.view.view.view.LaunchingFragment"
+        android:name="com.example.gallaryapplication.view.LaunchingFragment"
         android:label="LoadingFragment"
         tools:layout="@layout/fragment_launching">
         <action
@@ -35,7 +41,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.gallaryapplication.view.view.view.LoginFragment"
+        android:name="com.example.gallaryapplication.view.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -47,40 +53,31 @@
 
     <fragment
         android:id="@+id/bottomNavFragment"
-        android:name="com.example.gallaryapplication.view.view.view.BottomNavigationViewFragment"
+        android:name="com.example.gallaryapplication.view.BottomNavigationViewFragment"
         android:label="BottomNavigationViewFragment"
-        tools:layout="@layout/fragment_bottom_navigation_view"></fragment>
+        tools:layout="@layout/fragment_bottom_navigation_view">
+    </fragment>
 
 
     <fragment
         android:id="@+id/fullImageViewFragment"
-        android:name="com.example.gallaryapplication.view.view.view.FullImageViewFragment"
+        android:name="com.example.gallaryapplication.view.FullImageViewFragment"
         android:label="fragment_full_image_view"
         tools:layout="@layout/fragment_full_image_view">
-
-        <action
-            android:id="@+id/action_fullImageViewFragment_to_bottomNavFragment"
-            app:destination="@id/bottomNavFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/playVideoFragment"
-        android:name="com.example.gallaryapplication.view.view.view.PlayVideoFragment"
+        android:name="com.example.gallaryapplication.view.PlayVideoFragment"
         android:label="fragment_play_video"
         tools:layout="@layout/fragment_play_video">
-
-        <action
-            android:id="@+id/action_playVideoFragment_to_bottomNavFragment"
-            app:destination="@id/bottomNavFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/playMusicFragment"
-        android:name="com.example.gallaryapplication.view.view.view.PlayMusicFragment"
+        android:name="com.example.gallaryapplication.view.PlayMusicFragment"
         android:label="fragment_play_music"
         tools:layout="@layout/fragment_play_music" >
-        <action
-            android:id="@+id/action_playMusicFragment_to_bottomNavFragment"
-            app:destination="@id/bottomNavFragment" />
     </fragment>
-
 
 </navigation>

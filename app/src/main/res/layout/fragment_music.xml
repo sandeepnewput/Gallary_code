@@ -5,7 +5,7 @@
     android:id="@+id/musicFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.view.view.MusicFragment">
+    tools:context=".view.MusicFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

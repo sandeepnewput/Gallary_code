@@ -5,7 +5,7 @@
     android:id="@+id/showImageLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.view.view.FullImageViewFragment">
+    tools:context=".view.FullImageViewFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ImageView
@@ -36,11 +36,9 @@
         android:id="@+id/imageNext"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:src="@drawable/ic_baseline_navigate_next_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/gallaryImage"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 

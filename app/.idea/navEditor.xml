@@ -18,6 +18,11 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="action_global_mediaFragment">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="action_global_playVideoFragmentView">
                     <value>
                       <LayoutPositions />
@@ -40,18 +45,9 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-3631" />
-                            <option name="y" value="-1896" />
+                            <option name="x" value="-3877" />
+                            <option name="y" value="-1951" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_fullImageViewFragment_to_bottomNavFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -103,13 +99,25 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="mediaFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="playMusicFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-4056" />
-                            <option name="y" value="-948" />
+                            <option name="x" value="-3891" />
+                            <option name="y" value="-828" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -120,18 +128,9 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-3591" />
-                            <option name="y" value="-1336" />
+                            <option name="x" value="-3898" />
+                            <option name="y" value="-1297" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_playVideoFragment_to_bottomNavFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

@@ -4,7 +4,8 @@
     <item
         android:id="@+id/Photos"
         android:icon="@drawable/ic_baseline_photo_library_24"
-        android:title="Photos" />
+        android:title="Photos"
+        />
 
     <item
         android:id="@+id/Videos"

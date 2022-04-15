@@ -5,7 +5,7 @@
     android:id="@+id/flickrFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.view.view.FlickrImagesFragment">
+    tools:context=".view.FlickrImagesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
