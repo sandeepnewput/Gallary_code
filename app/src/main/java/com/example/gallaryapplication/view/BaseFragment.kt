@@ -1,22 +1,13 @@
 package com.example.gallaryapplication.view
 
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.example.gallaryapplication.R
-import com.google.android.material.snackbar.Snackbar
-import java.lang.IllegalStateException
 
 
 abstract class BaseFragment<viewBinding : ViewBinding> : Fragment() {

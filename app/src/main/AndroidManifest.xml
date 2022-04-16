@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GallaryApplication">
-        <activity android:name=".view.MainActivity"
+        <activity android:name="com.example.gallaryapplication.view.MainActivity"
            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gallaryapplication.model.LocalApiServiceRepository
 import com.example.gallaryapplication.model.MediaModel
-import com.example.gallaryapplication.util.SharedPreferencesHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

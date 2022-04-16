@@ -1,6 +1,5 @@
 package com.example.gallaryapplication.view
 
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -21,8 +20,6 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
     private val viewModel: MediaSharedViewModel by activityViewModels()
 
     private lateinit var uri:String
-
-    private var mediaPlayer:MediaPlayer? = null
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
