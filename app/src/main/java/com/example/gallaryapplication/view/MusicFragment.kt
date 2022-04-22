@@ -2,10 +2,13 @@ package com.example.gallaryapplication.view
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MusicFragment : MediaPermissionFragment<FragmentMusicBinding>() {
+class MusicFragment : BaseFragment<FragmentMusicBinding>() {
 
     private val listAdapter = MusicListAdapter(this::onClickMedia)
 
@@ -38,7 +41,6 @@ class MusicFragment : MediaPermissionFragment<FragmentMusicBinding>() {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             scrollToPosition(viewModel.currentMusicIndexPosition)
         }
-
         viewModel.userMusic.observe(viewLifecycleOwner) {
             listAdapter.submitList(it)
         }
@@ -50,7 +52,7 @@ class MusicFragment : MediaPermissionFragment<FragmentMusicBinding>() {
     }//end of onViewCreatedView Method
 
 
-    override fun getMediaFiles() = viewModel.getAllUserMusic()
+//    override fun getMediaFiles() = localviewmodel.getAllUserMusic()
 
     private fun onClickMedia(mediaModel: MediaModel) {
         viewModel.setCurrentMusicUri(mediaModel)

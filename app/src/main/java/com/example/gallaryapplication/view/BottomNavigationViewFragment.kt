@@ -13,6 +13,7 @@ import com.example.gallaryapplication.model.MediaType
 
 
 const val MEDIA_TYPE = "Fragment Type"
+
 class BottomNavigationViewFragment : BaseFragment<FragmentBottomNavigationViewBinding>() {
 
     private val viewModel: BottomNavigationViewModel by activityViewModels()
@@ -30,30 +31,26 @@ class BottomNavigationViewFragment : BaseFragment<FragmentBottomNavigationViewBi
         viewModel.mediaType.observe(viewLifecycleOwner) {
             setFragment(it)
         }
-
         binding.bottomNavigationView.setOnItemSelectedListener {
 
-            when (it.itemId) {
-
-                R.id.Photos -> {
-                    viewModel.updateFragment(MediaType.IMAGE)
-                    true
+            if (binding.bottomNavigationView.selectedItemId != it.itemId) {
+                when (it.itemId) {
+                    R.id.Photos -> {
+                        viewModel.updateFragment(MediaType.IMAGE)
+                    }
+                    R.id.Videos -> {
+                        viewModel.updateFragment(MediaType.VIDEO)
+                    }
+                    R.id.Music -> {
+                        viewModel.updateFragment(MediaType.MUSIC)
+                    }
+                    else -> {
+                        viewModel.updateFragment(MediaType.FLICKR)
+                    }
                 }
-                R.id.Videos -> {
-                    viewModel.updateFragment(MediaType.VIDEO)
-                    true
-                }
-                R.id.Music -> {
-                    viewModel.updateFragment(MediaType.MUSIC)
-                    true
-                }
-                R.id.Flickr ->{
-                    viewModel.updateFragment(MediaType.FLICKR)
-                    true
-                }
-
-                else -> false
             }
+            true
+
         }
     }
 
@@ -61,17 +58,17 @@ class BottomNavigationViewFragment : BaseFragment<FragmentBottomNavigationViewBi
         activity?.supportFragmentManager?.beginTransaction()?.run {
 
             val fragment = when (mediaType) {
-                MediaType.IMAGE,MediaType.VIDEO -> {
+                MediaType.IMAGE, MediaType.VIDEO -> {
                     MediaFragment().apply {
                         arguments = bundleOf().apply {
-                            putString(MEDIA_TYPE,mediaType.name)
+                            putString(MEDIA_TYPE, mediaType.name)
                         }
                     }
                 }
                 MediaType.MUSIC -> MusicFragment()
                 else -> FlickrImagesFragment()
             }
-           replace(R.id.frameLayout, fragment)
+            replace(R.id.frameLayout, fragment)
             commit()
         }
     }

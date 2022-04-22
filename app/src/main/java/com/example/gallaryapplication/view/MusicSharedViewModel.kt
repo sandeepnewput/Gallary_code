@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MusicSharedViewModel @Inject constructor(
-    private val galleryApiService: LocalApiServiceRepository
-) :ViewModel(){
+    private val localApiService: LocalApiServiceRepository,
+): ViewModel(){
 
     private val _userMusic by lazy { MutableLiveData<List<MediaModel>>(emptyList()) }
     val userMusic: LiveData<List<MediaModel>> = _userMusic
@@ -30,17 +30,16 @@ class MusicSharedViewModel @Inject constructor(
         private set
 
     fun getAllUserMusic() {
-            if (_userMusic.value?.isEmpty() != true) return
-            _loading.postValue(true)
-            viewModelScope.launch {
-                val getResponse = withContext(Dispatchers.IO) { galleryApiService.getAllMusic() }
-                if (getResponse.isNotEmpty()) {
-                    _userMusic.postValue(getResponse)
-                }
-                _loading.postValue(false)
+        if (_userMusic.value?.isEmpty() != true) return
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val getResponse = withContext(Dispatchers.IO) { localApiService.getAllMusic() }
+            if (getResponse.isNotEmpty()) {
+                _userMusic.postValue(getResponse)
+            }
+            _loading.postValue(false)
         }
     }//end of getAllUserMusic
-
 
 
     fun onNextMusicClick() {
@@ -71,8 +70,6 @@ class MusicSharedViewModel @Inject constructor(
             }
         }
     }
-
-
 
 
     fun setCurrentMusicUri(mediaModel: MediaModel) {

@@ -1,7 +1,9 @@
 package com.example.gallaryapplication.view
 
 
+import android.content.Context
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavOptions.*
@@ -22,7 +24,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         observeLogin()
         checkLogin()
+
     }//onCreate method ends
+
 
     private fun checkLogin() {
         isForeGround.observe(this) {

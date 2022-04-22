@@ -1,6 +1,7 @@
 package com.example.gallaryapplication.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ class FlickrImagesFragment : BaseFragment<FragmentFlickrImagesBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getPhotosFromFlicker()
-
+        Log.d("framgnetres","framgment response is ${FlickrImagesFragment()}")
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context,2)
             adapter = listAdapter

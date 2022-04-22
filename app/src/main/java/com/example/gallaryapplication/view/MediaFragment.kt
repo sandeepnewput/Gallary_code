@@ -12,11 +12,12 @@ import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentMediaBinding
 import com.example.gallaryapplication.model.MediaModel
 import com.example.gallaryapplication.model.MediaType
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MediaFragment : MediaPermissionFragment<FragmentMediaBinding>() {
+class MediaFragment : BaseFragment<FragmentMediaBinding>() {
 
     private val listAdapter = MediaListAdapter(this::onClickMedia)
 
@@ -26,29 +27,44 @@ class MediaFragment : MediaPermissionFragment<FragmentMediaBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentMediaBinding? {
-        return FragmentMediaBinding.inflate(inflater,container,false)
+        return FragmentMediaBinding.inflate(inflater, container, false)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        context?.let { context ->
+            activity?.let { activity ->
+                GetPermission.requestPermission(
+                    this,
+                    context,
+                    activity,
+                    this::isPermissionGranted,
+                    this::alertUserAboutFeature
+                ).launch(
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            }
+        }
+
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
-            if(arguments?.getString(MEDIA_TYPE) == MediaType.IMAGE.name){
+            if (arguments?.getString(MEDIA_TYPE) == MediaType.IMAGE.name) {
                 scrollToPosition(viewModel.currentImageIndexPosition)
-            }else{
+            } else {
                 scrollToPosition(viewModel.currentVideoIndexPosition)
             }
         }
 
-        if( arguments?.getString(MEDIA_TYPE) == MediaType.IMAGE.name){
+        if (arguments?.getString(MEDIA_TYPE) == MediaType.IMAGE.name) {
             viewModel.userImages.observe(viewLifecycleOwner) {
                 it?.let {
                     listAdapter.submitList(it)
                 }
             }
-        }else{
+        } else {
             viewModel.userVideos.observe(viewLifecycleOwner) {
                 it?.let {
                     listAdapter.submitList(it)
@@ -64,20 +80,43 @@ class MediaFragment : MediaPermissionFragment<FragmentMediaBinding>() {
 
     private fun onClickMedia(mediaModel: MediaModel) {
 
-        if(mediaModel.mediaType == MediaType.IMAGE){
+        if (mediaModel.mediaType == MediaType.IMAGE) {
             viewModel.setCurrentImageUri(mediaModel)
             findNavController().navigate(R.id.action_global_fullImageFragmentView)
-        }else{
+        } else {
             viewModel.setCurrentVideoUri(mediaModel)
             findNavController().navigate(R.id.action_global_playVideoFragmentView)
         }
 
     }
 
-    override fun getMediaFiles(){
+    private fun isPermissionGranted() {
         arguments?.getString(MEDIA_TYPE)?.let { viewModel.getMediaFiles(it) }
     }
 
+    private fun alertUserAboutFeature() {
+        Snackbar.make(
+            binding.mediaFragment,
+            "Media access is required Permission to display images and videos",
+            Snackbar.LENGTH_SHORT
+        ).setAction(
+            "OK"
+        ) {
+            context?.let { context ->
+                activity?.let { activity ->
+                    GetPermission.requestPermission(
+                        this,
+                        context,
+                        activity,
+                        this::isPermissionGranted,
+                        this::alertUserAboutFeature
+                    ).launch(
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    )
+                }
+            }
+        }.show()
+    }
 
     override fun handleBackPressed() {
         activity?.let {
@@ -86,5 +125,4 @@ class MediaFragment : MediaPermissionFragment<FragmentMediaBinding>() {
     }
 
 
-
-}
+}//end of mediafragment

@@ -6,12 +6,14 @@ import android.media.MediaPlayer.create
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPlayMusicBinding
 
