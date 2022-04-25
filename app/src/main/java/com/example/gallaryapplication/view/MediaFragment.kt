@@ -1,10 +1,16 @@
 package com.example.gallaryapplication.view
 
 
+import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,7 +18,6 @@ import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentMediaBinding
 import com.example.gallaryapplication.model.MediaModel
 import com.example.gallaryapplication.model.MediaType
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -30,22 +35,18 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
         return FragmentMediaBinding.inflate(inflater, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        context?.let { context ->
-            activity?.let { activity ->
-                GetPermission.requestPermission(
-                    this,
-                    context,
-                    activity,
-                    this::isPermissionGranted,
-                    this::alertUserAboutFeature
-                ).launch(
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            }
+        activity?.let {
+            PermissionLauncher.requestPermission(
+                this,
+                it,
+                this::allowPermission,
+                this::denyPermission
+            ).launch(
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            )
         }
 
         binding.recyclerView.apply {
@@ -90,32 +91,39 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
 
     }
 
-    private fun isPermissionGranted() {
+    private fun allowPermission() {
         arguments?.getString(MEDIA_TYPE)?.let { viewModel.getMediaFiles(it) }
     }
 
-    private fun alertUserAboutFeature() {
-        Snackbar.make(
-            binding.mediaFragment,
-            "Media access is required Permission to display images and videos",
-            Snackbar.LENGTH_SHORT
-        ).setAction(
-            "OK"
-        ) {
-            context?.let { context ->
-                activity?.let { activity ->
-                    GetPermission.requestPermission(
-                        this,
-                        context,
-                        activity,
-                        this::isPermissionGranted,
-                        this::alertUserAboutFeature
-                    ).launch(
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE
-                    )
-                }
+    private fun denyPermission() {
+        activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.apply {
+                setTitle(getString(R.string.permission))
+                setMessage(
+                    getString(R.string.permission_required)
+                )
+                setPositiveButton(R.string.setting,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            data = Uri.fromParts(
+                                "package",
+                                "com.example.gallaryapplication",
+                                "MediaFragment"
+                            )
+                            ContextCompat.startActivity(context, this, null)
+                        }
+                    })
+                setNegativeButton(R.string.cancel,
+                    DialogInterface.OnClickListener { dialog, id ->
+                        dialog.dismiss()
+                    })
+                show()
             }
-        }.show()
+            builder.create()
+        }//end of dialog box
+
     }
 
     override fun handleBackPressed() {

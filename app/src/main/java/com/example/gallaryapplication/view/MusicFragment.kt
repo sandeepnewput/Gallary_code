@@ -1,20 +1,25 @@
 package com.example.gallaryapplication.view
 
 
+import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentMusicBinding
 import com.example.gallaryapplication.model.MediaModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -24,6 +29,8 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
     private val listAdapter = MusicListAdapter(this::onClickMedia)
 
     private val viewModel: MusicSharedViewModel by activityViewModels()
+
+    private val viewModel2: MusicViewModel by viewModels()
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
@@ -41,11 +48,12 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             scrollToPosition(viewModel.currentMusicIndexPosition)
         }
-        viewModel.userMusic.observe(viewLifecycleOwner) {
+        viewModel2.userMusic.observe(viewLifecycleOwner) {
             listAdapter.submitList(it)
+
         }
 
-        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+        viewModel2.loading.observe(viewLifecycleOwner) { isLoading ->
             binding.loadingView.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
@@ -53,6 +61,15 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
 
 
 //    override fun getMediaFiles() = localviewmodel.getAllUserMusic()
+
+
+
+
+
+
+
+
+
 
     private fun onClickMedia(mediaModel: MediaModel) {
         viewModel.setCurrentMusicUri(mediaModel)
