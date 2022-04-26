@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,8 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
 
     private val viewModel2: MusicViewModel by viewModels()
 
+    private var list: List<MediaModel>? = null
+
     override fun inflateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -50,7 +53,7 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
         }
         viewModel2.userMusic.observe(viewLifecycleOwner) {
             listAdapter.submitList(it)
-
+             list = it
         }
 
         viewModel2.loading.observe(viewLifecycleOwner) { isLoading ->
@@ -81,5 +84,7 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
             it.moveTaskToBack(true)
         }
     }
+
+
 
 }//end of PhotoFragment

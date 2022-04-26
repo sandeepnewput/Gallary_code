@@ -8,9 +8,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.example.gallaryapplication.model.MediaModel
 
 
 abstract class BaseFragment<viewBinding : ViewBinding> : Fragment() {
+
+
 
     private var _binding: viewBinding? = null
     val binding get() = _binding!!

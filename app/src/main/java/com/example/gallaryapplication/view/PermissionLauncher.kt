@@ -1,6 +1,7 @@
 package com.example.gallaryapplication.view
 
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -16,14 +17,13 @@ class PermissionLauncher {
         fun requestPermission(
             fragment: Fragment,
             activity: FragmentActivity,
-            allowPermission:  () -> Unit,
-            denyPermission: () -> Unit
+            listener: Listener
         ): ActivityResultLauncher<String> {
             return fragment.registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
             ) { isGranted: Boolean ->
                 if (isGranted) {
-                    allowPermission()
+                   listener.allowPermission()
                 } else {
                     val permissionRationale = (activity?.let {
                         ActivityCompat.shouldShowRequestPermissionRationale(
@@ -32,24 +32,11 @@ class PermissionLauncher {
                         )
                     })
                     when (permissionRationale) {
-                        true -> Unit
+                        true -> listener.showPermissionRational(true)
                         else -> {
-                            when (PackageManager.PERMISSION_GRANTED) {
-                                activity?.let {
-                                    ContextCompat.checkSelfPermission(
-                                        it,
-                                        android.Manifest.permission.READ_EXTERNAL_STORAGE
-                                    )
-                                } -> {
-                                    allowPermission()
-                                }
-                                else -> {
-                                    denyPermission()
-                                }
-                            }
+                             listener.showPermissionRational(false)
                         }
                     }
-
                 }//end of callback else
             }
         }

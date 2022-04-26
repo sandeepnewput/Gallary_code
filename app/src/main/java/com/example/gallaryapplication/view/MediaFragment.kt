@@ -6,9 +6,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -28,9 +30,10 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
 
     private val viewModel: MediaSharedViewModel by activityViewModels()
 
+
     override fun inflateViewBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?
+        container: ViewGroup?,
     ): FragmentMediaBinding? {
         return FragmentMediaBinding.inflate(inflater, container, false)
     }
@@ -42,8 +45,7 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
             PermissionLauncher.requestPermission(
                 this,
                 it,
-                this::allowPermission,
-                this::denyPermission
+                listener
             ).launch(
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
             )
@@ -91,40 +93,47 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
 
     }
 
-    private fun allowPermission() {
-        arguments?.getString(MEDIA_TYPE)?.let { viewModel.getMediaFiles(it) }
+    private val listener = object : Listener {
+        override fun allowPermission() {
+            arguments?.getString(MEDIA_TYPE)?.let { viewModel.getMediaFiles(it) }
+        }
+
+        override fun showPermissionRational(rational: Boolean) {
+         if(rational){
+             //ToDo
+         }else{
+             activity?.let {
+                 val builder = AlertDialog.Builder(it)
+                 builder.apply {
+                     setTitle(getString(R.string.permission))
+                     setMessage(
+                         getString(R.string.permission_required)
+                     )
+                     setPositiveButton(R.string.setting,
+                         DialogInterface.OnClickListener { dialog, id ->
+                             Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                 data = Uri.fromParts(
+                                     "package",
+                                     "com.example.gallaryapplication",
+                                     "MediaFragment"
+                                 )
+                                 ContextCompat.startActivity(context, this, null)
+                             }
+                         })
+                     setNegativeButton(R.string.cancel,
+                         DialogInterface.OnClickListener { dialog, id ->
+                             dialog.dismiss()
+                         })
+                     show()
+                 }
+                 builder.create()
+             }//end of dialog box
+         }
+
+        }
     }
 
-    private fun denyPermission() {
-        activity?.let {
-            val builder = AlertDialog.Builder(it)
-            builder.apply {
-                setTitle(getString(R.string.permission))
-                setMessage(
-                    getString(R.string.permission_required)
-                )
-                setPositiveButton(R.string.setting,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            data = Uri.fromParts(
-                                "package",
-                                "com.example.gallaryapplication",
-                                "MediaFragment"
-                            )
-                            ContextCompat.startActivity(context, this, null)
-                        }
-                    })
-                setNegativeButton(R.string.cancel,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        dialog.dismiss()
-                    })
-                show()
-            }
-            builder.create()
-        }//end of dialog box
-
-    }
 
     override fun handleBackPressed() {
         activity?.let {
