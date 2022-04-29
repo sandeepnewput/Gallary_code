@@ -2,11 +2,17 @@ package com.example.gallaryapplication.view
 
 
 
+import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -37,6 +43,16 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.let {it->
+            PermissionLauncher.requestPermission(
+                this,
+                it,
+                listener
+            ).launch(
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        }
+
         viewModel.getAllUserMusic()
 
         binding.recyclerView.apply {
@@ -59,8 +75,49 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
 
     }//end of onViewCreatedView Method
 
+    private val listener = object : Listener {
+        override fun permissionAllowed() {
+             viewModel.getAllUserMusic()
+        }
 
-//    override fun getMediaFiles() = localviewmodel.getAllUserMusic()
+        override fun permissionDenied() {
+            Log.d("permission","permission is denied")
+        }
+
+        override fun showRationalForPermission() {
+
+            activity?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    setTitle(getString(R.string.permission))
+                    setMessage(
+                        getString(R.string.permission_required)
+                    )
+                    setPositiveButton(R.string.setting,
+                        DialogInterface.OnClickListener { dialog, id ->
+                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                data = Uri.fromParts(
+                                    "package",
+                                    "com.example.gallaryapplication",
+                                    "MediaFragment"
+                                )
+                                ContextCompat.startActivity(context, this, null)
+                            }
+                        })
+                    setNegativeButton(R.string.cancel,
+                        DialogInterface.OnClickListener { dialog, id ->
+                            dialog.dismiss()
+                        })
+                    show()
+                }
+                builder.create()
+            }//end of dialog box
+        }
+
+    }
+
+
 
 
     private fun onClickMedia(mediaModel: MediaModel) {

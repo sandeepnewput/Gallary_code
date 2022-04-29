@@ -10,6 +10,7 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPlayVideoBinding
 import java.lang.Runnable
@@ -17,6 +18,8 @@ import java.lang.Runnable
 class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
 
     private val sharedViewModel: MediaSharedViewModel by activityViewModels()
+
+    private val viewModel:PlayVideoViewModel by viewModels()
 
     private lateinit var uri:String
 
@@ -31,7 +34,7 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.playVideoLayout.setOnClickListener {
-            sharedViewModel.toggleControlButton()
+            viewModel.toggleControlButton()
         }//end of setOnClickListener
 
         binding.previousVideo.setOnClickListener {
@@ -68,7 +71,7 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
             binding.galleryVideo.start()
         }
 
-        sharedViewModel.showControlButton.observe(viewLifecycleOwner) { isVisible ->
+        viewModel.showControlButton.observe(viewLifecycleOwner) { isVisible ->
             binding.previousVideo.isVisible = isVisible
             binding.playPauseVideo.isVisible = isVisible
             binding.nextVideo.isVisible = isVisible

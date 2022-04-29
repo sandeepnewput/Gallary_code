@@ -16,11 +16,6 @@ class MediaSharedViewModel :ViewModel(){
     private val _currentUri by lazy { MutableLiveData<String>() }
     val currentUri: LiveData<String> = _currentUri
 
-    private val _showControlButton by lazy { MutableLiveData<Boolean>(true) }
-    val showControlButton: LiveData<Boolean> = _showControlButton
-
-
-
     var currentImageIndexPosition = 0
         private set
 
@@ -96,11 +91,6 @@ class MediaSharedViewModel :ViewModel(){
             }
         }
     }
-
-    fun toggleControlButton() {
-        _showControlButton.postValue(!(_showControlButton.value ?: false))
-    }
-
 
     fun setCurrentImageUri(mediaModel: MediaModel) {
         _userImages.value?.let {

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gallaryapplication.model.LocalApiServiceRepository
 import com.example.gallaryapplication.model.MediaModel
+import com.example.gallaryapplication.model.MediaType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,10 +28,10 @@ class MediaViewModel @Inject constructor(
     val loading: LiveData<Boolean> = _loading
 
 
-    fun getMediaFiles(currentFragment: String) {
+    fun getMediaFiles(mediaType: String) {
 
-        when (currentFragment) {
-            "IMAGE" -> {
+        when (mediaType) {
+            MediaType.IMAGE.name -> {
                 if (_userImages.value?.isEmpty() != true) return
                 _loading.postValue(true)
                 viewModelScope.launch {

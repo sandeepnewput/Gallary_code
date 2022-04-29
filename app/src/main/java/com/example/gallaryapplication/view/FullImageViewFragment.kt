@@ -16,6 +16,7 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
 
     private val sharedViewModel: MediaSharedViewModel by activityViewModels()
 
+    private val viewModel: FullImageViewModel by viewModels()
 
 
     override fun inflateViewBinding(
@@ -29,7 +30,7 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.showImageLayout.setOnClickListener {
-            sharedViewModel.toggleControlButton()
+            viewModel.toggleControlButton()
         }
 
         binding.imagePrev.setOnClickListener {
@@ -44,7 +45,7 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
             updateGalleryImage(imageUri)
         }
 
-        sharedViewModel.showControlButton.observe(viewLifecycleOwner) { isVisible ->
+        viewModel.showControlButton.observe(viewLifecycleOwner) { isVisible ->
             binding.imagePrev.isVisible = isVisible
             binding.imageNext.isVisible = isVisible
         }

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
 
     private val viewModel: MediaViewModel by viewModels()
 
+
     override fun inflateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,14 +43,33 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.let {
-            PermissionLauncher.requestPermission(
-                this,
-                it,
-                listener
-            ).launch(
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            )
+        arguments?.getString(MEDIA_TYPE)?.let {
+            when (it) {
+                MediaType.IMAGE.name -> {
+                    activity?.let { it ->
+                        PermissionLauncher.requestPermission(
+                            this,
+                            it,
+                            listener
+                        ).launch(
+                           android.Manifest.permission.READ_EXTERNAL_STORAGE
+                        )
+                    }
+                }
+                else -> {
+                    activity?.let { it ->
+                        PermissionLauncher.requestMultiplePermission(
+                            this,
+                            it,
+                            listener
+                        ).launch(
+                            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                                android.Manifest.permission.READ_CONTACTS,
+                            )
+                        )
+                    }
+                }
+            }
         }
 
         binding.recyclerView.apply {
@@ -61,11 +82,11 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
             }
         }
 
-        viewModel.userImages.observe(viewLifecycleOwner){
-            sharedViewModel.updateMediaList(MediaType.IMAGE,it)
+        viewModel.userImages.observe(viewLifecycleOwner) {
+            sharedViewModel.updateMediaList(MediaType.IMAGE, it)
         }
-        viewModel.userVideos.observe(viewLifecycleOwner){
-            sharedViewModel.updateMediaList(MediaType.VIDEO,it)
+        viewModel.userVideos.observe(viewLifecycleOwner) {
+            sharedViewModel.updateMediaList(MediaType.VIDEO, it)
         }
 
         if (arguments?.getString(MEDIA_TYPE) == MediaType.IMAGE.name) {
@@ -106,43 +127,40 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
         }
 
         override fun permissionDenied() {
-            TODO("Not yet implemented")
+            Log.d("permission", "permission is denied")
         }
 
-        override fun showRationalForPermission(rational: Boolean) {
-         if(rational){
-             TODO("Not yet implemented")
-         }else{
-             activity?.let {
-                 val builder = AlertDialog.Builder(it)
-                 builder.apply {
-                     setTitle(getString(R.string.permission))
-                     setMessage(
-                         getString(R.string.permission_required)
-                     )
-                     setPositiveButton(R.string.setting,
-                         DialogInterface.OnClickListener { dialog, id ->
-                             Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                 data = Uri.fromParts(
-                                     "package",
-                                     "com.example.gallaryapplication",
-                                     "MediaFragment"
-                                 )
-                                 ContextCompat.startActivity(context, this, null)
-                             }
-                         })
-                     setNegativeButton(R.string.cancel,
-                         DialogInterface.OnClickListener { dialog, id ->
-                             dialog.dismiss()
-                         })
-                     show()
-                 }
-                 builder.create()
-             }//end of dialog box
-         }
+        override fun showRationalForPermission() {
 
+            activity?.let {
+                val builder = AlertDialog.Builder(it)
+                builder.apply {
+                    setTitle(getString(R.string.permission))
+                    setMessage(
+                        getString(R.string.permission_required)
+                    )
+                    setPositiveButton(R.string.setting,
+                        DialogInterface.OnClickListener { dialog, id ->
+                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                data = Uri.fromParts(
+                                    "package",
+                                    "com.example.gallaryapplication",
+                                    "MediaFragment"
+                                )
+                                ContextCompat.startActivity(context, this, null)
+                            }
+                        })
+                    setNegativeButton(R.string.cancel,
+                        DialogInterface.OnClickListener { dialog, id ->
+                            dialog.dismiss()
+                        })
+                    show()
+                }
+                builder.create()
+            }//end of dialog box
         }
+
     }
 
 
