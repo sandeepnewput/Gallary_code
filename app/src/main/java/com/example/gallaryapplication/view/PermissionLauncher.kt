@@ -58,26 +58,7 @@ class PermissionLauncher {
                                     }
                                 }
                             }
-
-                            android.Manifest.permission.CAMERA -> {
-
-                                val permissionRationale = (activity?.let { it ->
-                                    ActivityCompat.shouldShowRequestPermissionRationale(
-                                        it,
-                                        android.Manifest.permission.READ_CONTACTS,
-                                    )
-                                })
-                                when (permissionRationale) {
-                                    true -> {
-                                        listener.showRationalForPermission()
-                                    }
-                                    else -> {
-                                        listener.permissionDenied()
-                                    }
-                                }
-                            }
-
-
+                            
                         }//end of when
                     }//end of else
 
