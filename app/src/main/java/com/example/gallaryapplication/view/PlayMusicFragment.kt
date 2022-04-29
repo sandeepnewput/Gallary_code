@@ -6,20 +6,18 @@ import android.media.MediaPlayer.create
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPlayMusicBinding
 
 class PlayMusicFragment : BaseFragment<FragmentPlayMusicBinding>() {
 
-    private val viewModel: MusicSharedViewModel by activityViewModels()
+    private val sharedViewModel: MusicSharedViewModel by activityViewModels()
 
     private var mediaPlayer: MediaPlayer? = null
 
@@ -46,21 +44,21 @@ class PlayMusicFragment : BaseFragment<FragmentPlayMusicBinding>() {
 
         binding.nextMusic.setOnClickListener {
             releaseMediaPlayer()
-            viewModel.onNextMusicClick()
+            sharedViewModel.onNextMusicClick()
         }
 
         binding.previousMusic.setOnClickListener {
             releaseMediaPlayer()
-            viewModel.onPreviousMusicClick()
+            sharedViewModel.onPreviousMusicClick()
         }
 
-        viewModel.currentUri.observe(viewLifecycleOwner) {
+        sharedViewModel.currentUri.observe(viewLifecycleOwner) {
             mediaPlayer = create(context, it.toUri()).apply {
                 start()
                 showMusicProgress(currentPosition, duration)
                 setOnCompletionListener {
                     releaseMediaPlayer()
-                    viewModel.onCompleteMusic()
+                    sharedViewModel.onCompleteMusic()
                 }
             }
         }
@@ -72,8 +70,8 @@ class PlayMusicFragment : BaseFragment<FragmentPlayMusicBinding>() {
         var currentDuration = currentDuration
         var totalDuration = totalDuration
 
-        binding.current.text = viewModel.timeConversion(currentDuration)
-        binding.total.text = viewModel.timeConversion(totalDuration)
+        binding.current.text = sharedViewModel.timeConversion(currentDuration)
+        binding.total.text = sharedViewModel.timeConversion(totalDuration)
         binding.musicSeekBar.max = totalDuration
 
         val handler = Looper.getMainLooper()?.let {
@@ -84,7 +82,7 @@ class PlayMusicFragment : BaseFragment<FragmentPlayMusicBinding>() {
             override fun run() {
                 try {
                     currentDuration = mediaPlayer?.currentPosition ?: 0
-                    binding.current.text = viewModel.timeConversion(currentDuration)
+                    binding.current.text = sharedViewModel.timeConversion(currentDuration)
                     binding.musicSeekBar.progress = currentDuration
                     handler?.postDelayed(this, 1000)
                 } catch (ed: IllegalStateException) {

@@ -1,21 +1,11 @@
 package com.example.gallaryapplication.view
 
 import androidx.lifecycle.*
-import com.example.gallaryapplication.model.LocalApiServiceRepository
 import com.example.gallaryapplication.model.MediaModel
-import com.example.gallaryapplication.util.SharedPreferencesHelper
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
+import com.example.gallaryapplication.model.MediaType
 
 
-@HiltViewModel
-class MediaSharedViewModel @Inject constructor(
-    private val galleryApiService: LocalApiServiceRepository,
-    private val prefs: SharedPreferencesHelper
-) : ViewModel() {
+class MediaSharedViewModel :ViewModel(){
 
     private val _userImages by lazy { MutableLiveData<List<MediaModel>>(emptyList()) }
     val userImages: LiveData<List<MediaModel>> = _userImages
@@ -23,14 +13,13 @@ class MediaSharedViewModel @Inject constructor(
     private val _userVideos by lazy { MutableLiveData<List<MediaModel>>(emptyList()) }
     val userVideos: LiveData<List<MediaModel>> = _userVideos
 
-    private val _loading by lazy { MutableLiveData<Boolean>() }
-    val loading: LiveData<Boolean> = _loading
-
     private val _currentUri by lazy { MutableLiveData<String>() }
     val currentUri: LiveData<String> = _currentUri
 
     private val _showControlButton by lazy { MutableLiveData<Boolean>(true) }
     val showControlButton: LiveData<Boolean> = _showControlButton
+
+
 
     var currentImageIndexPosition = 0
         private set
@@ -38,41 +27,20 @@ class MediaSharedViewModel @Inject constructor(
     var currentVideoIndexPosition = 0
         private set
 
-    fun savePermissionStatus(value: Boolean) {
-        prefs.savePermissionStatus(value)
-    }
 
-    fun getMediaFiles(currentFragment: String) {
-
-        when (currentFragment) {
-            "IMAGE" -> {
-                if (_userImages.value?.isEmpty() != true) return
-                _loading.postValue(true)
-                viewModelScope.launch {
-                    val getResponse =
-                        withContext(Dispatchers.IO) { galleryApiService.getAllImages() }
-                    if (getResponse.isNotEmpty()) {
-                        _userImages.postValue(getResponse)
-                    }
-                    _loading.postValue(false)
-                }//end of viewModelScope
-
+    fun updateMediaList(mediaType: MediaType, mediaList: List<MediaModel>) {
+        when(mediaType){
+            MediaType.IMAGE ->{
+                if(_userImages.value?.isEmpty() != true) return
+                _userImages.postValue(mediaList)
             }
-            else -> {
-                if (_userVideos.value?.isEmpty() != true) return
-                _loading.postValue(true)
-                viewModelScope.launch {
-                    val getResponse =
-                        withContext(Dispatchers.IO) { galleryApiService.getAllVideo() }
-                    if (getResponse.isNotEmpty()) {
-                        _userVideos.postValue(getResponse)
-                    }
-                    _loading.postValue(false)
-                }//end of viewModelScope
+            MediaType.VIDEO -> {
+                if(_userVideos.value?.isEmpty() != true) return
+                _userVideos.postValue((mediaList))
             }
         }
-
     }
+
 
     fun onPreviousImageClick() {
         _userImages.value?.let {
@@ -90,10 +58,6 @@ class MediaSharedViewModel @Inject constructor(
                 _currentUri.postValue(it[currentImageIndexPosition].uri)
             }
         }
-    }
-
-    fun toggleControlButton() {
-        _showControlButton.postValue(!(_showControlButton.value ?: false))
     }
 
     fun onPreviousVideoClick() {
@@ -132,6 +96,11 @@ class MediaSharedViewModel @Inject constructor(
             }
         }
     }
+
+    fun toggleControlButton() {
+        _showControlButton.postValue(!(_showControlButton.value ?: false))
+    }
+
 
     fun setCurrentImageUri(mediaModel: MediaModel) {
         _userImages.value?.let {

@@ -13,11 +13,10 @@ import androidx.fragment.app.activityViewModels
 import com.example.gallaryapplication.R
 import com.example.gallaryapplication.databinding.FragmentPlayVideoBinding
 import java.lang.Runnable
-import java.util.*
 
 class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
 
-    private val viewModel: MediaSharedViewModel by activityViewModels()
+    private val sharedViewModel: MediaSharedViewModel by activityViewModels()
 
     private lateinit var uri:String
 
@@ -32,11 +31,11 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.playVideoLayout.setOnClickListener {
-            viewModel.toggleControlButton()
+            sharedViewModel.toggleControlButton()
         }//end of setOnClickListener
 
         binding.previousVideo.setOnClickListener {
-            viewModel.onPreviousVideoClick()
+            sharedViewModel.onPreviousVideoClick()
         }//end of setOnClickListener
 
         binding.playPauseVideo.setOnClickListener {
@@ -52,24 +51,24 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         }//end of setOnClickListener
 
         binding.nextVideo.setOnClickListener {
-            viewModel.onNextVideoClick()
+            sharedViewModel.onNextVideoClick()
         }//end of setOnClickListener
 
         binding.galleryVideo.setOnCompletionListener {
-            viewModel.onCompleteVideo()
+            sharedViewModel.onCompleteVideo()
         }//end of setOnCompletionListener
 
         binding.galleryVideo.setOnPreparedListener {
             setVideoProgress()
         }//end of setOnPreparedListener
 
-        viewModel.currentUri.observe(viewLifecycleOwner) { videoUri ->
+        sharedViewModel.currentUri.observe(viewLifecycleOwner) { videoUri ->
             uri = videoUri
             binding.galleryVideo.setVideoPath(videoUri)
             binding.galleryVideo.start()
         }
 
-        viewModel.showControlButton.observe(viewLifecycleOwner) { isVisible ->
+        sharedViewModel.showControlButton.observe(viewLifecycleOwner) { isVisible ->
             binding.previousVideo.isVisible = isVisible
             binding.playPauseVideo.isVisible = isVisible
             binding.nextVideo.isVisible = isVisible
@@ -82,8 +81,8 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
         var currentPosition = binding.galleryVideo.currentPosition
         var totalDuration = binding.galleryVideo.duration
 
-        binding.current.text = viewModel.timeConversion(currentPosition)
-        binding.total.text = viewModel.timeConversion(totalDuration)
+        binding.current.text = sharedViewModel.timeConversion(currentPosition)
+        binding.total.text = sharedViewModel.timeConversion(totalDuration)
         binding.seekbar.max = totalDuration
 
         val handler = Looper.myLooper()?.let { Handler(it) }
@@ -92,7 +91,7 @@ class PlayVideoFragment : BaseFragment<FragmentPlayVideoBinding>() {
             override fun run() {
                 try {
                     currentPosition = binding.galleryVideo.currentPosition
-                    binding.current.text = viewModel.timeConversion(currentPosition)
+                    binding.current.text = sharedViewModel.timeConversion(currentPosition)
                     binding.seekbar.progress = currentPosition
                     handler?.postDelayed(this, 1000)
                 } catch (ed: IllegalStateException) {

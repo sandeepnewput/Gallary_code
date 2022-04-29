@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.gallaryapplication.databinding.FragmentFullImageViewBinding
 import com.example.gallaryapplication.util.getProgressDrawable
 import com.example.gallaryapplication.util.loadUri
@@ -13,11 +14,13 @@ import com.example.gallaryapplication.util.loadUri
 
 class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
 
-    private val viewModel: MediaSharedViewModel by activityViewModels()
+    private val sharedViewModel: MediaSharedViewModel by activityViewModels()
+
+
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?
+        container: ViewGroup?,
     ): FragmentFullImageViewBinding? {
         return FragmentFullImageViewBinding.inflate(inflater, container, false)
     }
@@ -26,22 +29,22 @@ class FullImageViewFragment : BaseFragment<FragmentFullImageViewBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.showImageLayout.setOnClickListener {
-            viewModel.toggleControlButton()
+            sharedViewModel.toggleControlButton()
         }
 
         binding.imagePrev.setOnClickListener {
-            viewModel.onPreviousImageClick()
+            sharedViewModel.onPreviousImageClick()
         }//end of imageprev
 
         binding.imageNext.setOnClickListener {
-            viewModel.onNextImageClick()
+            sharedViewModel.onNextImageClick()
         }
 
-        viewModel.currentUri.observe(viewLifecycleOwner) { imageUri ->
+        sharedViewModel.currentUri.observe(viewLifecycleOwner) { imageUri ->
             updateGalleryImage(imageUri)
         }
 
-        viewModel.showControlButton.observe(viewLifecycleOwner) { isVisible ->
+        sharedViewModel.showControlButton.observe(viewLifecycleOwner) { isVisible ->
             binding.imagePrev.isVisible = isVisible
             binding.imageNext.isVisible = isVisible
         }

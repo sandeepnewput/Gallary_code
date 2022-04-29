@@ -14,7 +14,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FlickrSharedViewModel @Inject constructor(
-
     private val flickrApiService: FlickrApiServiceRepository
 ):ViewModel() {
 

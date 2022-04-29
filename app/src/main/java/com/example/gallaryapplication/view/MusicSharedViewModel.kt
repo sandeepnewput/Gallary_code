@@ -6,14 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.example.gallaryapplication.model.MediaModel
 
 
-class MusicSharedViewModel
-: ViewModel(){
+class MusicSharedViewModel : ViewModel() {
 
     private val _userMusic by lazy { MutableLiveData<List<MediaModel>>(emptyList()) }
     val userMusic: LiveData<List<MediaModel>> = _userMusic
-
-//    private val _loading by lazy { MutableLiveData<Boolean>() }
-//    val loading: LiveData<Boolean> = _loading
 
     private val _currentUri by lazy { MutableLiveData<String>() }
     val currentUri: LiveData<String> = _currentUri
@@ -21,23 +17,10 @@ class MusicSharedViewModel
     var currentMusicIndexPosition = 0
         private set
 
-//    fun getAllUserMusic() {
-//        if (_userMusic.value?.isEmpty() != true) return
-//        _loading.postValue(true)
-//        viewModelScope.launch {
-//            val getResponse = withContext(Dispatchers.IO) { localApiService.getAllMusic() }
-//            if (getResponse.isNotEmpty()) {
-//                _userMusic.postValue(getResponse)
-//            }
-//            _loading.postValue(false)
-//        }
-//    }//end of getAllUserMusic
-
-
-    fun updateMusicList(list: List<MediaModel>) {
-        _userMusic.postValue(list)
+    fun updateUserMusicList(musicList: List<MediaModel>) {
+        if(_userMusic.value?.isEmpty() != true) return
+        _userMusic.postValue(musicList)
     }
-
 
     fun onNextMusicClick() {
         _userMusic.value?.let {
@@ -68,7 +51,6 @@ class MusicSharedViewModel
         }
     }
 
-
     fun setCurrentMusicUri(mediaModel: MediaModel) {
         _userMusic.value?.let {
             if (it.isNotEmpty() && it.indexOf(mediaModel) != -1) {
@@ -77,7 +59,6 @@ class MusicSharedViewModel
             }
         }
     }
-
 
     fun timeConversion(value: Int): String {
         val songTime: String
@@ -91,6 +72,5 @@ class MusicSharedViewModel
         }
         return songTime
     }
-
 
 }//end of musicsharedviewmodel

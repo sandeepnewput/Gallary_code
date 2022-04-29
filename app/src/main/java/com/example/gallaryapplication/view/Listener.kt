@@ -1,6 +1,7 @@
 package com.example.gallaryapplication.view
 
 interface Listener {
-    fun allowPermission()
-    fun showPermissionRational(rational:Boolean)
+    fun permissionAllowed()
+    fun permissionDenied()
+    fun showRationalForPermission(rational:Boolean)
 }

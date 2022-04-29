@@ -6,7 +6,6 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="calledd" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
@@ -20,7 +19,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[VirtualDevicePath@C:\Users\SANDEEP PATIDAR\.android\avd\Nexus_5X_API_29_2.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[SerialNumber@uww4bmxsxgij9h4t]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -35,8 +34,8 @@
         <option value="valueResourceFile" />
         <option value="layoutResourceFile" />
         <option value="Kotlin File" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Interface" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -166,10 +165,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="200" y="110" width="1131" height="508" key="#PSD/0.0.1366.728@0.0.1366.728" timestamp="1649359927377" />
-    <state x="560" y="160" key="#com.intellij.ide.util.MemberChooser" timestamp="1650991587022">
+    <state x="560" y="160" key="#com.intellij.ide.util.MemberChooser" timestamp="1651130955821">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="560" y="160" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1650991587022" />
+    <state x="560" y="160" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1651130955821" />
     <state x="280" y="278" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1649398336660">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -206,22 +205,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="105" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1649355876213" />
-    <state width="1323" height="62" key="GridCell.Tab.0.bottom" timestamp="1650876007601">
+    <state width="1323" height="-16" key="GridCell.Tab.0.bottom" timestamp="1651166081895">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="62" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1650876007601" />
-    <state width="1323" height="62" key="GridCell.Tab.0.center" timestamp="1650876007601">
+    <state width="1323" height="-16" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1651166081895" />
+    <state width="1323" height="-16" key="GridCell.Tab.0.center" timestamp="1651166081894">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="62" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1650876007601" />
-    <state width="1323" height="62" key="GridCell.Tab.0.left" timestamp="1650876007601">
+    <state width="1323" height="-16" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1651166081894" />
+    <state width="1323" height="-16" key="GridCell.Tab.0.left" timestamp="1651166081890">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="62" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1650876007601" />
-    <state width="1323" height="62" key="GridCell.Tab.0.right" timestamp="1650876007601">
+    <state width="1323" height="-16" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1651166081890" />
+    <state width="1323" height="-16" key="GridCell.Tab.0.right" timestamp="1651166081894">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="62" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1650876007601" />
+    <state width="1323" height="-16" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1651166081894" />
     <state width="1323" height="276" key="GridCell.Tab.1.bottom" timestamp="1650007243909">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -266,10 +265,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="391" y="208" key="edit.logcat.filter.dialog.dimensions/0.0.1366.728@0.0.1366.728" timestamp="1648871328854" />
-    <state x="526" y="135" key="refactoring.ChangeSignatureDialog" timestamp="1650607980551">
+    <state x="526" y="135" key="refactoring.ChangeSignatureDialog" timestamp="1651148600395">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="526" y="135" key="refactoring.ChangeSignatureDialog/0.0.1366.728@0.0.1366.728" timestamp="1650607980551" />
+    <state x="526" y="135" key="refactoring.ChangeSignatureDialog/0.0.1366.728@0.0.1366.728" timestamp="1651148600395" />
     <state x="339" y="162" width="672" height="677" key="run.anything.popup" timestamp="1650344855241">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

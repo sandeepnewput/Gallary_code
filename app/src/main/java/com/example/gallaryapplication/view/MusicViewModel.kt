@@ -23,8 +23,7 @@ class MusicViewModel @Inject constructor(
     private val _loading by lazy { MutableLiveData<Boolean>() }
     val loading: LiveData<Boolean> = _loading
 
-
-    fun getAllUserMusic() {
+        fun getAllUserMusic() {
         if (_userMusic.value?.isEmpty() != true) return
         _loading.postValue(true)
         viewModelScope.launch {

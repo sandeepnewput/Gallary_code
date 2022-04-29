@@ -6,14 +6,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gallaryapplication.R
@@ -28,8 +27,9 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
 
     private val listAdapter = MediaListAdapter(this::onClickMedia)
 
-    private val viewModel: MediaSharedViewModel by activityViewModels()
+    private val sharedViewModel: MediaSharedViewModel by activityViewModels()
 
+    private val viewModel: MediaViewModel by viewModels()
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
@@ -55,20 +55,27 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
             layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
             if (arguments?.getString(MEDIA_TYPE) == MediaType.IMAGE.name) {
-                scrollToPosition(viewModel.currentImageIndexPosition)
+                scrollToPosition(sharedViewModel.currentImageIndexPosition)
             } else {
-                scrollToPosition(viewModel.currentVideoIndexPosition)
+                scrollToPosition(sharedViewModel.currentVideoIndexPosition)
             }
         }
 
+        viewModel.userImages.observe(viewLifecycleOwner){
+            sharedViewModel.updateMediaList(MediaType.IMAGE,it)
+        }
+        viewModel.userVideos.observe(viewLifecycleOwner){
+            sharedViewModel.updateMediaList(MediaType.VIDEO,it)
+        }
+
         if (arguments?.getString(MEDIA_TYPE) == MediaType.IMAGE.name) {
-            viewModel.userImages.observe(viewLifecycleOwner) {
+            sharedViewModel.userImages.observe(viewLifecycleOwner) {
                 it?.let {
                     listAdapter.submitList(it)
                 }
             }
         } else {
-            viewModel.userVideos.observe(viewLifecycleOwner) {
+            sharedViewModel.userVideos.observe(viewLifecycleOwner) {
                 it?.let {
                     listAdapter.submitList(it)
                 }
@@ -84,23 +91,27 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
     private fun onClickMedia(mediaModel: MediaModel) {
 
         if (mediaModel.mediaType == MediaType.IMAGE) {
-            viewModel.setCurrentImageUri(mediaModel)
+            sharedViewModel.setCurrentImageUri(mediaModel)
             findNavController().navigate(R.id.action_global_fullImageFragmentView)
         } else {
-            viewModel.setCurrentVideoUri(mediaModel)
+            sharedViewModel.setCurrentVideoUri(mediaModel)
             findNavController().navigate(R.id.action_global_playVideoFragmentView)
         }
 
     }
 
     private val listener = object : Listener {
-        override fun allowPermission() {
+        override fun permissionAllowed() {
             arguments?.getString(MEDIA_TYPE)?.let { viewModel.getMediaFiles(it) }
         }
 
-        override fun showPermissionRational(rational: Boolean) {
+        override fun permissionDenied() {
+            TODO("Not yet implemented")
+        }
+
+        override fun showRationalForPermission(rational: Boolean) {
          if(rational){
-             //ToDo
+             TODO("Not yet implemented")
          }else{
              activity?.let {
                  val builder = AlertDialog.Builder(it)

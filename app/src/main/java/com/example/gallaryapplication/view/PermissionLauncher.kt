@@ -1,11 +1,8 @@
 package com.example.gallaryapplication.view
 
-import android.content.pm.PackageManager
-import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
@@ -23,7 +20,7 @@ class PermissionLauncher {
                 ActivityResultContracts.RequestPermission()
             ) { isGranted: Boolean ->
                 if (isGranted) {
-                   listener.allowPermission()
+                   listener.permissionAllowed()
                 } else {
                     val permissionRationale = (activity?.let {
                         ActivityCompat.shouldShowRequestPermissionRationale(
@@ -32,9 +29,9 @@ class PermissionLauncher {
                         )
                     })
                     when (permissionRationale) {
-                        true -> listener.showPermissionRational(true)
+                        true -> listener.showRationalForPermission(true)
                         else -> {
-                             listener.showPermissionRational(false)
+                             listener.showRationalForPermission(false)
                         }
                     }
                 }//end of callback else
