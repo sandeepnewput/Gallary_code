@@ -1,6 +1,6 @@
 package com.example.gallaryapplication.view
 
-import android.util.Log
+
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -25,47 +25,38 @@ class PermissionLauncher {
                         when (entry.key) {
 
                             android.Manifest.permission.READ_EXTERNAL_STORAGE -> {
-
-                                val permissionRationale = (activity?.let { it ->
-                                    ActivityCompat.shouldShowRequestPermissionRationale(
-                                        it,
-                                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                                    )
-                                })
-
-                                when (permissionRationale) {
-                                    true -> listener.showRationalForPermission()
-                                    else -> {
-                                        listener.permissionDenied()
-                                    }
-                                }
+                                showPermissionRational(activity, entry.key, listener)
                             }
 
                             android.Manifest.permission.READ_CONTACTS -> {
-
-                                val permissionRationale = (activity?.let { it ->
-                                    ActivityCompat.shouldShowRequestPermissionRationale(
-                                        it,
-                                        android.Manifest.permission.READ_CONTACTS,
-                                    )
-                                })
-                                when (permissionRationale) {
-                                    true -> {
-                                        listener.showRationalForPermission()
-                                    }
-                                    else -> {
-                                        listener.permissionDenied()
-                                    }
-                                }
+                                showPermissionRational(activity, entry.key, listener)
                             }
-                            
+
                         }//end of when
                     }//end of else
-
                 }
-
             }
         }
+
+        private fun showPermissionRational(
+            activity: FragmentActivity,
+            permission: String,
+            listener: Listener,
+        ) {
+            val permissionRationale = (activity?.let { it ->
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    it,
+                    permission,
+                )
+            })
+            when (permissionRationale) {
+                true -> listener.showRationalForPermission()
+                else -> {
+                    listener.permissionDenied()
+                }
+            }
+        }
+
 
         fun requestPermission(
             fragment: Fragment,
@@ -78,18 +69,9 @@ class PermissionLauncher {
                 if (isGranted) {
                     listener.permissionAllowed()
                 } else {
-                    val permissionRationale = (activity?.let {
-                        ActivityCompat.shouldShowRequestPermissionRationale(
-                            it,
-                            android.Manifest.permission.READ_EXTERNAL_STORAGE
-                        )
-                    })
-                    when (permissionRationale) {
-                        true -> listener.showRationalForPermission()
-                        else -> {
-                            listener.permissionDenied()
-                        }
-                    }
+                    showPermissionRational(activity,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        listener)
                 }//end of callback else
             }
         }
