@@ -6,7 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="inside|inf|permission|keyvalue" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="keyva" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
@@ -20,7 +20,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[VirtualDevicePath@C:\Users\SANDEEP PATIDAR\.android\avd\Nexus_5X_API_29_2.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[SerialNumber@uww4bmxsxgij9h4t]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -206,22 +206,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="105" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1649355876213" />
-    <state width="1323" height="394" key="GridCell.Tab.0.bottom" timestamp="1651232557048">
+    <state width="1323" height="-8" key="GridCell.Tab.0.bottom" timestamp="1651941558983">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="394" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1651232557048" />
-    <state width="1323" height="394" key="GridCell.Tab.0.center" timestamp="1651232557048">
+    <state width="1323" height="-8" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1651941558983" />
+    <state width="1323" height="-8" key="GridCell.Tab.0.center" timestamp="1651941558983">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="394" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1651232557048" />
-    <state width="1323" height="394" key="GridCell.Tab.0.left" timestamp="1651232557047">
+    <state width="1323" height="-8" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1651941558983" />
+    <state width="1323" height="-8" key="GridCell.Tab.0.left" timestamp="1651941558982">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="394" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1651232557047" />
-    <state width="1323" height="394" key="GridCell.Tab.0.right" timestamp="1651232557048">
+    <state width="1323" height="-8" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1651941558982" />
+    <state width="1323" height="-8" key="GridCell.Tab.0.right" timestamp="1651941558983">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="394" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1651232557048" />
+    <state width="1323" height="-8" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1651941558983" />
     <state width="1323" height="276" key="GridCell.Tab.1.bottom" timestamp="1650007243909">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -242,10 +242,6 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="263" y="107" key="IDE.errors.dialog/0.0.1366.728@0.0.1366.728" timestamp="1645705224121" />
-    <state x="184" y="9" key="SettingsEditor" timestamp="1641877822628">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state x="184" y="9" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1641877822628" />
     <state width="691" height="372" key="XDebugger.FullValuePopup" timestamp="1648484486872">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -266,17 +262,17 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="391" y="208" key="edit.logcat.filter.dialog.dimensions/0.0.1366.728@0.0.1366.728" timestamp="1648871328854" />
-    <state x="526" y="135" key="refactoring.ChangeSignatureDialog" timestamp="1651148600395">
+    <state x="526" y="135" key="refactoring.ChangeSignatureDialog" timestamp="1651942690852">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="526" y="135" key="refactoring.ChangeSignatureDialog/0.0.1366.728@0.0.1366.728" timestamp="1651148600395" />
+    <state x="526" y="135" key="refactoring.ChangeSignatureDialog/0.0.1366.728@0.0.1366.728" timestamp="1651942690852" />
     <state x="339" y="162" width="672" height="677" key="run.anything.popup" timestamp="1650344855241">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="162" width="672" height="677" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1650344855241" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1644568811127">
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1651812266190">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1644568811127" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1651812266190" />
   </component>
 </project>

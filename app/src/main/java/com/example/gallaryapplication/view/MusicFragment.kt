@@ -76,7 +76,7 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
     }//end of onViewCreatedView Method
 
     private val listener = object : Listener {
-        override fun permissionAllowed() {
+        override fun permissionAllowed(permissionAllow: List<String>) {
              viewModel.getAllUserMusic()
         }
 
@@ -84,7 +84,7 @@ class MusicFragment : BaseFragment<FragmentMusicBinding>() {
             Log.d("permission","permission is denied")
         }
 
-        override fun showRationalForPermission() {
+        override fun showRationalForPermission(permission: String) {
 
             activity?.let {
                 val builder = AlertDialog.Builder(it)

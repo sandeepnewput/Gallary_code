@@ -122,43 +122,61 @@ class MediaFragment : BaseFragment<FragmentMediaBinding>() {
     }
 
     private val listener = object : Listener {
-        override fun permissionAllowed() {
-            arguments?.getString(MEDIA_TYPE)?.let { viewModel.getMediaFiles(it) }
+        override fun permissionAllowed(permissionAllow: List<String>) {
+            for(permission in permissionAllow){
+                when(permission){
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE->{
+                        arguments?.getString(MEDIA_TYPE)?.let { viewModel.getMediaFiles(it) }
+                    }
+                    android.Manifest.permission.READ_CONTACTS->{
+                        Log.d("Read Contacts","permission read contacts is granted")
+                    }
+                }
+            }
+
         }
 
         override fun permissionDenied() {
             Log.d("permission", "permission is denied")
         }
 
-        override fun showRationalForPermission() {
+        override fun showRationalForPermission(permission: String) {
 
-            activity?.let {
-                val builder = AlertDialog.Builder(it)
-                builder.apply {
-                    setTitle(getString(R.string.permission))
-                    setMessage(
-                        getString(R.string.permission_required)
-                    )
-                    setPositiveButton(R.string.setting,
-                        DialogInterface.OnClickListener { dialog, id ->
-                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                data = Uri.fromParts(
-                                    "package",
-                                    "com.example.gallaryapplication",
-                                    "MediaFragment"
-                                )
-                                ContextCompat.startActivity(context, this, null)
-                            }
-                        })
-                    setNegativeButton(R.string.cancel,
-                        DialogInterface.OnClickListener { dialog, id ->
-                            dialog.dismiss()
-                        })
-                    show()
+            when(permission){
+                android.Manifest.permission.READ_EXTERNAL_STORAGE->{
+                    activity?.let {
+                        val builder = AlertDialog.Builder(it)
+                        builder.apply {
+                            setTitle(getString(R.string.permission))
+                            setMessage(
+                                getString(R.string.permission_required)
+                            )
+                            setPositiveButton(R.string.setting,
+                                DialogInterface.OnClickListener { dialog, id ->
+                                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        data = Uri.fromParts(
+                                            "package",
+                                            "com.example.gallaryapplication",
+                                            "MediaFragment"
+                                        )
+                                        ContextCompat.startActivity(context, this, null)
+                                    }
+                                })
+                            setNegativeButton(R.string.cancel,
+                                DialogInterface.OnClickListener { dialog, id ->
+                                    dialog.dismiss()
+                                })
+                            show()
+                        }
+                        builder.create()
+                    }//end of dialog box
                 }
-                builder.create()
-            }//end of dialog box
+                android.Manifest.permission.READ_CONTACTS->{
+                    Log.d("rational","rational show for read contacts")
+                }
+            }
+
         }
 
     }
